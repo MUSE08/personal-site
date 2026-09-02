@@ -79,9 +79,10 @@
             let posts = [];
             function render() {
                 const tagMap = {
-                    frame: { fa: 'فریم', en: 'Frame' },
-                    book: { fa: 'کتاب/ایده', en: 'Book/Idea' },
-                    sound: { fa: 'صدا', en: 'Sound' }
+                    frame: { fa: 'یک نما', en: 'A Shot' },
+                    page: { fa: 'یک برگ', en: 'A Page' },
+                    word: { fa: 'یک واژه', en: 'A Word' },
+                    sound: { fa: 'یک آوا', en: 'A Sound' }
                 };
                 function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
                 if (!posts.length) { wrap.innerHTML = '<p class="mono" style="color:var(--text-muted)">&gt; هیچ نوشته‌ای ثبت نشده...</p>'; return; }

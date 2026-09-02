@@ -275,7 +275,7 @@
             'nav-contact':  {fa:'تماس',          en:'Contact'},
             'hero-cta1':    {fa:'مشاهده پروژه‌ها', en:'View Projects'},
             'hero-cta2':    {fa:'تماس',          en:'Contact'},
-            'blog-sub':     {fa:'قاب‌هایی از فکر، کتاب، فیلم و صدا', en:'Frames of thought, books, film & sound'},
+            'blog-sub':     {fa:'یک نما، یک برگ، یک واژه، یک آوا', en:'A Shot, a Page, a Word, a Sound'},
             'signal-sub':   {fa:'پیامت مستقیم به ایمیل علی می‌رسد', en:'Your message goes straight to my inbox'},
             'contact-sub':  {fa:'کانال‌های ارتباطی', en:'Communication channels'},
             'footer-mid':{fa:'35mm · void · mind', en:'35mm · void · mind'},
@@ -826,9 +826,10 @@
         function render() {
             const lang = currentLang();
             const tagMap = {
-                frame: { fa: 'فریم', en: 'Frame' },
-                book: { fa: 'کتاب/ایده', en: 'Book/Idea' },
-                sound: { fa: 'صدا', en: 'Sound' }
+                frame: { fa: 'یک نما', en: 'A Shot' },
+                page: { fa: 'یک برگ', en: 'A Page' },
+                word: { fa: 'یک واژه', en: 'A Word' },
+                sound: { fa: 'یک آوا', en: 'A Sound' }
             };
             function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
             if (!posts.length) {

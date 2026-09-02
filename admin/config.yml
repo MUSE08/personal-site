@@ -39,14 +39,14 @@ collections:
   - name: blog
     label: بلاگ
     label_singular: پست
-    description: قاب‌هایی از فکر، کتاب و فیلم
+    description: یک نما، یک برگ، یک واژه، یک آوا
     folder: content/blog
     format: json
     create: true
     identifier_field: title_en
     summary: "{{tag}} · {{title_fa}}"
     fields:
-      - { label: تگ, name: tag, widget: select, options: [frame, book, sound], default: frame }
+      - { label: تگ, name: tag, widget: select, options: [frame, page, word, sound], default: frame }
       - { label: تاریخ, name: date, widget: string, default: "۱۴۰۵" }
       - { label: عنوان فارسی, name: title_fa, widget: string }
       - { label: عنوان انگلیسی, name: title_en, widget: string }
