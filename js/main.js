@@ -847,10 +847,9 @@
                     : '';
                 return `<article class="frame-post">
                     <div class="frame-post__meta mono">
-                        <span class="frame-post__tag">${tagLabel(p.tag)}</span>
                         <span class="frame-post__date">${p.date || ''}</span>
                     </div>
-                    <h3 class="frame-post__title"></h3>
+                    <h3 class="frame-post__title">${tagLabel(p.tag)}</h3>
                     <p class="frame-post__excerpt"></p>
                     ${linkHtml}
                 </article>`;
@@ -861,19 +860,16 @@
                 : 'frames — آرشیو ↗';
             html += `<article class="frame-post frame-post--more">
                 <div class="frame-post__meta mono">
-                    <span class="frame-post__tag">./frames</span>
                     <span class="frame-post__date">--archive</span>
                 </div>
-                <h3 class="frame-post__title"></h3>
+                <h3 class="frame-post__title">./frames</h3>
                 <p class="frame-post__excerpt"></p>
                 <a href="frames.html" class="frame-post__link mono">${more}</a>
             </article>`;
             wrap.innerHTML = html;
-            const allItems = show.length + (posts.length > MAX ? 1 : 0);
             wrap.querySelectorAll('.frame-post').forEach((card, i) => {
                 const p = i < show.length ? show[i] : null;
                 if (!p) return;
-                card.querySelector('.frame-post__title').textContent = p['title_' + lang] || p.title_fa || p.title_en || '';
                 card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
             });
         }

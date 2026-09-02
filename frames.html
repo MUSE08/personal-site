@@ -94,10 +94,9 @@
                         : '';
                     return `<article class="frame-post">
                         <div class="frame-post__meta mono">
-                            <span class="frame-post__tag">${tagLabel(p.tag)}</span>
                             <span class="frame-post__date">${p.date || ''}</span>
                         </div>
-                        <h3 class="frame-post__title"></h3>
+                        <h3 class="frame-post__title">${tagLabel(p.tag)}</h3>
                         <p class="frame-post__excerpt"></p>
                         ${linkHtml}
                     </article>`;
@@ -105,7 +104,6 @@
                 wrap.innerHTML = html;
                 wrap.querySelectorAll('.frame-post').forEach((card, i) => {
                     const p = posts[i];
-                    card.querySelector('.frame-post__title').textContent = p['title_' + lang] || p.title_fa || p.title_en || '';
                     card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
                 });
                 if (count) count.textContent = `~/frames > ${posts.length} ${dict.count[lang]}`;
