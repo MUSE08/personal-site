@@ -1,0 +1,1892 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>برنامه‌ریز هفتگی و ماهانه</title>
+  <style>
+    :root{
+      --bg:#eef2f7;
+      --surface:rgba(255,255,255,.82);
+      --surface-solid:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --border:rgba(17,24,39,.08);
+      --shadow:0 16px 40px rgba(15,23,42,.10);
+      --accent:#6366f1;
+      --accent-soft:rgba(99,102,241,.14);
+      --radius:20px;
+      --font-size:16.5px;
+    }
+
+    [data-theme="dark"]{
+      --bg:#0b1220;
+      --surface:rgba(17,24,39,.72);
+      --surface-solid:#111827;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 16px 40px rgba(0,0,0,.35);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:"Vazirmatn","Segoe UI",Tahoma,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      font-size:var(--font-size);
+      overflow:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:
+        radial-gradient(circle at 15% 15%, var(--accent-soft), transparent 35%),
+        radial-gradient(circle at 85% 85%, var(--accent-soft), transparent 30%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    #app{
+      position:relative;
+      z-index:1;
+      display:flex;
+      height:100vh;
+    }
+
+    .sidebar{
+      width:280px;
+      min-width:280px;
+      padding:20px;
+      background:var(--surface);
+      backdrop-filter:blur(18px);
+      border-inline-end:1px solid var(--border);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    .logo{
+      font-size:1.35rem;
+      font-weight:800;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .logo span{
+      background:var(--accent);
+      color:#fff;
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      box-shadow:var(--shadow);
+    }
+
+    .nav{
+      display:grid;
+      gap:8px;
+    }
+
+    .nav-btn{
+      border:0;
+      background:transparent;
+      color:var(--text);
+      padding:12px 14px;
+      border-radius:14px;
+      font:inherit;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      cursor:pointer;
+      transition:.2s;
+      text-align:right;
+    }
+
+    .nav-btn:hover{ background:var(--accent-soft); }
+    .nav-btn.active{
+      background:var(--accent);
+      color:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .clock-card{
+      margin-top:auto;
+      background:var(--accent);
+      background-image:linear-gradient(135deg, rgba(255,255,255,.22), rgba(0,0,0,.14));
+      color:#fff;
+      border-radius:22px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .clock-time{
+      font-size:2rem;
+      font-weight:800;
+      letter-spacing:.5px;
+    }
+
+    .clock-date,
+    .clock-gregorian{
+      opacity:.92;
+      font-size:.92rem;
+      margin-top:6px;
+      line-height:1.7;
+    }
+
+    .sidebar-footer{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    button{ font:inherit; }
+
+    .btn{
+      border:1px solid var(--border);
+      background:var(--surface-solid);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px 12px;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .btn:hover{
+      border-color:var(--accent);
+      color:var(--accent);
+    }
+
+    .btn.primary{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+    }
+
+    .btn.danger{
+      background:#ef4444;
+      border-color:#ef4444;
+      color:#fff;
+    }
+
+    .main{
+      flex:1;
+      overflow:auto;
+      padding:24px;
+    }
+
+    .view{
+      display:none;
+      animation:fade .25s ease;
+    }
+
+    .view.active{ display:block; }
+
+    @keyframes fade{
+      from{ opacity:0; transform:translateY(8px); }
+      to{ opacity:1; transform:none; }
+    }
+
+    .view-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:16px;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+
+    h1{
+      margin:0 0 6px;
+      font-size:1.8rem;
+    }
+
+    .view-header p{
+      margin:0;
+      color:var(--muted);
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .week-wrap{
+      overflow:auto;
+      padding-bottom:8px;
+    }
+
+    .week-grid{
+      display:grid;
+      grid-template-columns:repeat(7,minmax(170px,1fr));
+      gap:14px;
+      min-width:1150px;
+    }
+
+    .day-col{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:12px;
+      min-height:420px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      backdrop-filter:blur(14px);
+      transition:.2s;
+    }
+
+    .day-col:hover{
+      transform:translateY(-3px);
+      box-shadow:var(--shadow);
+    }
+
+    .day-col.today{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--accent-soft);
+    }
+
+    .day-col-header{
+      cursor:pointer;
+      text-align:center;
+      padding-bottom:10px;
+      border-bottom:1px dashed var(--border);
+    }
+
+    .wd{
+      display:block;
+      font-weight:700;
+    }
+
+    .jd{
+      display:block;
+      color:var(--muted);
+      font-size:.9rem;
+      margin-top:4px;
+    }
+
+    .gd{
+      display:block;
+      color:var(--muted);
+      font-size:.75rem;
+      opacity:.8;
+      margin-top:2px;
+    }
+
+    .day-tasks{
+      list-style:none;
+      margin:0;
+      padding:0;
+      flex:1;
+      overflow:auto;
+      display:grid;
+      gap:8px;
+      align-content:start;
+    }
+
+    .task{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      background:var(--surface-solid);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:8px;
+      transition:.2s;
+    }
+
+    .task.done .task-text{
+      text-decoration:line-through;
+      opacity:.55;
+    }
+
+    .check{
+      width:22px;
+      height:22px;
+      min-width:22px;
+      border-radius:8px;
+      border:2px solid var(--muted);
+      background:transparent;
+      color:#fff;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      font-size:12px;
+      margin-top:2px;
+    }
+
+    .task.done .check{
+      background:var(--accent);
+      border-color:var(--accent);
+    }
+
+    .task-content{
+      flex:1;
+      min-width:0;
+    }
+
+    .task-text{
+      display:block;
+      word-break:break-word;
+    }
+
+    .task-time{
+      display:inline-block;
+      margin-top:4px;
+      font-size:.75rem;
+      color:var(--accent);
+      background:var(--accent-soft);
+      padding:2px 8px;
+      border-radius:999px;
+    }
+
+    .icon-btn{
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      opacity:.65;
+      font-size:1rem;
+    }
+
+    .icon-btn:hover{ opacity:1; }
+
+    .quick-add input{
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--surface-solid);
+      color:var(--text);
+      border-radius:12px;
+      padding:10px;
+      font:inherit;
+    }
+
+    .quick-add input:focus{
+      outline:2px solid var(--accent-soft);
+      border-color:var(--accent);
+    }
+
+    .weekday-names,
+    .month-grid{
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:10px;
+    }
+
+    .weekday-name{
+      text-align:center;
+      color:var(--muted);
+      font-size:.9rem;
+      padding:8px 0;
+    }
+
+    .weekday-name.weekend{ color:#ef4444; }
+
+    .month-grid{ margin-top:10px; }
+
+    .month-cell{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:18px;
+      min-height:120px;
+      padding:10px;
+      cursor:pointer;
+      transition:.2s;
+      overflow:hidden;
+      backdrop-filter:blur(12px);
+    }
+
+    .month-cell:not(.blank):hover{
+      transform:translateY(-3px);
+      box-shadow:var(--shadow);
+      border-color:var(--accent);
+    }
+
+    .month-cell.blank{
+      background:transparent;
+      border:0;
+      cursor:default;
+    }
+
+    .month-cell.today{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px var(--accent-soft);
+    }
+
+    .day-num{ font-weight:800; }
+
+    .mini-tasks{
+      margin-top:8px;
+      display:grid;
+      gap:4px;
+    }
+
+    .mini-task{
+      font-size:.72rem;
+      background:var(--accent-soft);
+      color:var(--text);
+      border-radius:8px;
+      padding:3px 6px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .mini-task.done{
+      text-decoration:line-through;
+      opacity:.6;
+    }
+
+    .more{
+      font-size:.7rem;
+      color:var(--muted);
+    }
+
+    .card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:18px;
+      backdrop-filter:blur(14px);
+      box-shadow:var(--shadow);
+    }
+
+    .note-editor{
+      display:grid;
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .note-editor input,
+    .note-editor textarea,
+    .settings-grid select,
+    #note-search,
+    .task-input input{
+      border:1px solid var(--border);
+      background:var(--surface-solid);
+      color:var(--text);
+      border-radius:14px;
+      padding:12px;
+      font:inherit;
+    }
+
+    .note-editor textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .note-editor-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .color-picker,
+    .accent-picker{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .color-dot,
+    .accent-dot{
+      width:28px;
+      height:28px;
+      border-radius:50%;
+      border:2px solid transparent;
+      cursor:pointer;
+      transition:.2s;
+    }
+
+    .color-dot.active,
+    .accent-dot.active{
+      border-color:var(--text);
+      transform:scale(1.12);
+    }
+
+    .notes-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:16px;
+    }
+
+    .notes-grid .empty{ grid-column:1/-1; }
+
+    .note-card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-top:6px solid var(--note-color,#ffd166);
+      border-radius:20px;
+      padding:16px;
+      position:relative;
+      transition:.2s;
+      backdrop-filter:blur(12px);
+    }
+
+    .note-card:hover{
+      transform:translateY(-4px);
+      box-shadow:var(--shadow);
+    }
+
+    .note-card h4{
+      margin:0 0 8px;
+      padding-left:28px;
+    }
+
+    .note-card p{
+      margin:0 0 12px;
+      color:var(--muted);
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    .note-card footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+    .pin{
+      position:absolute;
+      top:10px;
+      left:10px;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      font-size:1rem;
+      opacity:.35;
+    }
+
+    .pin.active{ opacity:1; }
+
+    .settings-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:18px;
+    }
+
+    .settings-grid label{
+      display:block;
+      margin:12px 0 6px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .settings-grid select{ width:100%; }
+
+    .checkline{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--text) !important;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:50;
+      display:grid;
+      place-items:center;
+    }
+
+    .modal.hidden{ display:none; }
+
+    .modal-backdrop{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      backdrop-filter:blur(6px);
+    }
+
+    .modal-card{
+      position:relative;
+      width:min(620px,calc(100vw - 28px));
+      max-height:85vh;
+      overflow:auto;
+      background:var(--surface-solid);
+      border:1px solid var(--border);
+      border-radius:26px;
+      padding:20px;
+      box-shadow:var(--shadow);
+      animation:pop .2s ease;
+    }
+
+    @keyframes pop{
+      from{ transform:scale(.96); opacity:0; }
+      to{ transform:scale(1); opacity:1; }
+    }
+
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .modal-header h3{ margin:0; }
+    .modal-header p{
+      margin:6px 0 0;
+      color:var(--muted);
+    }
+
+    .task-input{
+      display:grid;
+      grid-template-columns:110px 1fr auto;
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .task-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:10px;
+    }
+
+    .empty{
+      color:var(--muted);
+      text-align:center;
+      padding:24px;
+      border:1px dashed var(--border);
+      border-radius:16px;
+    }
+
+    #note-search{
+      min-width:220px;
+    }
+
+    ::-webkit-scrollbar{
+      width:10px;
+      height:10px;
+    }
+
+    ::-webkit-scrollbar-thumb{
+      background:var(--border);
+      border-radius:999px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover{
+      background:var(--accent);
+    }
+
+    @media (max-width:900px){
+      body{ overflow:auto; }
+      #app{
+        flex-direction:column;
+        height:auto;
+        overflow:auto;
+      }
+      .sidebar{
+        width:100%;
+        min-width:0;
+        border-inline-end:0;
+        border-bottom:1px solid var(--border);
+      }
+      .clock-card{ margin-top:0; }
+      .main{ height:auto; }
+      .week-grid{ min-width:850px; }
+      .task-input{ grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="logo"><span>🗓️</span> برنامه‌ریز</div>
+
+      <nav class="nav">
+        <button class="nav-btn active" data-view="week">📅 برنامه هفتگی</button>
+        <button class="nav-btn" data-view="month">🗓️ نمای ماهانه</button>
+        <button class="nav-btn" data-view="notes">📝 یادداشت‌ها</button>
+        <button class="nav-btn" data-view="settings">⚙️ تنظیمات</button>
+      </nav>
+
+      <div class="clock-card">
+        <div id="clock-time" class="clock-time">--:--:--</div>
+        <div id="clock-date" class="clock-date">...</div>
+        <div id="clock-gregorian" class="clock-gregorian">...</div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button id="exportBtn" class="btn">💾 خروجی</button>
+        <button id="importBtn" class="btn">📂 ورودی</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden />
+      </div>
+    </aside>
+
+    <main class="main">
+      <!-- Weekly -->
+      <section id="view-week" class="view active">
+        <header class="view-header">
+          <div>
+            <h1>برنامه هفتگی</h1>
+            <p id="week-range">...</p>
+          </div>
+          <div class="controls">
+            <button id="week-prev" class="btn">◀</button>
+            <button id="week-today" class="btn primary">امروز</button>
+            <button id="week-next" class="btn">▶</button>
+          </div>
+        </header>
+
+        <div class="week-wrap">
+          <div id="week-grid" class="week-grid"></div>
+        </div>
+      </section>
+
+      <!-- Monthly -->
+      <section id="view-month" class="view">
+        <header class="view-header">
+          <div>
+            <h1>نمای ماهانه</h1>
+            <p id="month-title">...</p>
+          </div>
+          <div class="controls">
+            <button id="month-prev" class="btn">◀</button>
+            <button id="month-today" class="btn primary">امروز</button>
+            <button id="month-next" class="btn">▶</button>
+          </div>
+        </header>
+
+        <div id="weekday-names" class="weekday-names"></div>
+        <div id="month-grid" class="month-grid"></div>
+      </section>
+
+      <!-- Notes -->
+      <section id="view-notes" class="view">
+        <header class="view-header">
+          <div>
+            <h1>یادداشت‌ها</h1>
+            <p>یادداشت‌های سریع، رنگی و قابل جستجو</p>
+          </div>
+          <div class="controls">
+            <input id="note-search" type="search" placeholder="🔍 جستجو..." />
+          </div>
+        </header>
+
+        <div class="note-editor card">
+          <input id="note-title" type="text" placeholder="عنوان یادداشت..." />
+          <textarea id="note-body" placeholder="متن یادداشت..."></textarea>
+          <div class="note-editor-actions">
+            <div id="note-colors" class="color-picker"></div>
+            <button id="note-add" class="btn primary">➕ افزودن یادداشت</button>
+          </div>
+        </div>
+
+        <div id="notes-grid" class="notes-grid"></div>
+      </section>
+
+      <!-- Settings -->
+      <section id="view-settings" class="view">
+        <header class="view-header">
+          <div>
+            <h1>تنظیمات</h1>
+            <p>شخصی‌سازی ظاهر و داده‌ها</p>
+          </div>
+        </header>
+
+        <div class="settings-grid">
+          <div class="card">
+            <h3>🎨 ظاهر</h3>
+
+            <label for="set-theme">پوسته</label>
+            <select id="set-theme">
+              <option value="light">روشن</option>
+              <option value="dark">تیره</option>
+              <option value="auto">همگام با ویندوز</option>
+            </select>
+
+            <label>رنگ اصلی</label>
+            <div id="accent-picker" class="accent-picker"></div>
+
+            <label for="set-fontsize">اندازه متن</label>
+            <select id="set-fontsize">
+              <option value="15">کوچک</option>
+              <option value="16.5">معمولی</option>
+              <option value="18">بزرگ</option>
+            </select>
+
+            <label for="set-weekstart">شروع هفته</label>
+            <select id="set-weekstart">
+              <option value="6">شنبه</option>
+              <option value="0">یکشنبه</option>
+              <option value="1">دوشنبه</option>
+            </select>
+
+            <label class="checkline">
+              <input type="checkbox" id="set-gregorian" />
+              نمایش تاریخ میلادی در کنار تاریخ شمسی
+            </label>
+          </div>
+
+          <div class="card">
+            <h3>💾 داده‌ها</h3>
+            <p>همه اطلاعات به‌صورت محلی در همین برنامه/مرورگر ذخیره می‌شود.</p>
+            <div class="controls">
+              <button id="exportBtn2" class="btn">دانلود پشتیبان JSON</button>
+              <button id="importBtn2" class="btn">بازیابی از فایل</button>
+              <button id="clearBtn" class="btn danger">پاک کردن همه داده‌ها</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🖥️ اجرای دسکتاپی</h3>
+            <p>
+              برای تجربه اپ‌مانند، فایل را در Edge یا Chrome باز کنید و از منو:
+              <br />
+              Edge: Apps → Install this site as an app
+              <br />
+              Chrome: Cast, save and share → Create shortcut → Open as window
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Day Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h3 id="modal-title">روز</h3>
+          <p id="modal-subtitle"></p>
+        </div>
+        <button id="modal-close" class="btn">✖</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="task-input">
+          <input type="time" id="task-time" />
+          <input type="text" id="task-text" placeholder="کار جدید برای این روز..." />
+          <button id="task-add" class="btn primary">➕</button>
+        </div>
+        <ul id="task-list" class="task-list"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    "use strict";
+
+    /* ==============================
+       Utilities
+    ============================== */
+
+    const $ = (s) => document.querySelector(s);
+    const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+    const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    const pad = (n) => String(n).padStart(2, "0");
+
+    const dateKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const parseKey = (key) => {
+      const [y, m, d] = key.split("-").map(Number);
+      return new Date(y, m - 1, d);
+    };
+
+    const addDays = (date, n) => {
+      const d = new Date(date);
+      d.setDate(d.getDate() + n);
+      return d;
+    };
+
+    const isSameDay = (a, b) => dateKey(a) === dateKey(b);
+
+    const escapeHTML = (s) =>
+      String(s).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[m]));
+
+    const toFaDigits = (s) =>
+      String(s).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+
+    const hexToRgba = (hex, alpha) => {
+      const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      if (!m) return `rgba(99,102,241,${alpha})`;
+      return `rgba(${parseInt(m[1], 16)},${parseInt(m[2], 16)},${parseInt(m[3], 16)},${alpha})`;
+    };
+
+    /* ==============================
+       Jalali / Shamsi conversion
+       Based on well-known jalaali algorithm
+    ============================== */
+
+    function div(a, b) { return ~~(a / b); }
+    function mod(a, b) { return a - ~~(a / b) * b; }
+
+    function jalCal(jy) {
+      const breaks = [-61, 9, 38, 199, 426, 686, 756, 818, 1111, 1181,
+        1210, 1635, 2060, 2097, 2192, 2262, 2324, 2394, 2456, 3178];
+
+      const bl = breaks.length;
+      const gy = jy + 621;
+      let leapJ = -14;
+      let jp = breaks[0];
+      let jm, jump, leap, n, i;
+
+      for (i = 1; i < bl; i += 1) {
+        jm = breaks[i];
+        jump = jm - jp;
+        if (jy < jm) break;
+        leapJ = leapJ + div(jump, 33) * 8 + div(jump % 33, 4);
+        jp = jm;
+      }
+
+      n = jy - jp;
+      leapJ = leapJ + div(n, 33) * 8 + div((n % 33) + 3, 4);
+
+      if ((jump % 33) === 4 && (jump - n) === 4) leapJ += 1;
+
+      const leapG = div(gy, 4) - div(((div(gy, 100) + 1) * 3), 4) - 150;
+      const march = 20 + leapJ - leapG;
+
+      if ((jump - n) < 6) n = n - jump + div(jump + 4, 33) * 33;
+
+      leap = ((((n + 1) % 33) - 1) % 4);
+      if (leap === -1) leap = 4;
+
+      return { leap, gy, march };
+    }
+
+    function g2d(gy, gm, gd) {
+      let d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4)
+        + div(153 * mod(gm + 9, 12) + 2, 5)
+        + gd - 34840408;
+
+      d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752;
+      return d;
+    }
+
+    function d2g(jdn) {
+      let j = 4 * jdn + 139361631;
+      j = j + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908;
+
+      const i = div(mod(j, 1461), 4) * 5 + 308;
+      const gd = div(mod(i, 153), 5) + 1;
+      const gm = mod(div(i, 153), 12) + 1;
+      const gy = div(j, 1461) - 100100 + div(8 - gm, 6);
+
+      return { gy, gm, gd };
+    }
+
+    function j2d(jy, jm, jd) {
+      const r = jalCal(jy);
+      return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1;
+    }
+
+    function d2j(jdn) {
+      const gy = d2g(jdn).gy;
+      let jy = gy - 621;
+      const r = jalCal(jy);
+      const jdn1f = g2d(gy, 3, r.march);
+
+      let jd, jm, k;
+      k = jdn - jdn1f;
+
+      if (k >= 0) {
+        if (k <= 185) {
+          jm = 1 + div(k, 31);
+          jd = mod(k, 31) + 1;
+          return { jy, jm, jd };
+        } else {
+          k -= 186;
+        }
+      } else {
+        jy -= 1;
+        k += 179;
+        if (r.leap === 1) k += 1;
+      }
+
+      jm = 7 + div(k, 30);
+      jd = mod(k, 30) + 1;
+
+      return { jy, jm, jd };
+    }
+
+    function toJalaali(gy, gm, gd) {
+      return d2j(g2d(gy, gm, gd));
+    }
+
+    function toGregorian(jy, jm, jd) {
+      return d2g(j2d(jy, jm, jd));
+    }
+
+    function jalaliMonthLength(jy, jm) {
+      if (jm <= 6) return 31;
+      if (jm <= 11) return 30;
+      return jalCal(jy).leap === 0 ? 30 : 29;
+    }
+
+    const jMonthNames = [
+      "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
+      "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
+    ];
+
+    const faWeekDays = [
+      "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"
+    ];
+
+    const weekdayName = (gDay) => faWeekDays[gDay];
+
+    function getJalali(date) {
+      return toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate());
+    }
+
+    function formatJalali(date, withYear = true) {
+      const j = getJalali(date);
+      const txt = `${j.jd} ${jMonthNames[j.jm - 1]}${withYear ? " " + j.jy : ""}`;
+      return toFaDigits(txt);
+    }
+
+    function formatJalaliFull(date) {
+      const j = getJalali(date);
+      const txt = `${weekdayName(date.getDay())} ${j.jd} ${jMonthNames[j.jm - 1]} ${j.jy}`;
+      return toFaDigits(txt);
+    }
+
+    function toGregorianDate(jy, jm, jd) {
+      const g = toGregorian(jy, jm, jd);
+      return new Date(g.gy, g.gm - 1, g.gd);
+    }
+
+    function addMonthsJ(jy, jm, delta) {
+      let y = jy;
+      let m = jm + delta;
+
+      while (m < 1) {
+        m += 12;
+        y -= 1;
+      }
+
+      while (m > 12) {
+        m -= 12;
+        y += 1;
+      }
+
+      return { jy: y, jm: m };
+    }
+
+    /* ==============================
+       State / Storage
+    ============================== */
+
+    const STORAGE_KEY = "persian-planner-v1";
+
+    function defaultState() {
+      return {
+        tasks: {},
+        notes: [],
+        settings: {
+          theme: "auto",
+          accent: "#6366f1",
+          fontSize: 16.5,
+          weekStart: 6, // 6 = Saturday
+          showGregorian: true
+        }
+      };
+    }
+
+    function load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          const base = defaultState();
+
+          const merged = {
+            ...base,
+            ...parsed,
+            settings: {
+              ...base.settings,
+              ...(parsed.settings || {})
+            }
+          };
+
+          if (!merged.tasks || typeof merged.tasks !== "object") merged.tasks = {};
+          if (!Array.isArray(merged.notes)) merged.notes = [];
+
+          return merged;
+        }
+      } catch (e) {
+        console.warn("Could not load data", e);
+      }
+
+      return defaultState();
+    }
+
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    let state = load();
+
+    /* ==============================
+       App data helpers
+    ============================== */
+
+    function getTasks(key) {
+      return (state.tasks[key] || []).slice().sort((a, b) => {
+        return (a.time || "99:99").localeCompare(b.time || "99:99");
+      });
+    }
+
+    function addTask(key, task) {
+      if (!state.tasks[key]) state.tasks[key] = [];
+
+      state.tasks[key].push({
+        id: uid(),
+        text: task.text,
+        time: task.time || "",
+        done: false,
+        created: Date.now()
+      });
+
+      save();
+      renderCurrentView();
+      if (modalKey === key) renderTasksModal();
+    }
+
+    function toggleTask(key, id) {
+      const arr = state.tasks[key];
+      if (!arr) return;
+
+      const task = arr.find((t) => t.id === id);
+      if (!task) return;
+
+      task.done = !task.done;
+      save();
+      renderCurrentView();
+      if (modalKey === key) renderTasksModal();
+    }
+
+    function deleteTask(key, id) {
+      if (!state.tasks[key]) return;
+
+      state.tasks[key] = state.tasks[key].filter((t) => t.id !== id);
+      if (state.tasks[key].length === 0) delete state.tasks[key];
+
+      save();
+      renderCurrentView();
+      if (modalKey === key) renderTasksModal();
+    }
+
+    function taskHTML(task, key) {
+      return `
+        <li class="task ${task.done ? "done" : ""}" data-key="${key}" data-id="${task.id}">
+          <button class="check" data-action="toggle" title="انجام شد">${task.done ? "✓" : ""}</button>
+          <div class="task-content">
+            <span class="task-text">${escapeHTML(task.text)}</span>
+            ${task.time ? `<span class="task-time">⏰ ${toFaDigits(task.time)}</span>` : ""}
+          </div>
+          <button class="icon-btn" data-action="delete" title="حذف">🗑️</button>
+        </li>
+      `;
+    }
+
+    /* ==============================
+       Views
+    ============================== */
+
+    let weekAnchor = new Date();
+    let monthAnchorJ = getJalali(new Date());
+    let modalKey = null;
+
+    let editingNoteId = null;
+    let noteColor = "#ffd166";
+
+    const noteColors = [
+      "#ffd166", "#a0e7a0", "#9ad0ec", "#ffb3c6",
+      "#d7b9f5", "#ffd8a8", "#c8f7c5", "#f1f3f5"
+    ];
+
+    const accentColors = [
+      "#6366f1", "#8b5cf6", "#ec4899", "#f59e0b",
+      "#10b981", "#06b6d4", "#ef4444", "#3b82f6"
+    ];
+
+    function currentView() {
+      return document.querySelector(".nav-btn.active")?.dataset.view || "week";
+    }
+
+    function renderCurrentView() {
+      const view = currentView();
+
+      if (view === "week") renderWeek();
+      if (view === "month") renderMonth();
+      if (view === "notes") renderNotes();
+    }
+
+    function renderAll() {
+      renderWeek();
+      renderMonth();
+      renderNotes();
+    }
+
+    /* ==============================
+       Week view
+    ============================== */
+
+    function getWeekStart(date) {
+      const ws = Number(state.settings.weekStart);
+      const diff = (date.getDay() - ws + 7) % 7;
+      return addDays(date, -diff);
+    }
+
+    function renderWeek() {
+      const start = getWeekStart(weekAnchor);
+      const end = addDays(start, 6);
+
+      $("#week-range").textContent = `${formatJalali(start)} تا ${formatJalali(end)}`;
+
+      const grid = $("#week-grid");
+      grid.innerHTML = "";
+
+      const today = new Date();
+
+      for (let i = 0; i < 7; i += 1) {
+        const day = addDays(start, i);
+        const key = dateKey(day);
+        const j = getJalali(day);
+        const tasks = getTasks(key);
+
+        const col = document.createElement("div");
+        col.className = `day-col ${isSameDay(day, today) ? "today" : ""}`;
+
+        col.innerHTML = `
+          <div class="day-col-header" data-key="${key}" title="مشاهده و مدیریت کارهای روز">
+            <span class="wd">${weekdayName(day.getDay())}</span>
+            <span class="jd">${toFaDigits(j.jd)} ${jMonthNames[j.jm - 1]}</span>
+            ${state.settings.showGregorian
+              ? `<span class="gd">${day.toLocaleDateString("en-GB", { day: "2-digit", month: "short" })}</span>`
+              : ""}
+          </div>
+
+          <ul class="day-tasks">
+            ${tasks.map((t) => taskHTML(t, key)).join("")}
+          </ul>
+
+          <div class="quick-add">
+            <input type="text" class="quick-input" data-key="${key}" placeholder="＋ کار سریع... (Enter)" />
+          </div>
+        `;
+
+        grid.appendChild(col);
+      }
+    }
+
+    /* ==============================
+       Month view
+    ============================== */
+
+    function renderMonth() {
+      const jy = monthAnchorJ.jy;
+      const jm = monthAnchorJ.jm;
+
+      $("#month-title").textContent = toFaDigits(`${jMonthNames[jm - 1]} ${jy}`);
+
+      const ws = Number(state.settings.weekStart);
+
+      const weekdayNamesEl = $("#weekday-names");
+      weekdayNamesEl.innerHTML = "";
+
+      for (let i = 0; i < 7; i += 1) {
+        const idx = (ws + i) % 7;
+        const el = document.createElement("div");
+        el.className = `weekday-name ${idx === 5 ? "weekend" : ""}`;
+        el.textContent = faWeekDays[idx];
+        weekdayNamesEl.appendChild(el);
+      }
+
+      const grid = $("#month-grid");
+      grid.innerHTML = "";
+
+      const firstGreg = toGregorianDate(jy, jm, 1);
+      const firstWeekdayIndex = (firstGreg.getDay() - ws + 7) % 7;
+      const monthLen = jalaliMonthLength(jy, jm);
+      const today = new Date();
+
+      for (let i = 0; i < firstWeekdayIndex; i += 1) {
+        const blank = document.createElement("div");
+        blank.className = "month-cell blank";
+        grid.appendChild(blank);
+      }
+
+      for (let d = 1; d <= monthLen; d += 1) {
+        const g = toGregorianDate(jy, jm, d);
+        const key = dateKey(g);
+        const tasks = getTasks(key);
+        const isToday = isSameDay(g, today);
+
+        const cell = document.createElement("div");
+        cell.className = `month-cell ${isToday ? "today" : ""}`;
+        cell.dataset.key = key;
+
+        cell.innerHTML = `
+          <div class="day-num">${toFaDigits(d)}</div>
+          <div class="mini-tasks">
+            ${tasks.slice(0, 3).map((t) => `
+              <span class="mini-task ${t.done ? "done" : ""}">
+                ${t.time ? `<b>${toFaDigits(t.time)}</b> ` : ""}${escapeHTML(t.text)}
+              </span>
+            `).join("")}
+            ${tasks.length > 3 ? `<span class="more">+${toFaDigits(tasks.length - 3)}</span>` : ""}
+          </div>
+        `;
+
+        grid.appendChild(cell);
+      }
+    }
+
+    /* ==============================
+       Modal / Day details
+    ============================== */
+
+    function openModal(key) {
+      modalKey = key;
+
+      const date = parseKey(key);
+      const j = getJalali(date);
+
+      $("#modal-title").textContent = toFaDigits(
+        `${weekdayName(date.getDay())} ${j.jd} ${jMonthNames[j.jm - 1]} ${j.jy}`
+      );
+
+      $("#modal-subtitle").textContent = state.settings.showGregorian
+        ? date.toLocaleDateString("en-GB", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+          })
+        : "";
+
+      $("#task-time").value = "";
+      $("#task-text").value = "";
+
+      renderTasksModal();
+      $("#modal").classList.remove("hidden");
+      $("#task-text").focus();
+    }
+
+    function closeModal() {
+      $("#modal").classList.add("hidden");
+      modalKey = null;
+    }
+
+    function renderTasksModal() {
+      if (!modalKey) return;
+
+      const list = $("#task-list");
+      const tasks = getTasks(modalKey);
+
+      list.innerHTML = tasks.length
+        ? tasks.map((t) => taskHTML(t, modalKey)).join("")
+        : `<li class="empty">هنوز کاری برای این روز ثبت نشده است.</li>`;
+    }
+
+    function addTaskFromModal() {
+      if (!modalKey) return;
+
+      const text = $("#task-text").value.trim();
+      const time = $("#task-time").value;
+
+      if (!text) return;
+
+      addTask(modalKey, { text, time });
+      $("#task-text").value = "";
+      $("#task-text").focus();
+    }
+
+    /* ==============================
+       Notes view
+    ============================== */
+
+    function renderNoteColorPicker() {
+      const el = $("#note-colors");
+      el.innerHTML = "";
+
+      noteColors.forEach((color) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `color-dot ${noteColor === color ? "active" : ""}`;
+        btn.style.background = color;
+
+        btn.addEventListener("click", () => {
+          noteColor = color;
+          renderNoteColorPicker();
+        });
+
+        el.appendChild(btn);
+      });
+    }
+
+    function noteHTML(note) {
+      const updated = new Date(note.updated || Date.now());
+
+      return `
+        <article class="note-card" style="--note-color:${note.color}" data-id="${note.id}">
+          <button class="pin ${note.pinned ? "active" : ""}" data-action="pin" title="سنجاق">📌</button>
+          <h4>${escapeHTML(note.title) || "بدون عنوان"}</h4>
+          <p>${escapeHTML(note.body)}</p>
+          <footer>
+            <span>${formatJalali(updated)}</span>
+            <span>
+              <button class="icon-btn" data-action="edit" title="ویرایش">✏️</button>
+              <button class="icon-btn" data-action="delete" title="حذف">🗑️</button>
+            </span>
+          </footer>
+        </article>
+      `;
+    }
+
+    function renderNotes() {
+      const grid = $("#notes-grid");
+      const q = ($("#note-search").value || "").trim().toLowerCase();
+
+      let notes = state.notes.slice();
+
+      if (q) {
+        notes = notes.filter((n) =>
+          `${n.title} ${n.body}`.toLowerCase().includes(q)
+        );
+      }
+
+      notes.sort((a, b) => {
+        const pinDiff = (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0);
+        if (pinDiff !== 0) return pinDiff;
+        return (b.updated || 0) - (a.updated || 0);
+      });
+
+      grid.innerHTML = notes.length
+        ? notes.map(noteHTML).join("")
+        : `<div class="empty">یادداشتی یافت نشد.</div>`;
+    }
+
+    function clearNoteEditor() {
+      $("#note-title").value = "";
+      $("#note-body").value = "";
+      editingNoteId = null;
+      noteColor = noteColors[0];
+      renderNoteColorPicker();
+      $("#note-add").textContent = "➕ افزودن یادداشت";
+    }
+
+    function saveNoteFromEditor() {
+      const title = $("#note-title").value.trim();
+      const body = $("#note-body").value.trim();
+
+      if (!title && !body) {
+        alert("لطفاً عنوان یا متن یادداشت را بنویسید.");
+        return;
+      }
+
+      if (editingNoteId) {
+        const note = state.notes.find((n) => n.id === editingNoteId);
+        if (note) {
+          note.title = title;
+          note.body = body;
+          note.color = noteColor;
+          note.updated = Date.now();
+        }
+
+        editingNoteId = null;
+        $("#note-add").textContent = "➕ افزودن یادداشت";
+      } else {
+        state.notes.push({
+          id: uid(),
+          title,
+          body,
+          color: noteColor,
+          pinned: false,
+          created: Date.now(),
+          updated: Date.now()
+        });
+      }
+
+      save();
+      renderNotes();
+      clearNoteEditor();
+    }
+
+    /* ==============================
+       Settings
+    ============================== */
+
+    function applySettings() {
+      const s = state.settings;
+      const root = document.documentElement;
+
+      root.style.setProperty("--accent", s.accent);
+      root.style.setProperty("--accent-soft", hexToRgba(s.accent, 0.14));
+      root.style.setProperty("--font-size", `${s.fontSize}px`);
+
+      let theme = s.theme;
+
+      if (theme === "auto") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
+
+      root.dataset.theme = theme;
+
+      $("#set-theme").value = s.theme;
+      $("#set-fontsize").value = String(s.fontSize);
+      $("#set-weekstart").value = String(s.weekStart);
+      $("#set-gregorian").checked = !!s.showGregorian;
+
+      renderAccentPicker();
+    }
+
+    function renderAccentPicker() {
+      const el = $("#accent-picker");
+      el.innerHTML = "";
+
+      accentColors.forEach((color) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `accent-dot ${state.settings.accent === color ? "active" : ""}`;
+        btn.style.background = color;
+
+        btn.addEventListener("click", () => {
+          state.settings.accent = color;
+          save();
+          applySettings();
+          renderCurrentView();
+        });
+
+        el.appendChild(btn);
+      });
+    }
+
+    /* ==============================
+       Backup / Restore
+    ============================== */
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify(state, null, 2)], {
+        type: "application/json"
+      });
+
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "planner-backup.json";
+      a.click();
+
+      URL.revokeObjectURL(a.href);
+    }
+
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          if (!data || typeof data !== "object") throw new Error("Invalid file");
+
+          const base = defaultState();
+
+          state = {
+            ...base,
+            ...data,
+            settings: {
+              ...base.settings,
+              ...(data.settings || {})
+            }
+          };
+
+          if (!state.tasks || typeof state.tasks !== "object") state.tasks = {};
+          if (!Array.isArray(state.notes)) state.notes = [];
+
+          save();
+          applySettings();
+          renderAll();
+
+          alert("اطلاعات با موفقیت وارد شد.");
+        } catch (err) {
+          alert("فایل انتخابی معتبر نیست.");
+        }
+      };
+
+      reader.readAsText(file);
+      event.target.value = "";
+    }
+
+    function clearAllData() {
+      if (!confirm("همه داده‌ها پاک شوند؟ این عمل قابل بازگشت نیست.")) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      state = defaultState();
+      save();
+      applySettings();
+      renderAll();
+      clearNoteEditor();
+    }
+
+    /* ==============================
+       Clock
+    ============================== */
+
+    function updateClock() {
+      const now = new Date();
+
+      $("#clock-time").textContent = now.toLocaleTimeString("fa-IR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+
+      $("#clock-date").textContent = formatJalaliFull(now);
+
+      $("#clock-gregorian").textContent = now.toLocaleDateString("en-GB", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    /* ==============================
+       Events
+    ============================== */
+
+    // Navigation
+    $$(".nav-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        $$(".nav-btn").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        $$(".view").forEach((v) => v.classList.remove("active"));
+        $(`#view-${btn.dataset.view}`).classList.add("active");
+
+        renderCurrentView();
+      });
+    });
+
+    // Week navigation
+    $("#week-prev").addEventListener("click", () => {
+      weekAnchor = addDays(weekAnchor, -7);
+      renderWeek();
+    });
+
+    $("#week-next").addEventListener("click", () => {
+      weekAnchor = addDays(weekAnchor, 7);
+      renderWeek();
+    });
+
+    $("#week-today").addEventListener("click", () => {
+      weekAnchor = new Date();
+      renderWeek();
+    });
+
+    // Month navigation
+    $("#month-prev").addEventListener("click", () => {
+      monthAnchorJ = addMonthsJ(monthAnchorJ.jy, monthAnchorJ.jm, -1);
+      renderMonth();
+    });
+
+    $("#month-next").addEventListener("click", () => {
+      monthAnchorJ = addMonthsJ(monthAnchorJ.jy, monthAnchorJ.jm, 1);
+      renderMonth();
+    });
+
+    $("#month-today").addEventListener("click", () => {
+      monthAnchorJ = getJalali(new Date());
+      renderMonth();
+    });
+
+    // Week interactions
+    $("#week-grid").addEventListener("click", (e) => {
+      const header = e.target.closest(".day-col-header");
+      if (header) {
+        openModal(header.dataset.key);
+        return;
+      }
+
+      const actionBtn = e.target.closest("[data-action]");
+      if (!actionBtn) return;
+
+      const li = actionBtn.closest(".task");
+      if (!li) return;
+
+      const key = li.dataset.key;
+      const id = li.dataset.id;
+
+      if (actionBtn.dataset.action === "toggle") toggleTask(key, id);
+      if (actionBtn.dataset.action === "delete") deleteTask(key, id);
+    });
+
+    $("#week-grid").addEventListener("keydown", (e) => {
+      if (!e.target.classList.contains("quick-input")) return;
+
+      if (e.key === "Enter") {
+        const key = e.target.dataset.key;
+        const text = e.target.value.trim();
+
+        if (text) {
+          addTask(key, { text, time: "" });
+          e.target.value = "";
+        }
+      }
+    });
+
+    // Month interactions
+    $("#month-grid").addEventListener("click", (e) => {
+      const cell = e.target.closest(".month-cell");
+      if (cell && !cell.classList.contains("blank")) {
+        openModal(cell.dataset.key);
+      }
+    });
+
+    // Modal
+    $("#modal-close").addEventListener("click", closeModal);
+    $(".modal-backdrop").addEventListener("click", closeModal);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+
+    $("#task-add").addEventListener("click", addTaskFromModal);
+
+    $("#task-text").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") addTaskFromModal();
+    });
+
+    $("#task-list").addEventListener("click", (e) => {
+      const actionBtn = e.target.closest("[data-action]");
+      if (!actionBtn) return;
+
+      const li = actionBtn.closest(".task");
+      if (!li) return;
+
+      const key = li.dataset.key;
+      const id = li.dataset.id;
+
+      if (actionBtn.dataset.action === "toggle") toggleTask(key, id);
+      if (actionBtn.dataset.action === "delete") deleteTask(key, id);
+    });
+
+    // Notes
+    $("#note-add").addEventListener("click", saveNoteFromEditor);
+
+    $("#note-search").addEventListener("input", renderNotes);
+
+    $("#notes-grid").addEventListener("click", (e) => {
+      const card = e.target.closest(".note-card");
+      if (!card) return;
+
+      const id = card.dataset.id;
+      const note = state.notes.find((n) => n.id === id);
+      if (!note) return;
+
+      const actionBtn = e.target.closest("[data-action]");
+      if (!actionBtn) return;
+
+      const action = actionBtn.dataset.action;
+
+      if (action === "pin") {
+        note.pinned = !note.pinned;
+        save();
+        renderNotes();
+      }
+
+      if (action === "delete") {
+        if (confirm("این یادداشت حذف شود؟")) {
+          state.notes = state.notes.filter((n) => n.id !== id);
+          save();
+          renderNotes();
+        }
+      }
+
+      if (action === "edit") {
+        $("#note-title").value = note.title;
+        $("#note-body").value = note.body;
+        noteColor = note.color;
+        editingNoteId = id;
+        renderNoteColorPicker();
+        $("#note-add").textContent = "💾 ذخیره تغییرات";
+        $("#note-title").focus();
+      }
+    });
+
+    // Settings
+    $("#set-theme").addEventListener("change", (e) => {
+      state.settings.theme = e.target.value;
+      save();
+      applySettings();
+      renderCurrentView();
+    });
+
+    $("#set-fontsize").addEventListener("change", (e) => {
+      state.settings.fontSize = parseFloat(e.target.value);
+      save();
+      applySettings();
+    });
+
+    $("#set-weekstart").addEventListener("change", (e) => {
+      state.settings.weekStart = parseInt(e.target.value, 10);
+      save();
+      applySettings();
+      renderWeek();
+      renderMonth();
+    });
+
+    $("#set-gregorian").addEventListener("change", (e) => {
+      state.settings.showGregorian = e.target.checked;
+      save();
+      renderCurrentView();
+      if (modalKey) openModal(modalKey);
+    });
+
+    // Backup / restore
+    $("#exportBtn").addEventListener("click", exportData);
+    $("#exportBtn2").addEventListener("click", exportData);
+
+    $("#importBtn").addEventListener("click", () => $("#importFile").click());
+    $("#importBtn2").addEventListener("click", () => $("#importFile").click());
+
+    $("#importFile").addEventListener("change", importData);
+
+    $("#clearBtn").addEventListener("click", clearAllData);
+
+    // Auto theme listener
+    if (window.matchMedia) {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+        if (state.settings.theme === "auto") applySettings();
+      });
+    }
+
+    /* ==============================
+       Init
+    ============================== */
+
+    applySettings();
+    renderNoteColorPicker();
+    renderAll();
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

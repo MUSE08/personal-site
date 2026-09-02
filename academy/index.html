@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark" data-accent="blue">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>آکادمی پایتون | آموزش گام‌به‌گام از صفر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --radius:10px;
+  --code-font:"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+  --fs:16px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --surface:#1c1f25; --raised:#262a32; --hover:#2c313a;
+  --text:#e9ebee; --text2:rgba(233,235,238,.62); --border:rgba(255,255,255,.09);
+  --code-bg:#101216; --code-border:rgba(255,255,255,.07);
+  --green:#72BC8F; --green-soft:rgba(114,188,143,.14);
+  --red:#E97366; --red-soft:rgba(233,115,102,.13);
+  --orange:#DE9255; --orange-soft:rgba(222,146,85,.13);
+  --yellow:#EAC26B; --yellow-soft:rgba(234,194,107,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+html[data-theme="light"]{
+  --bg:#f7f7f5; --surface:#ffffff; --raised:#f0efed; --hover:#e9e8e5;
+  --text:#2c2c2b; --text2:#7d7a75; --border:#e6e5e3;
+  --code-bg:#15181d; --code-border:#15181d;
+  --green:#46A171; --green-soft:#E8F1EC;
+  --red:#E56458; --red-soft:#FCE9E7;
+  --orange:#D5803B; --orange-soft:#FBEBDE;
+  --yellow:#b8860b; --yellow-soft:#faf1dc;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.05);
+}
+html[data-theme="dark"][data-accent="blue"]{--accent:#5E9FE8; --accent-soft:rgba(94,159,232,.14); --accent-text:#0d1117;}
+html[data-theme="light"][data-accent="blue"]{--accent:#2783DE; --accent-soft:#E5F2FC; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="yellow"]{--accent:#EAC26B; --accent-soft:rgba(234,194,107,.15); --accent-text:#1a1408;}
+html[data-theme="light"][data-accent="yellow"]{--accent:#c28a10; --accent-soft:#faf1dc; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="green"]{--accent:#72BC8F; --accent-soft:rgba(114,188,143,.15); --accent-text:#0b130e;}
+html[data-theme="light"][data-accent="green"]{--accent:#46A171; --accent-soft:#E8F1EC; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="purple"]{--accent:#BF8EDA; --accent-soft:rgba(191,142,218,.15); --accent-text:#150b1b;}
+html[data-theme="light"][data-accent="purple"]{--accent:#8b5fb0; --accent-soft:#f3ebf9; --accent-text:#fff;}
+
+*{box-sizing:border-box}
+html{font-size:var(--fs);}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;font-size:1rem;}
+button{font-family:inherit;cursor:pointer;font-size:.95rem;}
+input,textarea,select{font-family:inherit;font-size:.95rem;color:var(--text);}
+a{color:var(--accent)}
+::selection{background:var(--accent-soft)}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;white-space:nowrap;}
+.logo .py{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#3776ab 0%,#2b5f8a 55%,#ffd43b 56%,#e8b923 100%);font-size:18px;}
+.logo small{display:block;font-weight:400;font-size:.72rem;color:var(--text2);line-height:1.2}
+header .spacer{flex:1}
+.hbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);min-height:40px;}
+.hbtn:hover{background:var(--hover)}
+.hbtn.active{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:700;}
+.hbtn.icon-only{padding:8px 10px}
+#menuBtn{display:none}
+.ring-wrap{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:99px;background:var(--raised);}
+.ring-wrap b{font-size:.85rem}
+.ring-wrap span{font-size:.72rem;color:var(--text2)}
+svg.ring{transform:rotate(-90deg)}
+svg.ring .bg{stroke:var(--border);}
+svg.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
+
+/* ---------- Layout ---------- */
+.layout{display:flex;min-height:calc(100vh - 61px);}
+aside{width:308px;flex-shrink:0;border-inline-end:1px solid var(--border);background:var(--surface);padding:16px 12px 40px;overflow-y:auto;position:sticky;top:61px;height:calc(100vh - 61px);}
+main{flex:1;min-width:0;padding:32px clamp(16px,4vw,48px) 90px;}
+.inner{max-width:860px;margin:0 auto;}
+
+/* ---------- Sidebar ---------- */
+.side-title{font-size:.75rem;font-weight:700;color:var(--text2);letter-spacing:.06em;margin:6px 10px 10px;}
+.mod{margin-bottom:6px;border-radius:var(--radius);}
+.mod-head{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:none;background:transparent;color:var(--text);border-radius:var(--radius);text-align:right;min-height:44px;}
+.mod-head:hover{background:var(--hover)}
+.mod-head .ic{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);display:grid;place-items:center;font-size:16px;flex-shrink:0;}
+.mod-head .t{flex:1;min-width:0}
+.mod-head .t b{display:block;font-size:.9rem;line-height:1.4}
+.mod-head .t span{font-size:.72rem;color:var(--text2)}
+.mod-head .chev{color:var(--text2);transition:transform .2s;font-size:.7rem}
+.mod.open .chev{transform:rotate(90deg)}
+.mod-lessons{display:none;padding:2px 6px 6px;}
+.mod.open .mod-lessons{display:block}
+.litem{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;margin:1px 0;border:none;background:transparent;color:var(--text2);border-radius:8px;text-align:right;font-size:.86rem;min-height:40px;}
+.litem:hover{background:var(--hover);color:var(--text)}
+.litem.active{background:var(--accent-soft);color:var(--accent);font-weight:700;}
+.litem .dot{width:18px;height:18px;border-radius:50%;border:1.6px solid var(--border);flex-shrink:0;display:grid;place-items:center;font-size:10px;color:transparent;background:transparent;}
+.litem.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+.litem.cap{color:var(--yellow)}
+.litem.cap:hover{color:var(--yellow)}
+.litem.cap .dot{border-style:dashed}
+.litem .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mod-prog{height:3px;border-radius:99px;background:var(--border);margin:4px 12px 8px;overflow:hidden;}
+.mod-prog i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .5s;}
+
+/* ---------- Hero / dashboard ---------- */
+.hero{position:relative;border:1px solid var(--border);border-radius:16px;padding:34px 34px 30px;background:
+  radial-gradient(1000px 380px at 85% -60%, var(--accent-soft), transparent 60%),
+  var(--surface);overflow:hidden;margin-bottom:28px;}
+.hero .code-deco{position:absolute;inset-inline-start:auto;inset-inline-end:24px;top:18px;font-family:var(--code-font);font-size:.72rem;color:var(--text2);opacity:.5;direction:ltr;text-align:left;line-height:1.9;pointer-events:none;user-select:none;}
+.hero h1{margin:0 0 8px;font-size:1.9rem;font-weight:800;line-height:1.35}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{margin:0;color:var(--text2);max-width:560px}
+.hero .stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+.stat{background:var(--raised);border-radius:12px;padding:12px 18px;min-width:120px;}
+.stat b{display:block;font-size:1.35rem;color:var(--accent)}
+.stat span{font-size:.78rem;color:var(--text2)}
+.stat.g b{color:var(--green)} .stat.y b{color:var(--yellow)}
+.continue-btn{margin-top:22px;display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--accent);color:var(--accent-text);border:none;border-radius:10px;font-weight:800;font-size:1rem;min-height:46px;}
+.continue-btn:hover{filter:brightness(1.08)}
+
+h2.sec{font-size:1.25rem;margin:34px 0 16px;display:flex;align-items:center;gap:10px;}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--border);}
+.mcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;}
+.mcard{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:18px;cursor:pointer;transition:border-color .15s, transform .15s;position:relative;}
+.mcard:hover{border-color:var(--accent);transform:translateY(-2px);}
+.mcard .top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mcard .ic{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:grid;place-items:center;font-size:19px;}
+.mcard .num{font-size:.7rem;color:var(--text2);font-family:var(--code-font);direction:ltr}
+.mcard h3{margin:0 0 4px;font-size:1rem;}
+.mcard p{margin:0 0 14px;font-size:.82rem;color:var(--text2);line-height:1.6;min-height:2.6em;}
+.mcard .bar{height:5px;border-radius:99px;background:var(--raised);overflow:hidden;}
+.mcard .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;}
+.mcard .meta{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text2);margin-top:7px;}
+.mcard.complete{border-color:var(--green)}
+.mcard.complete .bar i{background:var(--green)}
+
+/* progress view */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:26px;}
+.prow{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.prow .nm{flex:1;font-size:.9rem}
+.prow .score{font-family:var(--code-font);font-size:.8rem;direction:ltr;color:var(--text2)}
+.badge{font-size:.72rem;padding:3px 10px;border-radius:99px;font-weight:700;}
+.badge.done{background:var(--green-soft);color:var(--green)}
+.badge.todo{background:var(--raised);color:var(--text2)}
+
+/* ---------- Lesson page ---------- */
+.crumb{font-size:.8rem;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.crumb a{color:var(--text2);text-decoration:none;cursor:pointer}
+.crumb a:hover{color:var(--accent)}
+.lesson-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+.lesson-head h1{margin:0;font-size:1.55rem;font-weight:800;flex:1;min-width:200px;line-height:1.4}
+.lesson-meta{display:flex;gap:14px;color:var(--text2);font-size:.8rem;margin-bottom:20px;flex-wrap:wrap;}
+.goals{border:1px solid var(--border);border-inline-start:3px solid var(--accent);background:var(--surface);border-radius:10px;padding:14px 18px;margin-bottom:24px;}
+.goals b{font-size:.86rem}
+.goals ul{margin:8px 0 0;padding-inline-start:20px;font-size:.88rem;color:var(--text2)}
+.goals li{margin:3px 0}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:26px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:none;background:transparent;color:var(--text2);padding:11px 16px;font-size:.9rem;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;gap:7px;}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700;}
+.tab .cnt{background:var(--raised);color:var(--text2);border-radius:99px;font-size:.68rem;padding:1px 7px;}
+
+.prose h2{font-size:1.18rem;margin:30px 0 10px;padding-inline-start:12px;border-inline-start:3px solid var(--accent);}
+.prose h3{font-size:1rem;margin:22px 0 8px;color:var(--accent)}
+.prose p{margin:10px 0;color:var(--text);}
+.prose ul,.prose ol{padding-inline-start:22px;margin:10px 0}
+.prose li{margin:5px 0}
+.prose table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.88rem;}
+.prose th,.prose td{border:1px solid var(--border);padding:8px 12px;text-align:right;}
+.prose th{background:var(--raised);font-size:.8rem}
+.prose code{font-family:var(--code-font);font-size:.82em;background:var(--raised);border:1px solid var(--border);border-radius:5px;padding:1px 6px;direction:ltr;unicode-bidi:embed;}
+.callout{display:flex;gap:12px;border-radius:10px;padding:13px 16px;margin:16px 0;font-size:.9rem;border:1px solid transparent;}
+.callout .ci{flex-shrink:0}
+.callout.tip{background:var(--accent-soft);}
+.callout.warn{background:var(--orange-soft);}
+.callout.note{background:var(--raised);border-color:var(--border)}
+
+/* code blocks */
+.codebox{direction:ltr;text-align:left;background:var(--code-bg);border:1px solid var(--code-border);border-radius:10px;margin:14px 0;overflow:hidden;}
+.codebox .cb-head{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--code-font);font-size:.7rem;color:rgba(233,235,238,.5);}
+.codebox .dots{display:flex;gap:5px}
+.codebox .dots i{width:9px;height:9px;border-radius:50%;display:block}
+.codebox .dots i:nth-child(1){background:#E97366}.codebox .dots i:nth-child(2){background:#EAC26B}.codebox .dots i:nth-child(3){background:#72BC8F}
+.codebox .cb-head .copy{margin-inline-start:auto;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(233,235,238,.6);border-radius:6px;padding:2px 10px;font-size:.68rem;font-family:var(--sans)}
+.codebox .cb-head .copy:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.codebox pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--code-font);font-size:.83rem;line-height:1.75;color:#e6edf3;}
+.tok-k{color:#ff7b72}.tok-s{color:#a5d6ff}.tok-c{color:#8b949e;font-style:italic}.tok-n{color:#79c0ff}.tok-f{color:#d2a8ff}.tok-b{color:#ffa657}.tok-o{color:#ff7b72}
+.out-label{font-size:.68rem;color:rgba(233,235,238,.45);padding:6px 16px 0;font-family:var(--code-font)}
+.codebox pre.out{color:#9ba3ae;padding-top:6px;font-size:.8rem}
+</style>
+<style>
+/* ---------- Quiz ---------- */
+.quiz-q{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:18px 20px;margin-bottom:16px;}
+.quiz-q .qt{font-weight:700;margin-bottom:12px;display:flex;gap:10px;}
+.quiz-q .qn{color:var(--accent);font-family:var(--code-font);direction:ltr}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:right;padding:11px 14px;margin:6px 0;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--text);font-size:.9rem;min-height:44px;transition:border-color .12s;}
+.opt:hover{border-color:var(--accent)}
+.opt .radio{width:17px;height:17px;border-radius:50%;border:1.6px solid var(--border);flex-shrink:0}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .radio{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--surface)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt:disabled{cursor:default;opacity:.9}
+.q-exp{margin-top:10px;font-size:.84rem;color:var(--text2);background:var(--raised);border-radius:8px;padding:10px 14px;display:none}
+.q-exp.show{display:block}
+.quiz-result{border-radius:12px;padding:18px 20px;margin-top:18px;display:none;align-items:center;gap:14px;}
+.quiz-result.show{display:flex}
+.quiz-result.pass{background:var(--green-soft);border:1px solid var(--green)}
+.quiz-result.fail{background:var(--orange-soft);border:1px solid var(--orange)}
+.quiz-result .em{font-size:1.6rem}
+.quiz-result b{display:block}
+.quiz-result span{font-size:.84rem;color:var(--text2)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;min-height:44px;}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--accent);color:var(--accent-text);border-color:transparent}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent)}
+.btn.success{background:var(--green);color:#fff;border-color:transparent}
+.btn.ghost{border-color:transparent}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- Project / capstone ---------- */
+.proj-banner{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--border);border-inline-start:3px solid var(--yellow);border-radius:12px;background:var(--surface);padding:18px 20px;margin-bottom:20px;}
+.proj-banner .ic{font-size:1.5rem}
+.proj-banner h3{margin:0 0 4px;font-size:1.05rem}
+.proj-banner p{margin:0;font-size:.88rem;color:var(--text2)}
+.steps{counter-reset:st;list-style:none;padding:0;margin:16px 0;}
+.steps li{position:relative;padding:0 44px 18px 0;counter-increment:st;}
+.steps li::before{content:counter(st);position:absolute;right:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.8rem;display:grid;place-items:center;font-family:var(--code-font);}
+.steps li::after{content:"";position:absolute;right:13.5px;top:32px;bottom:2px;width:1.5px;background:var(--border);}
+.steps li:last-child::after{display:none}
+.editor-wrap{border:1px solid var(--code-border);border-radius:10px;overflow:hidden;background:var(--code-bg);margin:14px 0;}
+.editor-head{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.06);}
+.editor-head .fname{font-family:var(--code-font);font-size:.72rem;color:rgba(233,235,238,.55);direction:ltr}
+.editor-head .run{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;background:var(--green);border:none;color:#08130c;font-weight:700;border-radius:7px;padding:5px 14px;font-size:.78rem;}
+.editor-head .run:disabled{opacity:.6}
+textarea.code-edit{width:100%;min-height:230px;background:transparent;border:none;resize:vertical;padding:14px 16px;font-family:var(--code-font);font-size:.83rem;line-height:1.7;color:#e6edf3;direction:ltr;text-align:left;outline:none;tab-size:4;}
+.run-out{border-top:1px solid rgba(255,255,255,.07);padding:10px 16px;font-family:var(--code-font);font-size:.78rem;color:#9ba3ae;direction:ltr;text-align:left;white-space:pre-wrap;max-height:220px;overflow:auto;}
+.run-out .err{color:#E97366}
+.run-hint{font-size:.75rem;color:var(--text2);margin:6px 2px 0;}
+details.rev{border:1px solid var(--border);border-radius:10px;background:var(--surface);margin:12px 0;overflow:hidden;}
+details.rev summary{padding:13px 18px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;}
+details.rev summary::-webkit-details-marker{display:none}
+details.rev summary .chev{margin-inline-start:auto;transition:transform .2s;color:var(--text2);font-size:.7rem}
+details.rev[open] summary .chev{transform:rotate(90deg)}
+details.rev .body{padding:2px 18px 16px;font-size:.9rem;}
+details.rev.hintbox summary{color:var(--yellow)}
+.bug-item{border:1px solid var(--border);border-radius:10px;margin:10px 0;overflow:hidden;background:var(--surface)}
+.bug-item .bh{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;min-height:44px;font-size:.9rem}
+.bug-item .bh:hover{background:var(--hover)}
+.bug-item .bh .no{width:26px;height:26px;border-radius:8px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-family:var(--code-font);font-size:.75rem;font-weight:700;flex-shrink:0}
+.bug-item .bb{display:none;padding:0 16px 14px;font-size:.88rem;color:var(--text2)}
+.bug-item.open .bb{display:block}
+.done-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px 20px;margin-top:28px;}
+.done-row .txt{flex:1;min-width:200px}
+.done-row .txt b{display:block}
+.done-row .txt span{font-size:.82rem;color:var(--text2)}
+.pager{display:flex;gap:12px;margin-top:20px;}
+.pager .btn{flex:1;justify-content:space-between}
+.pager .btn small{color:var(--text2);font-weight:400}
+.pager .btn .lbl{display:flex;flex-direction:column;align-items:flex-start;text-align:start}
+
+/* ---------- Notes ---------- */
+.note-form{display:flex;gap:10px;margin-bottom:18px;align-items:flex-start}
+.note-form textarea{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;min-height:74px;resize:vertical;outline:none;}
+.note-form textarea:focus{border-color:var(--accent)}
+.note{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:14px 16px;margin-bottom:10px;}
+.note .nh{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.note .avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:.8rem;}
+.note .who b{font-size:.84rem;display:block;line-height:1.3}
+.note .who span{font-size:.7rem;color:var(--text2)}
+.note .del{margin-inline-start:auto;border:none;background:transparent;color:var(--text2);font-size:.8rem;padding:6px}
+.note .del:hover{color:var(--red)}
+.note p{margin:0;font-size:.9rem;white-space:pre-wrap}
+.empty{color:var(--text2);text-align:center;padding:34px 10px;font-size:.9rem;border:1.5px dashed var(--border);border-radius:12px;}
+.empty .em{font-size:1.8rem;display:block;margin-bottom:8px}
+
+/* ---------- AI chat ---------- */
+.ai-status{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text2);margin-bottom:14px;}
+.ai-status .led{width:9px;height:9px;border-radius:50%;background:var(--red)}
+.ai-status.on .led{background:var(--green);box-shadow:0 0 6px var(--green)}
+.chat-box{border:1px solid var(--border);border-radius:14px;background:var(--surface);display:flex;flex-direction:column;height:460px;overflow:hidden;}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:82%;padding:10px 15px;border-radius:14px;font-size:.9rem;white-space:pre-wrap;line-height:1.7}
+.msg.user{align-self:flex-start;background:var(--accent);color:var(--accent-text);border-bottom-right-radius:4px;}
+.msg.ai{align-self:flex-end;background:var(--raised);border-bottom-left-radius:4px;}
+.msg.ai.thinking{color:var(--text2);font-style:italic}
+.chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);}
+.chat-input textarea{flex:1;background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:10px 14px;resize:none;height:46px;outline:none}
+.chat-input textarea:focus{border-color:var(--accent)}
+.sugg{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sugg button{border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:99px;padding:7px 14px;font-size:.78rem;}
+.sugg button:hover{color:var(--accent);border-color:var(--accent)}
+.ai-setup{border:1.5px dashed var(--border);border-radius:12px;padding:20px;font-size:.88rem;color:var(--text2);margin-bottom:14px}
+.ai-setup b{color:var(--text)}
+
+/* ---------- Modal / drawer / toast ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;display:none;}
+.overlay.show{display:block}
+.modal{position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:20px;}
+.modal.show{display:grid}
+.modal .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:min(560px,100%);max-height:88vh;overflow-y:auto;box-shadow:var(--shadow);}
+.panel-head{display:flex;align-items:center;gap:10px;padding:18px 22px 0;}
+.panel-head h2{margin:0;font-size:1.15rem;flex:1}
+.panel-head .x{border:none;background:var(--raised);color:var(--text2);width:34px;height:34px;border-radius:8px;font-size:1rem;}
+.panel-body{padding:18px 22px 24px;}
+.set-group{margin-bottom:22px;}
+.set-group>label{display:block;font-size:.8rem;font-weight:700;color:var(--text2);margin-bottom:9px;}
+.seg{display:flex;background:var(--raised);border-radius:9px;padding:3px;gap:3px;}
+.seg button{flex:1;border:none;background:transparent;color:var(--text2);padding:8px;border-radius:7px;min-height:40px}
+.seg button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:var(--shadow)}
+.swatches{display:flex;gap:10px}
+.sw{width:40px;height:40px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;position:relative}
+.sw.on{border-color:var(--text)}
+.sw span{position:absolute;inset:3px;border-radius:50%;}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:.78rem;color:var(--text2);margin-bottom:5px}
+.field input,.field select{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:10px 13px;outline:none;min-height:42px}
+.field input:focus{border-color:var(--accent)}
+.field input[dir=ltr]{direction:ltr;text-align:left;font-family:var(--code-font);font-size:.8rem}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input[type=range]{flex:1;accent-color:var(--accent)}
+.danger-zone{border:1px solid var(--red);border-radius:10px;padding:14px 16px;}
+.danger-zone p{margin:0 0 10px;font-size:.82rem;color:var(--text2)}
+.btn.danger{color:var(--red);border-color:var(--red);background:transparent}
+.btn.danger:hover{background:var(--red-soft)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border);color:var(--text);padding:12px 22px;border-radius:12px;font-size:.9rem;z-index:200;transition:transform .3s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:920px){
+  #menuBtn{display:inline-flex}
+  aside{position:fixed;inset-inline-start:0;top:0;height:100vh;z-index:95;transform:translateX(100%);transition:transform .25s;width:min(320px,86vw);padding-top:20px;}
+  html[dir="rtl"] aside{transform:translateX(100%)}
+  aside.open{transform:translateX(0)!important}
+  main{padding:22px 16px 80px}
+  .hero{padding:24px 20px}
+  .hero h1{font-size:1.45rem}
+  .hero .code-deco{display:none}
+  header{padding:10px 12px;gap:8px}
+  .ring-wrap span{display:none}
+  .hbtn .lb{display:none}
+  .hbtn{padding:8px 11px}
+  .pager{flex-direction:column}
+  .note-form{flex-direction:column}
+  .note-form .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="hbtn icon-only" id="menuBtn" aria-label="منو">☰</button>
+  <div class="logo">
+    <div class="py">🐍</div>
+    <div>آکادمی پایتون<small>از صفر تا ساخت پروژه</small></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="ring-wrap" title="پیشرفت کل دوره">
+    <svg class="ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <circle class="bg" cx="17" cy="17" r="14" fill="none" stroke-width="3.5"></circle>
+      <circle class="fg" id="ringFg" cx="17" cy="17" r="14" fill="none" stroke-width="3.5" stroke-dasharray="88" stroke-dashoffset="88"></circle>
+    </svg>
+    <div><b id="ringPct">۰٪</b> <span>پیشرفت</span></div>
+  </div>
+  <button class="hbtn" id="navHome">🗺️ <span class="lb">طرح درس</span></button>
+  <button class="hbtn" id="navProg">📊 <span class="lb">پیشرفت من</span></button>
+  <button class="hbtn icon-only" id="navSet" aria-label="تنظیمات">⚙️</button>
+</header>
+
+<div class="layout">
+  <aside id="sidebar" aria-label="فهرست درس‌ها">
+    <div class="side-title">📚 نقشهٔ راه دوره</div>
+    <div id="sideTree"></div>
+  </aside>
+  <main><div class="inner" id="view"></div></main>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="modal" id="setModal" role="dialog" aria-modal="true" aria-label="تنظیمات">
+  <div class="panel">
+    <div class="panel-head"><h2>⚙️ شخصی‌سازی و تنظیمات</h2><button class="x" data-close>✕</button></div>
+    <div class="panel-body">
+      <div class="set-group">
+        <label>حالت نمایش</label>
+        <div class="seg" id="themeSeg">
+          <button data-theme="dark">🌙 تیره (حالت برنامه‌نویس)</button>
+          <button data-theme="light">☀️ روشن</button>
+        </div>
+      </div>
+      <div class="set-group">
+        <label>رنگ اصلی</label>
+        <div class="swatches" id="accentRow">
+          <button class="sw" data-accent="blue" aria-label="آبی"><span style="background:#5E9FE8"></span></button>
+          <button class="sw" data-accent="yellow" aria-label="زرد پایتونی"><span style="background:#EAC26B"></span></button>
+          <button class="sw" data-accent="green" aria-label="سبز"><span style="background:#72BC8F"></span></button>
+          <button class="sw" data-accent="purple" aria-label="بنفش"><span style="background:#BF8EDA"></span></button>
+        </div>
+      </div>
+      <div class="set-group">
+        <label>اندازهٔ متن</label>
+        <div class="range-row"><span style="font-size:.75rem">کوچک</span><input type="range" id="fontRange" min="14" max="19" step="1"><span style="font-size:1.05rem">بزرگ</span></div>
+      </div>
+      <div class="set-group">
+        <label>نام شما (برای یادداشت‌ها)</label>
+        <div class="field"><input id="userName" placeholder="مثلاً: علی"></div>
+      </div>
+      <div class="set-group">
+        <label>🤖 اتصال دستیار هوش مصنوعی (اختیاری)</label>
+        <div class="field"><label>آدرس سرویس (سازگار با OpenAI)</label><input id="aiUrl" dir="ltr" placeholder="https://api.openai.com/v1/chat/completions"></div>
+        <div class="field"><label>نام مدل</label><input id="aiModel" dir="ltr" placeholder="gpt-4o-mini"></div>
+        <div class="field"><label>کلید API (فقط روی همین مرورگر ذخیره می‌شود)</label><input id="aiKey" dir="ltr" type="password" placeholder="sk-..."></div>
+      </div>
+      <div class="set-group">
+        <div class="danger-zone">
+          <p>پاک کردن همهٔ پیشرفت، نمره‌ها و یادداشت‌ها. این کار قابل بازگشت نیست.</p>
+          <button class="btn danger" id="resetAll">🗑️ شروع دوباره از صفر</button>
+        </div>
+      </div>
+      <button class="btn primary" style="width:100%" data-close>ذخیره و بستن</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<script>
+const COURSE = { modules: [
+{
+ id:"m1", icon:"🚀", title:"شروع سفر: مقدمات پایتون", desc:"از نصب پایتون تا اولین برنامهٔ واقعی — متغیرها، انواع داده و کار با ورودی و خروجی.",
+ lessons:[
+ {id:"m1l1", title:"پایتون چیست؟ نصب و اولین برنامه", time:"۲۰ دقیقه",
+  goals:["بدانید پایتون چیست و کجا استفاده می‌شود","پایتون را روی سیستم خود راه بیندازید","اولین برنامه را بنویسید و اجرا کنید"],
+  content:`
+<h2>پایتون چیست؟</h2>
+<p>پایتون یکی از <b>محبوب‌ترین زبان‌های برنامه‌نویسی دنیا</b> است: ساده، خوانا و قدرتمند. با آن می‌توان سایت ساخت، داده تحلیل کرد، هوش مصنوعی آموزش داد و کارهای تکراری را خودکار کرد. اسمش هم از گروه کمدی «Monty Python» می‌آید، نه مار! 🐍</p>
+<h2>نصب و راه‌اندازی</h2>
+<ul>
+<li>به سایت <code>python.org</code> بروید و آخرین نسخه را دانلود کنید.</li>
+<li>هنگام نصب در ویندوز، حتماً تیک <b>Add Python to PATH</b> را بزنید.</li>
+<li>یک ویرایشگر مثل <b>VS Code</b> نصب کنید (یا فعلاً از همین اجراگر داخل همین صفحه استفاده کنید!).</li>
+</ul>
+<div class="callout tip"><span class="ci">💡</span><div>در همین سایت، تب «🚀 پروژهٔ عملی» هر درس یک اجراگر پایتون دارد — یعنی بدون نصب چیزی هم می‌توانید تمرین کنید.</div></div>
+<h2>اولین برنامه: سلام دنیا!</h2>
+<p>سنت قدیمی برنامه‌نویس‌ها: اولین برنامه فقط یک جمله چاپ می‌کند:</p>
+~~~python
+# این یک کامنت است — پایتون آن را نادیده می‌گیرد
+print("سلام دنیا!")
+print("من دارم برنامه‌نویس می‌شوم 🐍")
+~~~
+<pre-out>سلام دنیا!
+من دارم برنامه‌نویس می‌شوم 🐍</pre-out>
+<p>تابع <code>print</code> هر چیزی را که بین پرانتز بدهید روی صفحه چاپ می‌کند. متن‌ها باید داخل گیومه <code>"..."</code> باشند.</p>
+<div class="callout note"><span class="ci">📝</span><div>کامنت‌ها با <code>#</code> شروع می‌شوند و برای توضیح کد به خودتان و دیگران استفاده می‌شوند. عادت کنید کدتان را کامنت‌گذاری کنید!</div></div>`,
+  quiz:[
+   {q:"کدام دستور متن را روی صفحه چاپ می‌کند؟", opts:["echo()","print()","show()","write()"], a:1, exp:"در پایتون از print() برای چاپ خروجی استفاده می‌شود."},
+   {q:"کامنت در پایتون با چه علامتی شروع می‌شود؟", opts:["//","<!--","#","**"], a:2, exp:"هر چیزی بعد از # در آن خط، توسط پایتون نادیده گرفته می‌شود."},
+   {q:"متن‌ها در print باید داخل چه چیزی باشند؟", opts:["پرانتز اضافه","گیومه","آکولاد","هیچ‌چیز"], a:1, exp:"رشته‌های متنی همیشه داخل گیومه \"...\" یا '...' قرار می‌گیرند."}
+  ],
+  project:{title:"کارت معرفی من", desc:"برنامه‌ای بنویسید که یک کارت معرفی زیبا از شما چاپ کند.",
+   steps:["با چند print خط تزئینی و نام خود را چاپ کنید","علاقه‌مندی و هدفتان از یادگیری پایتون را اضافه کنید","بالای برنامه یک کامنت توضیحی بنویسید"],
+   starter:`# کارت معرفی من\nprint("==============")\n# ادامه را خودتان بنویسید\n`,
+   solution:`# کارت معرفی من\nprint("====================")\nprint("   نام: علی")\nprint("   علاقه: برنامه‌نویسی")\nprint("   هدف: تسلط بر پایتون 🐍")\nprint("====================")`}
+ },
+ {id:"m1l2", title:"متغیرها و انواع داده", time:"۲۵ دقیقه",
+  goals:["متغیر بسازید و مقدار بدهید","انواع دادهٔ اصلی را بشناسید","با type نوع داده را بررسی کنید"],
+  content:`
+<h2>متغیر: جعبه‌ای برای داده</h2>
+<p>متغیر مثل یک <b>جعبهٔ برچسب‌دار</b> است: اسمی روی آن می‌گذارید و داده‌ای داخلش می‌ریزید:</p>
+~~~python
+name = "سارا"        # رشته (str)
+age = 17              # عدد صحیح (int)
+height = 1.68         # عدد اعشاری (float)
+is_student = True     # بولی (bool)
+
+print(name, age, height, is_student)
+print(type(age))      # نوع داده را نشان می‌دهد
+~~~
+<pre-out>سارا 17 1.68 True
+&lt;class 'int'&gt;</pre-out>
+<h2>قوانین نام‌گذاری</h2>
+<ul>
+<li>فقط حروف انگلیسی، عدد و زیرخط <code>_</code> — شروع با عدد ممنوع!</li>
+<li>نام‌های بامعنا انتخاب کنید: <code>user_age</code> بهتر از <code>x</code> است.</li>
+<li>پایتون به بزرگی/کوچکی حروف حساس است: <code>Name</code> و <code>name</code> دو متغیر متفاوتند.</li>
+</ul>
+<h2>تبدیل نوع داده</h2>
+~~~python
+score_text = "18"          # این رشته است، نه عدد!
+score = int(score_text)    # تبدیل به عدد صحیح
+print(score + 2)           # 20
+
+pi = float("3.14")         # تبدیل به اعشاری
+message = str(100)         # تبدیل عدد به رشته
+~~~
+<div class="callout warn"><span class="ci">⚠️</span><div>جمع رشته با عدد خطا می‌دهد: <code>"18" + 2</code> ❌ — اول با <code>int()</code> تبدیل کنید.</div></div>`,
+  quiz:[
+   {q:"نوع دادهٔ 1.68 چیست؟", opts:["int","str","float","bool"], a:2, exp:"اعداد اعشاری از نوع float هستند."},
+   {q:"کدام نام متغیر مجاز است؟", opts:["2name","user-age","user_age","user age"], a:2, exp:"فقط حروف، اعداد و زیرخط مجاز است و شروع با عدد ممنوع."},
+   {q:"حاصل int(\"7\") + 3 چیست؟", opts:["73","10","خطا","\"10\""], a:1, exp:"int(\"7\") رشته را به عدد 7 تبدیل می‌کند، پس 7+3=10."}
+  ],
+  project:{title:"پروفایل‌ساز متغیری", desc:"اطلاعات یک نفر را در متغیرها ذخیره و یک پروفایل مرتب چاپ کنید.",
+   steps:["متغیرهای نام، سن، شهر و علاقه بسازید","سال تولد را از روی سن محاسبه کنید (1405 منهای سن)","همه را با print مرتب چاپ کنید","نوع دو متغیر را هم با type چاپ کنید"],
+   starter:`# پروفایل‌ساز\nname = "سارا"\nage = 17\n# بقیهٔ متغیرها و محاسبه را کامل کنید\n`,
+   solution:`name = "سارا"\nage = 17\ncity = "تهران"\nhobby = "کتاب"\nbirth_year = 1405 - age\n\nprint("نام:", name)\nprint("سن:", age, "| متولد:", birth_year)\nprint("شهر:", city, "| علاقه:", hobby)\nprint(type(name))\nprint(type(age))`}
+ },
+ {id:"m1l3", title:"ورودی، خروجی و عملگرها", time:"۲۵ دقیقه",
+  goals:["از کاربر ورودی بگیرید","با f-string خروجی زیبا بسازید","عملگرهای ریاضی را به کار بگیرید"],
+  content:`
+<h2>گرفتن ورودی از کاربر</h2>
+~~~python
+name = input("اسمت چیه؟ ")
+print("سلام", name)
+
+# نکتهٔ مهم: خروجی input همیشه رشته است!
+age = int(input("چند سالته؟ "))
+~~~
+<h2>f-string: قالب‌بندی حرفه‌ای</h2>
+<p>با گذاشتن <code>f</code> قبل از گیومه، می‌توانید متغیرها را مستقیم داخل متن بگذارید:</p>
+~~~python
+name = "رضا"
+age = 20
+print(f"سلام {name}! تو {age} سال داری.")
+print(f"ده سال دیگر {age + 10} ساله می‌شوی!")
+~~~
+<h2>عملگرهای ریاضی</h2>
+<table><tr><th>عملگر</th><th>کار</th><th>مثال</th><th>نتیجه</th></tr>
+<tr><td><code>+  -  *</code></td><td>جمع، تفریق، ضرب</td><td><code>3 * 4</code></td><td>12</td></tr>
+<tr><td><code>/</code></td><td>تقسیم (همیشه اعشاری)</td><td><code>7 / 2</code></td><td>3.5</td></tr>
+<tr><td><code>//</code></td><td>تقسیم صحیح</td><td><code>7 // 2</code></td><td>3</td></tr>
+<tr><td><code>%</code></td><td>باقیمانده</td><td><code>7 % 2</code></td><td>1</td></tr>
+<tr><td><code>**</code></td><td>توان</td><td><code>2 ** 3</code></td><td>8</td></tr></table>
+<div class="callout tip"><span class="ci">💡</span><div>باقیمانده <code>%</code> خیلی پرکاربرد است: مثلاً <code>x % 2 == 0</code> یعنی x زوج است.</div></div>`,
+  quiz:[
+   {q:"خروجی input همیشه چه نوعی است؟", opts:["int","str","float","بستگی به ورودی دارد"], a:1, exp:"input همیشه رشته برمی‌گرداند؛ برای محاسبه باید تبدیل کنید."},
+   {q:"حاصل 10 % 3 چیست؟", opts:["3","3.33","1","0"], a:2, exp:"باقیماندهٔ تقسیم 10 بر 3 برابر 1 است."},
+   {q:"کدام خروجی f\"{2 ** 3}\" است؟", opts:["6","8","9","23"], a:1, exp:"** عملگر توان است: 2 به توان 3 می‌شود 8."}
+  ],
+  project:{title:"محاسبه‌گر سن و قد", desc:"برنامه‌ای که با گرفتن اطلاعات کاربر، محاسبات جالب انجام می‌دهد.",
+   steps:["نام و سن کاربر را با input بگیرید (سن را int کنید)","سن کاربر بر حسب ماه و روز را حساب کنید","با f-string یک گزارش زیبا چاپ کنید"],
+   starter:`name = input("نام: ")\nage = int(input("سن: "))\n# محاسبهٔ ماه و روز را اضافه کنید\n`,
+   solution:`name = input("نام: ")\nage = int(input("سن: "))\nmonths = age * 12\ndays = age * 365\nprint(f"سلام {name} عزیز!")\nprint(f"تو حدود {months} ماه یا {days} روز زندگی کرده‌ای 🎉")`}
+ }
+ ],
+ capstone:{id:"m1cap", title:"پروژهٔ پایانی: ماشین‌حساب هوشمند + عیب‌یابی", time:"۶۰ دقیقه",
+  story:"یک ماشین‌حساب کامل که دو عدد می‌گیرد و جمع، تفریق، ضرب، تقسیم، باقیمانده و توان را یک‌جا گزارش می‌دهد. کد آماده است اما یک برنامه‌نویس عجول چند باگ در آن کاشته! اول اجرا کنید، خطاها را بخوانید و یکی‌یکی تعمیر کنید.",
+  requirements:["دو عدد از کاربر بگیرد و به عدد تبدیل کند","هر شش عمل ریاضی را با f-string چاپ کند","خروجی مرتب و خوانا باشد"],
+  buggy:`# 🐞 این ماشین‌حساب ۴ باگ دارد!\nprint("=== ماشین‌حساب هوشمند ===")\n\na = input("عدد اول: ")\nb = input("عدد دوم: ")\n\nprint(f"جمع: {a + b}")\nprint(f"تفریق: {a - b}")\nprint(f"ضرب: {a * b}")\nprint(f"تقسیم: {a / b}"\nprint(f"باقیمانده: {a % b}")\nprint(f"توان: {a ^ b}")`,
+  bugs:[
+   {hint:"ورودی‌ها رشته هستند؛ برای همین «جمع» دو عدد به هم می‌چسبند (12+3 می‌شود 123) و تفریق کلاً خطا می‌دهد.", fix:"ورودی‌ها را تبدیل کنید: a = float(input(...)) و b = float(input(...))"},
+   {hint:"یکی از خطوط print پرانتز بسته نشده و SyntaxError می‌گیرید.", fix:"خط تقسیم باید با )) تمام شود: print(f\"تقسیم: {a / b}\")"},
+   {hint:"در پایتون عملگر توان ^ نیست!", fix:"به جای a ^ b بنویسید a ** b"},
+   {hint:"اگر عدد دوم صفر باشد، تقسیم و باقیمانده کرش می‌کنند. (این را در ماژول بعدی حرفه‌ای حل می‌کنیم!)", fix:"فعلاً قبل از تقسیم بررسی کنید و اگر b صفر بود پیام مناسب چاپ کنید (با if که در ماژول بعد می‌آموزید)."}
+  ],
+  solution:`print("=== ماشین‌حساب هوشمند ===")\n\na = float(input("عدد اول: "))\nb = float(input("عدد دوم: "))\n\nprint(f"جمع: {a + b}")\nprint(f"تفریق: {a - b}")\nprint(f"ضرب: {a * b}")\nif b != 0:\n    print(f"تقسیم: {a / b}")\n    print(f"باقیمانده: {a % b}")\nelse:\n    print("تقسیم بر صفر ممکن نیست!")\nprint(f"توان: {a ** b}")`}
+},
+{
+ id:"m2", icon:"🔀", title:"کنترل جریان برنامه", desc:"تصمیم‌گیری با شرط‌ها، تکرار با حلقه‌ها و هنر خواندن و رفع خطاها.",
+ lessons:[
+ {id:"m2l1", title:"شرط‌ها: if / elif / else", time:"۲۵ دقیقه",
+  goals:["با if تصمیم‌گیری کنید","شرط‌های چندگانه بسازید","عملگرهای مقایسه و منطقی را ترکیب کنید"],
+  content:`
+<h2>تصمیم‌گیری در کد</h2>
+<p>برنامه‌ها باید بتوانند تصمیم بگیرند. در پایتون بلوک‌ها با <b>تورفتگی (فاصله از اول خط)</b> مشخص می‌شوند — معمولاً ۴ فاصله:</p>
+~~~python
+score = int(input("نمره‌ات چند شد؟ "))
+
+if score >= 17:
+    print("عالی! 🌟")
+elif score >= 12:
+    print("خوب، ولی جا برای پیشرفت هست")
+elif score >= 10:
+    print("قبول شدی — بیشتر تمرین کن")
+else:
+    print("افتادی — دوباره تلاش کن 💪")
+~~~
+<h2>عملگرهای مقایسه و منطقی</h2>
+<table><tr><th>عملگر</th><th>معنی</th></tr>
+<tr><td><code>==</code> / <code>!=</code></td><td>برابر / نابرابر</td></tr>
+<tr><td><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code></td><td>بزرگ‌تر، کوچک‌تر، ...</td></tr>
+<tr><td><code>and</code> / <code>or</code> / <code>not</code></td><td>و / یا / نقیض</td></tr></table>
+~~~python
+age = 20
+has_card = True
+
+if age >= 18 and has_card:
+    print("ورود مجاز ✅")
+if age < 13 or age > 60:
+    print("بلیت نیم‌بها 🎫")
+~~~
+<div class="callout warn"><span class="ci">⚠️</span><div>اشتباه رایج: <code>=</code> برای مقداردهی است و <code>==</code> برای مقایسه. در شرط همیشه == به کار ببرید!</div></div>`,
+  quiz:[
+   {q:"بلوک‌های کد در پایتون با چه چیزی مشخص می‌شوند؟", opts:["آکولاد {}","تورفتگی","پرانتز","نقطه‌ویرگول"], a:1, exp:"پایتون برخلاف بیشتر زبان‌ها از تورفتگی استفاده می‌کند."},
+   {q:"برای مقایسهٔ برابری از کدام استفاده می‌کنیم؟", opts:["=","==","===","eq"], a:1, exp:"== مقایسه می‌کند؛ = فقط مقدار می‌دهد."},
+   {q:"اگر score=15 باشد، کد بالا چه چاپ می‌کند؟", opts:["عالی! 🌟","خوب، ولی جا برای پیشرفت هست","قبول شدی","هیچ‌چیز"], a:1, exp:"15 از 17 کمتر و از 12 بیشتر است، پس elif دوم اجرا می‌شود."}
+  ],
+  project:{title:"نگهبان ورودی باشگاه", desc:"برنامه‌ای که بر اساس سن و عضویت، اجازهٔ ورود و نوع بلیت را تعیین می‌کند.",
+   steps:["سن را بگیرید و عضویت (بله/خیر) را بپرسید","زیر ۱۲ سال: ورود با والدین","۱۲ تا ۱۷: بلیت نیم‌بها","۱۸ به بالا و عضو: ورود آزاد؛ غیرعضو: بلیت کامل"],
+   starter:`age = int(input("سن: "))\nmember = input("عضو هستی؟ (بله/خیر) ")\n# شرط‌ها را بنویسید\n`,
+   solution:`age = int(input("سن: "))\nmember = input("عضو هستی؟ (بله/خیر) ")\n\nif age < 12:\n    print("ورود فقط با والدین 👨‍👧")\nelif age <= 17:\n    print("بلیت نیم‌بها 🎫")\nelif member == "بله":\n    print("ورود آزاد — خوش آمدید! ✅")\nelse:\n    print("بلیت کامل 💳")`}
+ },
+ {id:"m2l2", title:"حلقه‌ها: for و while", time:"۳۰ دقیقه",
+  goals:["کارهای تکراری را با حلقه انجام دهید","تفاوت for و while را بدانید","از break و continue استفاده کنید"],
+  content:`
+<h2>حلقهٔ for: تکرار مشخص</h2>
+~~~python
+for i in range(5):        # 0 1 2 3 4
+    print(f"دور شمارهٔ {i}")
+
+for i in range(1, 11):    # 1 تا 10
+    print(i * 2)          # جدول ضرب 2
+~~~
+<h2>حلقهٔ while: تکرار تا وقتی شرط برقرار است</h2>
+~~~python
+password = ""
+while password != "1234":
+    password = input("رمز عبور: ")
+print("ورود موفق! 🔓")
+~~~
+<h2>break و continue</h2>
+~~~python
+for n in range(1, 10):
+    if n == 5:
+        break             # حلقه کاملاً متوقف می‌شود
+    if n % 2 == 0:
+        continue          # بقیهٔ این دور رد می‌شود
+    print(n)              # 1 3
+~~~
+<div class="callout warn"><span class="ci">⚠️</span><div>مراقب <b>حلقهٔ بی‌نهایت</b> باشید! اگر شرط while هیچ‌وقت غلط نشود، برنامه هرگز تمام نمی‌شود. حتماً چیزی در حلقه تغییر کند.</div></div>`,
+  quiz:[
+   {q:"range(3) چه اعدادی تولید می‌کند؟", opts:["1,2,3","0,1,2","0,1,2,3","3"], a:1, exp:"range از صفر شروع می‌کند و خود عدد پایان را شامل نمی‌شود."},
+   {q:"break چه کاری می‌کند؟", opts:["دور فعلی را رد می‌کند","حلقه را کامل متوقف می‌کند","برنامه را می‌بندد","خطا می‌دهد"], a:1, exp:"break از حلقه خارج می‌شود؛ continue فقط دور فعلی را رد می‌کند."},
+   {q:"چه زمانی while بهتر از for است؟", opts:["وقتی تعداد تکرار مشخص است","وقتی تعداد تکرار از قبل معلوم نیست","همیشه","هرگز"], a:1, exp:"وقتی نمی‌دانیم چند بار تکرار لازم است (مثل تلاش برای رمز)، while مناسب است."}
+  ],
+  project:{title:"جدول ضرب هوشمند", desc:"برنامه‌ای که جدول ضرب هر عددی را مرتب چاپ کند و جمع کل را هم بگوید.",
+   steps:["عدد را از کاربر بگیرید","با for از ۱ تا ۱۰ جدول ضرب را با f-string چاپ کنید","جمع همهٔ حاصل‌ضرب‌ها را در متغیری جمع بزنید و در پایان چاپ کنید"],
+   starter:`n = int(input("جدول ضرب کدام عدد؟ "))\ntotal = 0\n# حلقه را بنویسید\n`,
+   solution:`n = int(input("جدول ضرب کدام عدد؟ "))\ntotal = 0\nfor i in range(1, 11):\n    result = n * i\n    total += result\n    print(f"{n} x {i} = {result}")\nprint(f"جمع کل: {total}")`}
+ },
+ {id:"m2l3", title:"خطاها و هنر عیب‌یابی", time:"۲۵ دقیقه",
+  goals:["انواع خطاهای رایج را بشناسید","پیام خطا را بخوانید و بفهمید","روش گام‌به‌گام عیب‌یابی را یاد بگیرید"],
+  content:`
+<h2>خطا دوست شماست!</h2>
+<p>هر برنامه‌نویسی روزانه ده‌ها خطا می‌بیند. تفاوت حرفه‌ای‌ها این است که <b>پیام خطا را می‌خوانند</b> به جای اینکه بترسند!</p>
+~~~python
+age = int("بیست")   # این خط خطا می‌دهد
+~~~
+<pre-out>Traceback (most recent call last):
+  File "main.py", line 1, in &lt;module&gt;
+ValueError: invalid literal for int() with base 10: 'بیست'</pre-out>
+<p>پیام را از <b>پایین به بالا</b> بخوانید: نوع خطا (ValueError)، توضیح، و شمارهٔ خط (line 1).</p>
+<h2>خطاهای رایج</h2>
+<table><tr><th>خطا</th><th>علت رایج</th></tr>
+<tr><td><code>SyntaxError</code></td><td>پرانتز/گیومهٔ باز، دونقطهٔ فراموش‌شده</td></tr>
+<tr><td><code>NameError</code></td><td>استفاده از متغیر تعریف‌نشده یا غلط املایی</td></tr>
+<tr><td><code>TypeError</code></td><td>جمع رشته با عدد و امثال آن</td></tr>
+<tr><td><code>ValueError</code></td><td>تبدیل ناممکن مثل int(\"سلام\")</td></tr>
+<tr><td><code>IndentationError</code></td><td>تورفتگی اشتباه</td></tr></table>
+<h2>روش کارآگاهی 🕵️</h2>
+<ul>
+<li><b>۱. پیام خطا را کامل بخوانید</b> — نوع و شمارهٔ خط طلاست.</li>
+<li><b>۲. با print ردیابی کنید</b> — مقدار متغیرها را وسط برنامه چاپ کنید.</li>
+<li><b>۳. کد را تکه‌تکه اجرا کنید</b> — مشکل را محدود کنید.</li>
+<li><b>۴. فرضیه بسازید و تست کنید</b> — مثل یک دانشمند!</li>
+</ul>
+<div class="callout tip"><span class="ci">💡</span><div>در پروژهٔ پایانی هر ماژول همین سایت، یک کد باگ‌دار واقعی به شما می‌دهیم تا همین روش را تمرین کنید!</div></div>`,
+  quiz:[
+   {q:"int(\"سلام\") چه خطایی می‌دهد؟", opts:["SyntaxError","NameError","ValueError","TypeError"], a:2, exp:"مقدار نامعتبر برای تبدیل → ValueError."},
+   {q:"استفاده از متغیری که تعریف نشده چه خطایی دارد؟", opts:["NameError","ValueError","TypeError","IndexError"], a:0, exp:"پایتون نام ناشناخته را NameError اعلام می‌کند."},
+   {q:"مهم‌ترین بخش پیام خطا کدام است؟", opts:["طول پیام","نوع خطا و شمارهٔ خط","رنگ متن","هیچ‌کدام"], a:1, exp:"نوع خطا می‌گوید چه شده و شمارهٔ خط می‌گوید کجا."}
+  ],
+  project:{title:"دکتر کدهای بیمار", desc:"سه قطعه کد خراب دارید — هر سه را تشخیص بدهید و درمان کنید!",
+   steps:["کد را اجرا کنید و اولین خطا را بخوانید","آن را رفع کنید و دوباره اجرا کنید","تا رفع کامل هر سه خطا ادامه دهید"],
+   starter:`# سه خطا در این کد هست — پیدا و درمان کنید\nnam = "مینا"\nage = "25"\nprint("سلام " + name)\nprint("سال دیگر: " + (age + 1))\nif age > 18\n    print("بزرگسال")`,
+   solution:`name = "مینا"          # باگ 1: نام متغیر غلط بود (nam)\nage = 25              # باگ 2: سن باید عدد باشد نه رشته\nprint("سلام " + name)\nprint(f"سال دیگر: {age + 1}")\nif age > 18:          # باگ 3: دونقطه فراموش شده بود\n    print("بزرگسال")`}
+ }
+ ],
+ capstone:{id:"m2cap", title:"پروژهٔ پایانی: بازی حدس عدد + عیب‌یابی", time:"۷۵ دقیقه",
+  story:"یک بازی کامل: کامپیوتر عددی بین ۱ تا ۱۰۰ انتخاب می‌کند و شما باید با حداکثر ۷ حدس آن را پیدا کنید. بعد از هر حدس، راهنمایی «بزرگ‌تر» یا «کوچک‌تر» می‌گیرید. کد آماده است اما ۵ باگ دارد — مهارت عیب‌یابی درس قبل را به کار بگیرید!",
+  requirements:["عدد تصادفی بین ۱ تا ۱۰۰ بسازد (random)","حداکثر ۷ بار حدس بگیرد","بعد از هر حدس راهنمایی کند","در پایان برد یا باخت و تعداد حدس‌ها را اعلام کند"],
+  buggy:`# 🐞 این بازی ۵ باگ دارد!\nimport random\n\nsecret = random.randint(1, 100)\nguesses = 0\n\nwhile guesses < 7:\n    guess = input("حدس بزن: ")\n    if guess == secret:\n        print("بردی! 🎉")\n    elif guess < secret:\n        print("بزرگ‌تر بگو")\n    else:\n        print("کوچک‌تر بگو")\n\nprint(f"باختی! عدد {secret} بود")`,
+  bugs:[
+   {hint:"حدس کاربر رشته است ولی عدد مخفی int — مقایسه هیچ‌وقت برابر نمی‌شود و مقایسهٔ < هم خطا می‌دهد!", fix:"guess = int(input(\"حدس بزن: \"))"},
+   {hint:"متغیر guesses هیچ‌وقت زیاد نمی‌شود — حلقهٔ بی‌نهایت!", fix:"داخل حلقه بنویسید: guesses += 1"},
+   {hint:"وقتی کاربر می‌برد، بازی تمام نمی‌شود و باز هم حدس می‌خواهد!", fix:"بعد از پیام برد، break بگذارید."},
+   {hint:"حتی وقتی کاربر برنده شده، پیام «باختی» هم چاپ می‌شود!", fix:"یک متغیر won = True/False بسازید و پیام باخت را فقط با if not won چاپ کنید."},
+   {hint:"به کاربر نمی‌گویید چند حدس دیگر باقی مانده — تجربهٔ کاربری ضعیف.", fix:"در هر دور چاپ کنید: print(f\"حدس باقی‌مانده: {7 - guesses}\")"}
+  ],
+  solution:`import random\n\nsecret = random.randint(1, 100)\nguesses = 0\nwon = False\n\nprint("عددی بین 1 تا 100 انتخاب کردم — 7 فرصت داری!")\n\nwhile guesses < 7:\n    guess = int(input("حدس بزن: "))\n    guesses += 1\n    if guess == secret:\n        won = True\n        print(f"بردی! 🎉 با {guesses} حدس")\n        break\n    elif guess < secret:\n        print("بزرگ‌تر بگو ⬆")\n    else:\n        print("کوچک‌تر بگو ⬇")\n    print(f"حدس باقی‌مانده: {7 - guesses}")\n\nif not won:\n    print(f"باختی! عدد {secret} بود 😅")`}
+}
+]};
+</script>
+<script>
+COURSE.modules.push(
+{
+ id:"m3", icon:"📦", title:"ساختمان‌های داده", desc:"لیست، دیکشنری و رشته‌ها — ابزارهای ذخیره و سازماندهی دادههای واقعی.",
+ lessons:[
+ {id:"m3l1", title:"لیست‌ها: جعبهٔ همه‌چیز", time:"۳۰ دقیقه",
+  goals:["لیست بسازید و به عناصر آن دسترسی پیدا کنید","عنصر اضافه، حذف و مرتب کنید","روی لیست حلقه بزنید"],
+  content:`
+<h2>لیست چیست؟</h2>
+<p>لیست مجموعه‌ای <b>مرتب و قابل تغییر</b> از مقادیر است. اندیس (شمارهٔ خانه) از <b>صفر</b> شروع می‌شود:</p>
+~~~python
+fruits = ["سیب", "موز", "انار", "هلو"]
+print(fruits[0])     # سیب (اولین)
+print(fruits[-1])    # هلو (آخرین)
+print(len(fruits))   # 4 (تعداد)
+print(fruits[1:3])   # ['موز', 'انار'] (برش)
+~~~
+<h2>تغییر لیست</h2>
+~~~python
+scores = [17, 12, 19]
+scores.append(15)      # اضافه به انتها: [17, 12, 19, 15]
+scores.insert(0, 20)   # اضافه به ابتدا: [20, 17, 12, 19, 15]
+scores.remove(12)      # حذف مقدار 12
+last = scores.pop()    # برداشتن آخرین عنصر
+scores.sort()          # مرتب‌سازی صعودی
+scores.reverse()       # برعکس کردن
+print(scores)
+~~~
+<h2>حلقه روی لیست</h2>
+~~~python
+names = ["سارا", "رضا", "مریم"]
+for name in names:
+    print(f"سلام {name}!")
+
+# با شمارهٔ ردیف:
+for i, name in enumerate(names, start=1):
+    print(f"{i}. {name}")
+~~~
+<div class="callout tip"><span class="ci">💡</span><div>توابع پرکاربرد: <code>max(list)</code>، <code>min(list)</code>، <code>sum(list)</code> و <code>sorted(list)</code>.</div></div>
+<h2>تاپل: لیست غیرقابل تغییر</h2>
+~~~python
+point = (35.7, 51.4)   # مختصات تهران — نباید تغییر کند
+print(point[0])
+# point[0] = 10  ❌ خطا! تاپل قابل تغییر نیست
+~~~`,
+  quiz:[
+   {q:"در لیست x = [10, 20, 30] مقدار x[1] چیست؟", opts:["10","20","30","خطا"], a:1, exp:"اندیس از صفر شروع می‌شود؛ پس x[1] عنصر دوم یعنی 20 است."},
+   {q:"کدام متد عنصری به انتهای لیست اضافه می‌کند؟", opts:["add()","push()","append()","insert()"], a:2, exp:"append عنصر را به انتها اضافه می‌کند؛ insert در مکان دلخواه."},
+   {q:"تفاوت اصلی تاپل با لیست چیست؟", opts:["تاپل سریع‌تر تایپ می‌شود","تاپل قابل تغییر نیست","تاپل فقط عدد نگه می‌دارد","تاپل مرتب نیست"], a:1, exp:"تاپل immutable است؛ بعد از ساخت نمی‌توان عناصرش را عوض کرد."}
+  ],
+  project:{title:"مدیر نمرات کلاس", desc:"لیستی از نمرات بگیرید و آمار کامل آن را گزارش دهید.",
+   steps:["۵ نمره از کاربر بگیرید و در لیست بریزید (با حلقه)","میانگین، بیشترین و کمترین را حساب کنید","لیست را مرتب و چاپ کنید","تعداد نمرات بالای میانگین را بشمارید"],
+   starter:`scores = []\n\n# با حلقه 5 نمره بگیرید و append کنید\n\n# آمار را حساب و چاپ کنید\n`,
+   solution:`scores = []\n\nfor i in range(5):\n    s = float(input(f"نمره {i + 1}: "))\n    scores.append(s)\n\navg = sum(scores) / len(scores)\nprint(f"میانگین: {avg}")\nprint(f"بیشترین: {max(scores)}")\nprint(f"کمترین: {min(scores)}")\nprint(f"مرتب‌شده: {sorted(scores)}")\n\nabove = 0\nfor s in scores:\n    if s > avg:\n        above += 1\nprint(f"{above} نمره بالای میانگین است")`}
+ },
+ {id:"m3l2", title:"دیکشنری و مجموعه", time:"۳۰ دقیقه",
+  goals:["داده‌ها را به‌صورت کلید-مقدار ذخیره کنید","دیکشنری را پیمایش و ویرایش کنید","کاربرد مجموعه (set) را بدانید"],
+  content:`
+<h2>دیکشنری: کلید و مقدار</h2>
+<p>دیکشنری مثل دفترچهٔ تلفن است: به هر <b>کلید</b> یک <b>مقدار</b> وصل می‌شود:</p>
+~~~python
+student = {
+    "name": "سارا",
+    "age": 21,
+    "major": "کامپیوتر"
+}
+print(student["name"])          # سارا
+student["age"] = 22             # تغییر مقدار
+student["city"] = "شیراز"      # افزودن کلید جدید
+print(student.get("email", "ندارد"))  # بدون خطا: ندارد
+~~~
+<div class="callout warn"><span class="ci">⚠️</span><div>اگر کلیدی وجود نداشته باشد، <code>student["email"]</code> خطای <code>KeyError</code> می‌دهد؛ اما <code>.get()</code> با مقدار پیش‌فرض امن است.</div></div>
+<h2>پیمایش دیکشنری</h2>
+~~~python
+prices = {"نان": 15000, "شیر": 30000, "پنیر": 80000}
+
+for item in prices:                  # روی کلیدها
+    print(item)
+
+for item, price in prices.items():   # کلید و مقدار با هم
+    print(f"{item}: {price} تومان")
+
+print(sum(prices.values()))          # جمع قیمت‌ها
+~~~
+<h2>مجموعه (set): بدون تکرار</h2>
+~~~python
+visits = ["علی", "سارا", "علی", "رضا", "سارا"]
+unique = set(visits)
+print(unique)          # {'علی', 'سارا', 'رضا'}
+print(len(unique))     # 3 نفر متمایز
+~~~`,
+  quiz:[
+   {q:"برای دسترسی امن به کلیدی که شاید نباشد از چه استفاده می‌کنیم؟", opts:["d[key]","d.get(key)","d.find(key)","d.key"], a:1, exp:"get در صورت نبود کلید، به جای خطا None یا مقدار پیش‌فرض برمی‌گرداند."},
+   {q:"ویژگی اصلی set چیست؟", opts:["مرتب بودن","عدم تکرار عناصر","سرعت کم","فقط عدد می‌پذیرد"], a:1, exp:"مجموعه هر عنصر را فقط یک ��ار نگه می‌دارد."},
+   {q:"کدام متد کلید و مقدار را با هم برمی‌گرداند؟", opts:["keys()","values()","items()","pairs()"], a:2, exp:"items() زوج‌های (کلید، مقدار) را برمی‌گرداند."}
+  ],
+  project:{title:"صندوق فروشگاه", desc:"با دیکشنری قیمت‌ها، یک صورت‌حساب ساده بسازید.",
+   steps:["دیکشنری کالا-قیمت با حداقل ۴ کالا بساز��د","منوی کالاها را با قیمت چاپ کنید","از کاربر نام کالا بگیرید و با get قیمت را پیدا کنید","اگر کالا نبود پیام مناسب بدهید"],
+   starter:`prices = {"نان": 15000, "شیر": 30000, "پنیر": 80000, "تخم‌مرغ": 60000}\n\n# منو را چاپ کنید و از کاربر کالا بپرسید\n`,
+   solution:`prices = {"نان": 15000, "شیر": 30000, "پنیر": 80000, "تخم‌مرغ": 60000}\n\nprint("--- منوی فروشگاه ---")\nfor item, price in prices.items():\n    print(f"{item}: {price} تومان")\n\nchoice = input("چه کالایی می‌خواهید؟ ")\nprice = prices.get(choice)\n\nif price is None:\n    print("متاسفانه این کالا را نداریم!")\nelse:\n    print(f"قیمت {choice}: {price} تومان")`}
+ },
+ {id:"m3l3", title:"رشته‌ها به‌صورت حرفه‌ای", time:"۲۵ دقیقه",
+  goals:["متدهای پرکاربرد رشته را بشناسید","رشته را برش و تفکیک کنید","متن کاربر را تمیز و اعتبارسنجی کنید"],
+  content:`
+<h2>متدهای پرکاربرد رشته</h2>
+~~~python
+text = "  Python is Fun  "
+print(text.strip())        # حذف فاصلهٔ ابتدا/انتها
+print(text.lower())        # حروف کوچک
+print(text.upper())        # حروف بزرگ
+print(text.replace("Fun", "Awesome"))
+print("fun" in text.lower())   # True — جستجو
+~~~
+<h2>برش رشته و طول</h2>
+~~~python
+word = "Python"
+print(len(word))     # 6
+print(word[0])       # P
+print(word[0:3])     # Pyt
+print(word[::-1])    # nohtyP (برعکس!)
+~~~
+<h2>تفکیک و اتصال</h2>
+~~~python
+sentence = "سیب,موز,انار"
+items = sentence.split(",")     # ['سیب', 'موز', 'انار']
+print(items)
+
+joined = " - ".join(items)      # سیب - موز - انار
+print(joined)
+~~~
+<h2>اعتبارسنجی ورودی</h2>
+~~~python
+code = input("کد ملی: ").strip()
+
+if code.isdigit() and len(code) == 10:
+    print("فرمت درست است ✅")
+else:
+    print("کد ملی باید ۱۰ رقم با��د ❌")
+~~~
+<div class="callout tip"><span class="ci">💡</span><div>متدهای بررسی: <code>isdigit()</code> فقط رقم، <code>isalpha()</code> فقط حرف، <code>startswith()</code> و <code>endswith()</code> برای شروع/پایان رشته.</div></div>`,
+  quiz:[
+   {q:"حاصل \"Hello\"[1:3] چیست؟", opts:["He","el","ell","llo"], a:1, exp:"برش از اندیس ۱ شروع می‌شود و قبل از ۳ تمام می‌شود: el"},
+   {q:"کدام متد فاصله‌های ابتدا و انتها را حذف می‌کند؟", opts:["trim()","strip()","clean()","cut()"], a:1, exp:"در پایتون strip() است (در بعضی زبان‌ها trim نام دارد)."},
+   {q:"حاصل \"a,b,c\".split(\",\") چیست؟", opts:["\"abc\"","['a', 'b', 'c']","('a','b','c')","خطا"], a:1, exp:"split رشته را به لیستی از بخش‌ها تبدیل می‌کند."}
+  ],
+  project:{title:"تحلیلگر نام کاربری", desc:"برنامه‌ای که نام کاربری پیشنهادی را اعتبارسنجی می‌کند.",
+   steps:["نام کاربری بگیرید و با strip تمیز کنید","طول باید بین ۴ تا ۱۲ باشد","فقط حروف و اعداد مجاز است (راهنمایی: isalnum)","نباید با عدد شروع شود؛ در پایان نتیجه را اعلام کنید"],
+   starter:`username = input("نام کاربری: ").strip()\n\n# شرط‌های اعتبارسنجی را بنویسید\n`,
+   solution:`username = input("نام کاربری: ").strip()\n\nif len(username) < 4 or len(username) > 12:\n    print("طول باید بین 4 تا 12 باشد ❌")\nelif not username.isalnum():\n    print("فقط حروف و اعداد مجاز است ❌")\nelif username[0].isdigit():\n    print("نباید با عدد شروع شود ❌")\nelse:\n    print(f"نام کاربری {username} تایید شد ✅")`}
+ }
+ ],
+ capstone:{id:"m3cap", title:"پروژهٔ پایانی: دفترچهٔ مخاطبین + عیب‌یابی", time:"۷۵ دقیقه",
+  story:"یک دفترچهٔ مخاطبین کامل با منو: افزودن، جستجو، حذف و نمایش همهٔ مخاطبان. این پروژه لیست، دیکشنری، حلقه و شرط را یکجا محک می‌زند. ابتدا باگ‌های کد موجود را پیدا کنید، سپس قابلیت حذف را خودتان اضافه کنید.",
+  requirements:["منوی تکرارشونده با گزینه‌های افزودن/جستجو/نمایش/خروج","هر مخاطب یک دیکشنری با نام و تلفن باشد","مخاطبان در یک لیست نگهداری شوند","جستجو بر اساس نام کار کند","شماره تلفن فقط رقم و ۱۱ کاراکتر باشد"],
+  buggy:`# 🐞 این دفترچه ۴ باگ دارد!\ncontacts = []\n\nwhile True:\n    print("1) افزودن  2) جستجو  3) نمایش همه  4) خروج")\n    choice = input("انتخاب: ")\n\n    if choice == 1:\n        name = input("نام: ")\n        phone = input("تلفن: ")\n        contacts.append(name)\n    elif choice == "2":\n        query = input("نام مورد نظر: ")\n        for c in contacts:\n            if c["name"] = query:\n                print(c)\n    elif choice == "3":\n        for c in contacts:\n            print(f"{c['name']}: {c['phone']}")\n    elif choice == "4":\n        break`,
+  bugs:[
+   {hint:"ورودی input رشته است، اما گزینهٔ ۱ با عدد مقایسه شده!", fix:"باید با رشته مقایسه شود: if choice == \"1\":"},
+   {hint:"هنگام افزودن مخاطب، فقط نام ذخیره می‌شود نه تلفن؛ بعداً نمایش خراب می‌شود.", fix:"باید دیکشنری ذخیره شود: contacts.append({\"name\": name, \"phone\": phone})"},
+   {hint:"در جستجو از یک مساوی استفاده شده است.", fix:"مقایسه با == انجام می‌شود: if c[\"name\"] == query:"},
+   {hint:"اگر کاربر گزینهٔ نامعتبر (مثلاً 9) وارد کند چه اتفاقی می‌افتد؟ هیچ بازخوردی نمی‌گیرد!", fix:"یک else برای پیام «گزینه نامعتبر» اضافه کنید."}
+  ],
+  solution:`contacts = []\n\nwhile True:\n    print("1) افزودن  2) جستجو  3) نمایش همه  4) حذف  5) خروج")\n    choice = input("انتخاب: ").strip()\n\n    if choice == "1":\n        name = input("نام: ").strip()\n        phone = input("تلفن: ").strip()\n        if phone.isdigit() and len(phone) == 11:\n            contacts.append({"name": name, "phone": phone})\n            print("ذخیره شد ✅")\n        else:\n            print("تلفن باید 11 رقم باشد ❌")\n    elif choice == "2":\n        query = input("نام مورد نظر: ").strip()\n        found = False\n        for c in contacts:\n            if c["name"] == query:\n                print(f"{c['name']}: {c['phone']}")\n                found = True\n        if not found:\n            print("پیدا نشد!")\n    elif choice == "3":\n        for i, c in enumerate(contacts, start=1):\n            print(f"{i}. {c['name']}: {c['phone']}")\n    elif choice == "4":\n        query = input("نام برای حذف: ").strip()\n        for c in contacts:\n            if c["name"] == query:\n                contacts.remove(c)\n                print("حذف شد 🗑️")\n                break\n    elif choice == "5":\n        print("خداحافظ!")\n        break\n    else:\n        print("گزینه نامعتبر است!")`}
+},
+{
+ id:"m4", icon:"🧩", title:"توابع و ماژول‌ها", desc:"کد تمیز و قابل استفادهٔ مجدد بنویسید — مهارتی که شما را از کدنویس به برنامه‌نویس تبدیل می‌کند.",
+ lessons:[
+ {id:"m4l1", title:"تعریف توابع", time:"۳۰ دقیقه",
+  goals:["تابع تعریف و صدا بزنید","با پارامتر و مقدار بازگشتی کار کنید","تفاوت print و return را بفهمید"],
+  content:`
+<h2>چرا تابع؟</h2>
+<p>تابع یک <b>بستهٔ کد قابل استفادهٔ مجدد</b> است. به جای کپی کردن کد، یک بار تعریف می‌کنید و هر جا لازم بود صدا می‌زنید:</p>
+~~~python
+def greet(name):
+    print(f"سلام {name}! خوش آمدی 🌟")
+
+greet("سارا")
+greet("رضا")
+~~~
+<h2>مقدار بازگشتی با return</h2>
+~~~python
+def add(a, b):
+    return a + b
+
+result = add(3, 4)     # 7 در result ذخیره می‌شود
+print(add(10, 20))     # 30
+print(add(1, 2) * 5)   # 15 — از خروجی می‌توان استفاده کرد
+~~~
+<div class="callout warn"><span class="ci">⚠️</span><div><b>print فقط نمایش می‌دهد؛ return مقدار را برمی‌گرداند.</b> تابعی که return ندارد، مقدار None برمی‌گرداند و نتیجه‌اش در محاسبات قابل استفاده نیست.</div></div>
+<h2>پارامتر پیش‌فرض</h2>
+~~~python
+def power(base, exp=2):
+    return base ** exp
+
+print(power(5))       # 25 (exp پیش‌فرض 2)
+print(power(2, 10))   # 1024
+~~~
+<h2>چند خروجی با هم</h2>
+~~~python
+def stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)
+
+low, high, total = stats([3, 8, 1, 9])
+print(low, high, total)   # 1 9 21
+~~~`,
+  quiz:[
+   {q:"تابعی که return ندارد چه برمی‌گرداند؟", opts:["0","خطا","None","رشتهٔ خالی"], a:2, exp:"در نبود return، تابع به طور ضمنی None برمی‌گرداند."},
+   {q:"در def power(base, exp=2) مقدار exp=2 چیست؟", opts:["خطای نگارشی","پارامتر پیش‌فرض","متغیر سراسری","مقدار بازگشتی"], a:1, exp:"اگر مقداری برای exp داده نشود، از 2 استفاده می‌شود."},
+   {q:"کد def f(x): return x*2 و سپس y = f(3) چه مقداری در y می‌گذارد؟", opts:["3","6","None","x*2"], a:1, exp:"f(3) مقدار 6 را برمی‌گرداند و در y ذخیره می‌شود."}
+  ],
+  project:{title:"جعبه‌ابزار ریاضی", desc:"چند تابع کاربردی بسازید و از آن‌ها استفاده کنید.",
+   steps:["تابع is_even(n) بنویسید که True/False برگرداند","تابع average(numbers) برای میانگین لیست بنویسید","تابع grade(score) که رتبهٔ حرفی (A/B/C/D) برگرداند","هر سه تابع را با چند مثال تست کنید"],
+   starter:`def is_even(n):\n    # کامل کنید: زوج بودن را برگردانید\n    pass\n\ndef average(numbers):\n    pass\n\ndef grade(score):\n    pass\n\n# تست‌ها\nprint(is_even(4))\nprint(average([10, 20]))\nprint(grade(18))`,
+   solution:`def is_even(n):\n    return n % 2 == 0\n\ndef average(numbers):\n    return sum(numbers) / len(numbers)\n\ndef grade(score):\n    if score >= 17:\n        return "A"\n    elif score >= 14:\n        return "B"\n    elif score >= 10:\n        return "C"\n    else:\n        return "D"\n\nprint(is_even(4))          # True\nprint(is_even(7))          # False\nprint(average([10, 20]))   # 15.0\nprint(grade(18))           # A\nprint(grade(8))            # D`}
+ },
+ {id:"m4l2", title:"آرگومان‌ها، اسکوپ و ماژول‌ها", time:"۳۰ دقیقه",
+  goals:["اسکوپ متغیرها را درک کنید","از ماژول‌های آمادهٔ پایتون استفاده کنید","با random و math کار کنید"],
+  content:`
+<h2>اسکوپ: محدودهٔ دید متغیر</h2>
+<p>متغیری که <b>داخل تابع</b> تعریف شود، فقط همان‌جا وجود دارد (محلی). متغیر بیرون توابع، سراسری است:</p>
+~~~python
+message = "سراسری"      # قابل دید در همه جا
+
+def show():
+    inner = "محلی"      # فقط داخل همین تابع
+    print(message, inner)
+
+show()
+# print(inner)  ❌ NameError — بیرون تابع وجود ندارد
+~~~
+<h2>ماژول: جعبه‌ابزارهای آماده</h2>
+<p>پایتون صدها ماژول آماده دارد. با <code>import</code> آن‌ها را به کد خود می‌آورید:</p>
+~~~python
+import random
+import math
+from datetime import date
+
+print(random.randint(1, 6))       # تاس تصادفی
+print(random.choice(["گل", "پوچ"]))
+print(math.sqrt(144))             # 12.0
+print(math.pi)                    # 3.14159...
+print(date.today())               # تاریخ امروز
+~~~
+<table><tr><th>ماژول</th><th>کاربرد</th></tr>
+<tr><td><code>random</code></td><td>اعداد و انتخاب تصادفی</td></tr>
+<tr><td><code>math</code></td><td>توابع ریاضی پیشرفته</td></tr>
+<tr><td><code>datetime</code></td><td>تاریخ و زمان</td></tr>
+<tr><td><code>os</code></td><td>کار با فایل‌ها و پوشه‌ها</td></tr></table>
+<div class="callout tip"><span class="ci">💡</span><div>با <code>pip install نام‌پکیج</code> می‌توانید هزاران کتابخانهٔ دیگر (مثل requests یا pandas) نصب کنید.</div></div>`,
+  quiz:[
+   {q:"متغیر تعریف‌شده داخل تابع کجا قابل دسترسی است؟", opts:["همه جا","فقط داخل همان تابع","فقط در توابع دیگر","فقط در حلقه‌ها"], a:1, exp:"متغیر محلی فقط در اسکوپ همان تابع معتبر است."},
+   {q:"random.randint(1, 6) چه برمی‌گرداند؟", opts:["عددی بین 1 تا 5","عددی بین 1 تا 6 (هر دو طرف شامل)","همیشه 6","عدد اعشاری"], a:1, exp:"randint برخلاف range هر دو سر بازه را شامل می‌شود."},
+   {q:"برای استفاده از sqrt چه چیزی لازم است؟", opts:["هیچ، همیشه آماده است","import math","pip install sqrt","def sqrt"], a:1, exp:"sqrt در ماژول math است و باید import شود."}
+  ],
+  project:{title:"تاس و شیریاخط", desc:"یک شبیه‌ساز بازی با ماژول random بسازید.",
+   steps:["تابع roll_dice() که عدد ۱ تا ۶ برگرداند","تابع flip_coin() که شیر یا خط برگرداند","۱۰ بار تاس بیندازید و نتایج را در لیست ذخیره کنید","بشمارید چند بار ۶ آمده است"],
+   starter:`import random\n\ndef roll_dice():\n    pass  # کامل کنید\n\ndef flip_coin():\n    pass  # شیر یا خط\n\n# 10 بار تاس بیندازید\n`,
+   solution:`import random\n\ndef roll_dice():\n    return random.randint(1, 6)\n\ndef flip_coin():\n    return random.choice(["شیر", "خط"])\n\nresults = []\nfor i in range(10):\n    results.append(roll_dice())\n\nprint(f"نتایج: {results}")\nprint(f"تعداد شش: {results.count(6)}")\nprint(f"سکه: {flip_coin()}")`}
+ }
+ ],
+ capstone:{id:"m4cap", title:"پروژهٔ پایانی: مدیر کارها (To-Do) + عیب‌یابی", time:"۹۰ دقیقه",
+  story:"یک مدیر کارهای کامل با توابع تمیز: افزودن کار، انجام دادن، نمایش و آمار. هر قابلیت باید یک تابع مستقل باشد — این معمار�� واقعی نرم‌افزارهاست. چند باگ موذی در کد پنهان شده!",
+  requirements:["تابع add_task با پارامتر عنوان کار","تابع complete_task ب��ای انجام‌شده کردن کار","تابع show_tasks با نمایش وضعیت ✓/✗","تابع stats که درصد پیشرفت را برگرداند","منوی اصلی با حلقهٔ while"],
+  buggy:`# 🐞 این مدیر کارها ۴ باگ دارد!\ntasks = []\n\ndef add_task(title):\n    tasks.append({"title": title, "done": False})\n    print("اضافه شد!")\n\ndef complete_task(index):\n    tasks[index]["done"] = True\n\ndef show_tasks():\n    for i, t in enumerate(tasks):\n        mark = "✓" if t["done"] else "✗"\n        print(f"{i}. [{mark}] {t['title']}")\n\ndef stats():\n    done = 0\n    for t in tasks:\n        if t["done"] == True:\n            done + 1\n    return done / len(tasks) * 100\n\nwhile True:\n    print("1) افزودن 2) انجام شد 3) نمایش 4) آمار 5) خروج")\n    c = input("> ")\n    if c == "1":\n        add_task(input("عنوان: "))\n    elif c == "2":\n        complete_task(input("شماره: "))\n    elif c == "3":\n        show_tasks()\n    elif c == "4":\n        print(f"پیشرفت: {stats()}%")\n    elif c == "5":\n        break`,
+  bugs:[
+   {hint:"در تابع stats، شمارندهٔ done هیچ‌وقت زیاد نمی‌شود!", fix:"باید مقداردهی شود: done += 1 (نه done + 1 تنها)"},
+   {hint:"شمارهٔ کار از input می‌آید و مستقیم به complete_task داده می‌شود. ایندکس لیست باید چه نوعی باشد؟", fix:"تبدیل به عدد: complete_task(int(input(\"شماره: \")))"},
+   {hint:"اگر هنوز هیچ کاری اضافه نشده باشد و آمار بگیرید چه می‌شود؟ تقسیم بر صفر!", fix:"در ابتدای stats چک کنید: if len(tasks) == 0: return 0"},
+   {hint:"اگر کاربر شمارهٔ کاری که وجود ندارد (مثلاً 99) وارد کند، برنامه کرش می‌کند.", fix:"در complete_task محدوده را چک کنید: if 0 <= index < len(tasks)"}
+  ],
+  solution:`tasks = []\n\ndef add_task(title):\n    tasks.append({"title": title, "done": False})\n    print("اضافه شد! ✅")\n\ndef complete_task(index):\n    if 0 <= index < len(tasks):\n        tasks[index]["done"] = True\n        print("آفرین! 🎉")\n    else:\n        print("چنین کاری وجود ندارد!")\n\ndef show_tasks():\n    if not tasks:\n        print("لیست خالی است")\n    for i, t in enumerate(tasks):\n        mark = "✓" if t["done"] else "✗"\n        print(f"{i}. [{mark}] {t['title']}")\n\ndef stats():\n    if len(tasks) == 0:\n        return 0\n    done = 0\n    for t in tasks:\n        if t["done"]:\n            done += 1\n    return round(done / len(tasks) * 100)\n\nwhile True:\n    print("1) افزودن 2) انجام شد 3) نمایش 4) آمار 5) خروج")\n    c = input("> ").strip()\n    if c == "1":\n        add_task(input("عنوان: "))\n    elif c == "2":\n        complete_task(int(input("شماره: ")))\n    elif c == "3":\n        show_tasks()\n    elif c == "4":\n        print(f"پیشرفت: {stats()}%")\n    elif c == "5":\n        break\n    else:\n        print("گزینه نامعتبر!")`}
+});
+</script>
+<script>
+COURSE.modules.push(
+{
+ id:"m5", icon:"📁", title:"فایل‌ها و مدیریت خطا", desc:"داده‌ها را ماندگار کنید و برنامه‌هایی بنویسید که در برابر خطاها مقاوم هستند.",
+ lessons:[
+ {id:"m5l1", title:"کار با فایل‌ها", time:"۳۰ دقیقه",
+  goals:["فایل متنی بخوانید و بنویسید","با with امن کار کنید","داده را خط به خط پردازش کنید"],
+  content:`
+<h2>نوشتن در فایل</h2>
+<p>تا الان با بستن برنامه، همهٔ داده‌ها از بین می‌رفت. فایل‌ها راه <b>ماندگار کردن</b> داده‌ها هستند. کلمهٔ <code>with</code> تضمین می‌کند فایل خودبه‌خود بسته شود:</p>
+~~~python
+# حالت "w" یعنی نوشتن (محتوای قبلی پاک می‌شود)
+with open("diary.txt", "w", encoding="utf-8") as f:
+    f.write("روز اول یادگیری پایتون")
+
+# حالت "a" یعنی افزودن به انتها
+with open("diary.txt", "a", encoding="utf-8") as f:
+    f.write("\\nروز دوم: فایل‌ها را یاد گرفتم!")
+~~~
+<h2>خواندن فایل</h2>
+~~~python
+with open("diary.txt", "r", encoding="utf-8") as f:
+    content = f.read()          # کل متن یکجا
+print(content)
+
+with open("diary.txt", "r", encoding="utf-8") as f:
+    for line in f:              # خط به خط — برای فایل‌های بزرگ
+        print(line.strip())
+~~~
+<table><tr><th>حالت</th><th>معنی</th></tr>
+<tr><td><code>"r"</code></td><td>خواندن (پیش‌فرض)</td></tr>
+<tr><td><code>"w"</code></td><td>نوشتن — محتوای قبلی پاک می‌شود!</td></tr>
+<tr><td><code>"a"</code></td><td>افزودن به انتها</td></tr></table>
+<div class="callout warn"><span class="ci">⚠️</span><div>حالت <code>"w"</code> بی‌رحم است: اگر فایل وجود داشته باشد، محتوایش بدون هشدار پاک می‌شود. برای افزودن از <code>"a"</code> استفاده کنید.</div></div>`,
+  quiz:[
+   {q:"مزیت اصلی with open(...) چیست؟", opts:["سرعت بیشتر","بسته شدن خودکار فایل","فشرده‌سازی فایل","رمزنگاری"], a:1, exp:"with تضمین می‌کند فایل حتی در صورت خطا بسته شود."},
+   {q:"حالت \"w\" با فایل موجود چه می‌کند؟", opts:["به انتها اضافه می‌کند","خطا می‌دهد","محتوای قبلی را پاک می‌کند","فقط می‌خواند"], a:2, exp:"حالت w فایل را از نو می‌سازد؛ برای حفظ محتوا از a استفاده کنید."},
+   {q:"برای متن فارسی کدام پارامتر مهم است؟", opts:["mode=\"fa\"","encoding=\"utf-8\"","lang=\"persian\"","هیچ‌کدام"], a:1, exp:"utf-8 استاندارد جهانی برای متون غیرانگلیسی است."}
+  ],
+  project:{title:"دفتر خاطرات ساده", desc:"برنامه‌ای که خاطرهٔ روزانه را با تاریخ در فایل ذخیره و بازخوانی می‌کند.",
+   steps:["از کاربر متن خاطره را بگیرید","با حالت a و تاریخ امروز (ماژول datetime) در فایل بنویسید","گزینه‌ای برای نمایش همهٔ خاطرات قبلی بگذارید","تعداد خطوط فایل را هم گزارش دهید"],
+   starter:`from datetime import date\n\nchoice = input("1) ثبت خاطره  2) نمایش همه: ")\n\n# کامل کنید\n`,
+   solution:`from datetime import date\n\nchoice = input("1) ثبت خاطره  2) نمایش همه: ")\n\nif choice == "1":\n    memo = input("خاطره امروز: ")\n    with open("diary.txt", "a", encoding="utf-8") as f:\n        f.write(f"[{date.today()}] {memo}\\n")\n    print("ذخیره شد ✅")\nelif choice == "2":\n    try:\n        with open("diary.txt", "r", encoding="utf-8") as f:\n            lines = f.readlines()\n        for line in lines:\n            print(line.strip())\n        print(f"--- {len(lines)} خاطره ---")\n    except FileNotFoundError:\n        print("هنوز خاطره‌ای ثبت نشده!")`}
+ },
+ {id:"m5l2", title:"مدیریت استثناها (try/except)", time:"۲۵ دقیقه",
+  goals:["خطاها را بدون کرش مدیریت کنید","انواع خطاهای خاص را جداگانه بگیرید","از else و finally استفاده کنید"],
+  content:`
+<h2>برنامهٔ مقاوم در برابر خطا</h2>
+<p>تا الان اگر کاربر به جای عدد حرف وارد می‌کرد، برنامه کرش می‌کرد. با <code>try/except</code> خطا را <b>می‌گیریم</b> و برنامه ادامه می‌دهد:</p>
+~~~python
+try:
+    age = int(input("سن شما: "))
+    print(f"سال تولد حدودی: {2026 - age}")
+except ValueError:
+    print("لطفاً فقط عدد وارد کنید!")
+~~~
+<h2>چند نوع خطا، چند واکنش</h2>
+~~~python
+try:
+    a = int(input("صورت کسر: "))
+    b = int(input("مخرج کسر: "))
+    print(f"نتیجه: {a / b}")
+except ValueError:
+    print("ورودی باید عدد باشد!")
+except ZeroDivisionError:
+    print("تقسیم بر صفر ممکن نیست!")
+else:
+    print("همه‌چیز بدون خطا انجام شد ✅")
+finally:
+    print("این خط همیشه اجرا می‌شود")
+~~~
+<h2>حلقهٔ ورودی امن (الگوی طلایی)</h2>
+~~~python
+while True:
+    try:
+        score = float(input("نمره: "))
+        break                  # ورودی درست بود؛ خروج از حلقه
+    except ValueError:
+        print("دوباره تلاش کنید — فقط عدد!")
+print(f"نمرهٔ ثبت‌شده: {score}")
+~~~
+<div class="callout tip"><span class="ci">💡</span><div>هرگز <code>except:</code> خالی ننویسید؛ همیشه نوع خطا را مشخص کنید تا باگ‌های واقعی پنهان نشوند.</div></div>`,
+  quiz:[
+   {q:"بلوک finally چه زمانی اجرا می‌شود؟", opts:["فقط هنگام خطا","فقط بدون خطا","همیشه","هرگز"], a:2, exp:"finally چه خطا رخ دهد چه ندهد اجرا می‌شود."},
+   {q:"تقسیم بر صفر چه خطایی می‌دهد؟", opts:["ValueError","ZeroDivisionError","TypeError","MathError"], a:1, exp:"تقسیم عدد بر صفر ZeroDivisionError ایجاد می‌کند."},
+   {q:"بلوک else در try/except چه زمانی اجرا می‌شود؟", opts:["همیشه","وقتی خطا رخ دهد","وقتی هیچ خطایی رخ ندهد","قبل از try"], a:2, exp:"else فقط در صورت موفقیت کامل بلوک try اجرا می‌شود."}
+  ],
+  project:{title:"ماشین‌حساب ضدضربه", desc:"ماشین‌حساب ماژول ۱ را طوری بازنویسی کنید که با هیچ ورودی‌ای کرش نکند.",
+   steps:["دریافت دو عدد را در حلقهٔ ورودی امن بگذارید","تقسیم بر صفر را جداگانه مدیریت ک��ید","در پایان با finally پیام پایان محاسبه چاپ کنید"],
+   starter:`# ماشین‌حساب ضدضربه\ntry:\n    a = float(input("عدد اول: "))\n    b = float(input("عدد دوم: "))\n    # تقسیم را انجام دهید\nexcept ValueError:\n    print("فقط عدد!")\n`,
+   solution:`try:\n    a = float(input("عدد اول: "))\n    b = float(input("عدد دوم: "))\n    print(f"جمع: {a + b}")\n    print(f"تقسیم: {a / b}")\nexcept ValueError:\n    print("ورودی باید عدد باشد!")\nexcept ZeroDivisionError:\n    print("مخرج نمی‌تواند صفر باشد!")\nfinally:\n    print("پایان محاسبه.")`}
+ }
+ ],
+ capstone:{id:"m5cap", title:"پروژهٔ پایانی: تحلیلگر متن + عیب‌یابی", time:"۹۰ دقیقه",
+  story:"برنامه‌ای که یک فایل متنی را می‌خواند و گزارش کامل می‌دهد: تعداد خطوط، کلمات، پرتکرارترین کلمه و ذخیرهٔ گزارش در فایل جدید. همهٔ مهارت‌ها: فایل، دیکشنری، تابع و مدیریت خطا!",
+  requirements:["نام فایل را از کاربر بگیرد و با try/except نبودن فایل را مدیریت کند","تعداد خطوط و کلمات را بشمارد","پرتکرارترین کلمه را با دیکشنری پیدا کند","گزارش را در فایل report.txt ذخیره کند"],
+  buggy:`# 🐞 این تحلیلگر ۴ باگ دارد!\ndef analyze(filename):\n    with open(filename, "r", encoding="utf-8") as f:\n        text = f.read()\n\n    lines = text.split("\\n")\n    words = text.split()\n\n    counts = {}\n    for w in words:\n        counts[w] = counts[w] + 1\n\n    top = max(counts, key=counts.get)\n    return len(lines), len(words), top\n\nfilename = input("نام فایل: ")\nresult = analyze(filename)\nprint("خطوط: " + result[0])\nprint(f"کلمات: {result[1]}")\nprint(f"پرتکرار: {result[2]}")`,
+  bugs:[
+   {hint:"اگر فایل وجود نداشته باشد، برنامه با FileNotFoundError کرش می‌کند.", fix:"فراخوانی analyze را در try/except FileNotFoundError بگذارید."},
+   {hint:"اولین باری که کلمه‌ای دیده می‌شود، در دیکشنری counts وجود ندارد — KeyError!", fix:"از get با پیش‌فرض استفاده کنید: counts[w] = counts.get(w, 0) + 1"},
+   {hint:"در خط چاپ خطوط، رشته با عدد جمع شده است.", fix:"از f-string استفاده کنید: print(f\"خطوط: {result[0]}\")"},
+   {hint:"اگر فایل خالی باشد، max روی دیکشنری خالی خطا می‌دهد.", fix:"قبل از max چک کنید: if not counts: return 0, 0, \"-\""}
+  ],
+  solution:`def analyze(filename):\n    with open(filename, "r", encoding="utf-8") as f:\n        text = f.read()\n\n    lines = text.split("\\n")\n    words = text.split()\n\n    counts = {}\n    for w in words:\n        counts[w] = counts.get(w, 0) + 1\n\n    if not counts:\n        return len(lines), 0, "-"\n\n    top = max(counts, key=counts.get)\n    return len(lines), len(words), top\n\nfilename = input("نام فایل: ")\ntry:\n    n_lines, n_words, top = analyze(filename)\n    report = (\n        f"خطوط: {n_lines}\\n"\n        f"کلمات: {n_words}\\n"\n        f"پرتکرار: {top}"\n    )\n    print(report)\n    with open("report.txt", "w", encoding="utf-8") as f:\n        f.write(report)\n    print("گزارش در report.txt ذخیره شد ✅")\nexcept FileNotFoundError:\n    print("چنین فایلی پیدا نشد!")`}
+},
+{
+ id:"m6", icon:"🏗️", title:"شیءگرایی و پروژهٔ نهایی", desc:"کلاس‌ها و اشیا — روشی که نرم‌افزارهای بزرگ دنیا با آن ساخته می‌شوند، به همراه پروژهٔ نهایی دوره.",
+ lessons:[
+ {id:"m6l1", title:"کلاس‌ها و اشیا", time:"۳۵ دقیقه",
+  goals:["کلاس تعریف کنید و شیء بسازید","مفهوم self و __init__ را درک کنید","متد و ویژگی تعریف کنید"],
+  content:`
+<h2>کلاس: قالب ساخت اشیا</h2>
+<p>کلاس مثل <b>نقشهٔ ساختمان</b> است و هر شیء یک ساختمان واقعی ساخته‌شده از آن نقشه:</p>
+~~~python
+class Student:
+    def __init__(self, name, major):
+        self.name = name        # ویژگی (attribute)
+        self.major = major
+        self.scores = []
+
+    def add_score(self, score):     # متد (method)
+        self.scores.append(score)
+
+    def average(self):
+        if not self.scores:
+            return 0
+        return sum(self.scores) / len(self.scores)
+
+# ساخت دو شیء مستقل از یک کلاس:
+sara = Student("سارا", "کامپیوتر")
+reza = Student("رضا", "برق")
+
+sara.add_score(18)
+sara.add_score(20)
+print(f"{sara.name}: میانگین {sara.average()}")
+~~~
+<h2>self چیست؟</h2>
+<p><code>self</code> یعنی <b>«همین شیء»</b>. وقتی می‌نویسید <code>sara.add_score(18)</code>، پایتون خودش sara را به عنوان self می‌فرستد. به همین دلیل نمرهٔ سارا به لیست رضا اضافه نمی‌شود.</p>
+<h2>متد جادویی __init__</h2>
+<p><code>__init__</code> هنگام ساخت شیء <b>خودکار</b> صدا زده می‌شود و ویژگی‌های اولیه را تنظیم می‌کند.</p>
+<div class="callout tip"><span class="ci">💡</span><div>قرارداد نام‌گذاری: نام کلاس‌ها با حرف بزرگ (Student) و نام توابع/متغیرها با حرف کوچک (add_score).</div></div>`,
+  quiz:[
+   {q:"__init__ چه زمانی اجرا می‌شود؟", opts:["هنگام import","هنگام ساخت شیء جدید","هر بار صدا زدن متد","فقط یک بار در کل برنامه"], a:1, exp:"هر بار که شیء جدیدی می‌سازید، __init__ برای آن شیء اجرا می‌شود."},
+   {q:"self به چه اشاره می‌کند؟", opts:["به کلاس","به پایتون","به شیء فعلی","به متد قبلی"], a:2, exp:"self نمایندهٔ همان شیءی است که متد روی آن صدا زده شده."},
+   {q:"دو شیء مختلف از یک کلاس چه رابطه‌ای دارند؟", opts:["ویژگی‌های مشترک دارند","کاملاً مستقل‌اند ولی ساختار یکسان دارند","همیشه برابرند","یکی کپی دیگری است"], a:1, exp:"هر شیء حافظهٔ مستقل خودش را دارد؛ فقط قالبشان یکی است."}
+  ],
+  project:{title:"کلاس حساب بانکی", desc:"کلاسی برای حساب بانکی با واریز، برداشت و نمایش موجودی بسازید.",
+   steps:["کلاس BankAccount با نام صاحب و موجودی اولیه بسازید","متد deposit برای واریز (فقط مبلغ مثبت)","متد withdraw که اجازه ندهد بیشتر از موجودی برداشت شود","متد show برای نمایش وضعیت حساب"],
+   starter:`class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        pass  # کامل کنید\n\n    def withdraw(self, amount):\n        pass  # کامل کنید\n\nacc = BankAccount("علی", 1000)\n`,
+   solution:`class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n            print(f"واریز شد. موجودی: {self.balance}")\n        else:\n            print("مبلغ باید مثبت باشد!")\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            print("موجودی کافی نیست!")\n        else:\n            self.balance -= amount\n            print(f"برداشت شد. موجودی: {self.balance}")\n\n    def show(self):\n        print(f"حساب {self.owner}: {self.balance} تومان")\n\nacc = BankAccount("علی", 1000)\nacc.deposit(500)\nacc.withdraw(2000)\nacc.withdraw(300)\nacc.show()`}
+ },
+ {id:"m6l2", title:"وراثت و گام‌های بعدی", time:"۳۰ دقیقه",
+  goals:["کلاس فرزند از کلاس والد بسازید","متدها را بازنویسی (override) کنید","مسیر ادامهٔ یادگیری را بشناسید"],
+  content:`
+<h2>وراثت: کلاس روی دوش کلاس</h2>
+<p>وقتی کلاسی شبیه کلاس دیگر است ولی کمی فرق دارد، از آن <b>ارث</b> می‌بریم:</p>
+~~~python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        print(f"{self.name} صدایی درآورد")
+
+class Cat(Animal):              # Cat از Animal ارث می‌برد
+    def speak(self):            # بازنویسی متد
+        print(f"{self.name}: میو! 🐱")
+
+class Dog(Animal):
+    def speak(self):
+        print(f"{self.name}: واق واق! 🐶")
+
+animals = [Cat("نازی"), Dog("رکس"), Animal("موجود")]
+for a in animals:
+    a.speak()                   # هر کدام رفتار خودش را دارد
+~~~
+<h2>استفاده از super()</h2>
+~~~python
+class Employee:
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+class Manager(Employee):
+    def __init__(self, name, salary, team_size):
+        super().__init__(name, salary)   # صدا زدن والد
+        self.team_size = team_size
+
+m = Manager("سارا", 5000, 8)
+print(m.name, m.team_size)
+~~~
+<h2>🎓 مسیر ادامهٔ راه</h2>
+<ul>
+<li><b>وب:</b> فریمورک‌های Flask یا Django</li>
+<li><b>داده و هوش مصنوعی:</b> pandas، NumPy، scikit-learn</li>
+<li><b>اتوماسیون:</b> اسکریپت‌های خودکارسازی با requests و selenium</li>
+<li><b>تمرین مستمر:</b> سایت‌هایی مثل Codewars و LeetCode</li>
+</ul>
+<div class="callout note"><span class="ci">🏁</span><div>با پایان پروژهٔ نهایی، شما مفاهیم بنیادی پایتون را کامل کرده‌اید. راز پیشرفت: هر روز کد بزنید، حتی ۲۰ دقیقه!</div></div>`,
+  quiz:[
+   {q:"class Cat(Animal) یعنی چه؟", opts:["Cat و Animal برابرند","Cat از Animal ارث می‌برد","Animal از Cat ارث می‌برد","Cat حذف می‌شود"], a:1, exp:"کلاس داخل پرانتز والد است و Cat همهٔ امکاناتش را به ارث می‌برد."},
+   {q:"super() چه کاری می‌کند؟", opts:["شیء جدید می‌سازد","به کلاس والد دسترسی می‌دهد","کلاس را حذف می‌کند","سرعت را زیاد می‌کند"], a:1, exp:"با super() می‌توان متدهای کلاس والد (مثل __init__) را صدا زد."},
+   {q:"بازنویسی متد در کلاس فرزند چه نام دارد؟", opts:["overload","override","overwrite","redefine"], a:1, exp:"تعریف دوبارهٔ متد والد در فرزند، override نام دارد."}
+  ],
+  project:{title:"سلسله‌مراتب وسایل نقلیه", desc:"کلاس والد Vehicle و دو فرزند Car و Motorcycle بسازید.",
+   steps:["کلاس Vehicle با نام و سرعت بسازید و متد info","Car با ویژگی تعداد در از آن ارث ببرد (با super)","Motorcycle متد info را بازنویسی کند","لیستی از وسایل بسازید و info همه را چاپ کنید"],
+   starter:`class Vehicle:\n    def __init__(self, name, speed):\n        self.name = name\n        self.speed = speed\n\n    def info(self):\n        print(f"{self.name} با سرعت {self.speed}")\n\n# Car و Motorcycle را بسازید\n`,
+   solution:`class Vehicle:\n    def __init__(self, name, speed):\n        self.name = name\n        self.speed = speed\n\n    def info(self):\n        print(f"{self.name} با سرعت {self.speed}")\n\nclass Car(Vehicle):\n    def __init__(self, name, speed, doors):\n        super().__init__(name, speed)\n        self.doors = doors\n\n    def info(self):\n        print(f"خودروی {self.name}، {self.doors} در، سرعت {self.speed}")\n\nclass Motorcycle(Vehicle):\n    def info(self):\n        print(f"موتور {self.name} 🏍️ سرعت {self.speed}")\n\nvehicles = [Car("پژو", 180, 4), Motorcycle("هوندا", 140), Vehicle("دوچرخه", 25)]\nfor v in vehicles:\n    v.info()`}
+ }
+ ],
+ capstone:{id:"m6cap", title:"پروژهٔ نهایی دوره: سیستم کتابخانه + عیب‌یابی", time:"۱۲۰ دقیقه",
+  story:"بزرگ‌ترین پروژهٔ دوره: یک سیستم مدیریت کتابخانه با کلاس‌های Book و Library، امانت و بازگرداندن کتاب، و ذخیرهٔ وضعیت در فایل. این پروژه تمام دوره را جمع‌بندی می‌کند. ابتدا باگ‌های موذی کد را تعمیر کنید، سپس ذخیره در فایل را خودتان اضافه کنید!",
+  requirements:["کلاس Book با عنوان، نویسنده و وضعیت امانت","کلاس Library با لیست کتاب‌ها و متدهای افزودن/امانت/بازگرداندن/جستجو","امانت کتابِ امانت‌رفته باید خطای مناسب بدهد","منوی تعاملی با مدیریت خطای ورودی","امتیازی: ذخیره و بازخوانی فهرست از فایل"],
+  buggy:`# 🐞 پروژهٔ نهایی — ۵ باگ پنهان شده!\nclass Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.borrowed = False\n\nclass Library:\n    def __init__(self):\n        self.books = []\n\n    def add(self, book):\n        self.books.append(book)\n\n    def borrow(self, title):\n        for b in self.books:\n            if b.title == title:\n                if b.borrowed == True:\n                    print("قبلاً امانت رفته!")\n                b.borrowed = True\n                print("امانت داده شد")\n\n    def give_back(self, title):\n        for b in self.books:\n            if b.title == title:\n                b.borrowed = False\n\n    def show(self):\n        for b in self.books:\n            status = "امانت" if b.borrowed else "موجود"\n            print(f"{b.title} - {b.author} [{status}]")\n\nlib = Library()\nlib.add(Book("کویر", "بزرگ علوی"))\nlib.add("بوف کور")\n\nwhile True:\n    c = input("1) نمایش 2) امانت 3) بازگشت 4) خروج: ")\n    if c == "1":\n        lib.show()\n    elif c == "2":\n        lib.borrow(input("عنوان: "))\n    elif c == "3":\n        lib.give_back(input("عنوان: "))\n    elif c == "4":\n        break`,
+  bugs:[
+   {hint:"به کتابخانه یک رشتهٔ ساده اضافه شده، نه شیء Book! در show کرش می‌کند.", fix:"باید باشد: lib.add(Book(\"بوف کور\", \"صادق هدایت\"))"},
+   {hint:"در borrow وقتی کتاب قبلاً امانت رفته، پیام می‌دهد ولی باز هم امانت می‌دهد!", fix:"بعد از پیام «قبلاً امانت رفته» باید return شود."},
+   {hint:"اگر عنوانی که کاربر وارد می‌کند اصلاً در کتابخانه نباشد، هی�� پیامی نمی‌گیرد.", fix:"با یک متغیر found یا else در انتها، پیام «پیدا نشد» چاپ کنید."},
+   {hint:"اگر کتابخانه خالی باشد، show هیچ چیزی نمی‌گوید و کاربر گیج می‌شود.", fix:"در ابتدای show چک کنید: if not self.books: print(\"کتابخانه خالی است\")"},
+   {hint:"گزینهٔ نامعتبر منو هیچ بازخوردی ندارد.", fix:"else با پیام «گزینه نامعتبر» اضافه کنید."}
+  ],
+  solution:`class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n        self.borrowed = False\n\nclass Library:\n    def __init__(self):\n        self.books = []\n\n    def add(self, book):\n        self.books.append(book)\n\n    def find(self, title):\n        for b in self.books:\n            if b.title == title:\n                return b\n        return None\n\n    def borrow(self, title):\n        b = self.find(title)\n        if b is None:\n            print("پیدا نشد!")\n        elif b.borrowed:\n            print("قبلاً امانت رفته!")\n        else:\n            b.borrowed = True\n            print("امانت داده شد ✅")\n\n    def give_back(self, title):\n        b = self.find(title)\n        if b and b.borrowed:\n            b.borrowed = False\n            print("بازگردانده شد ✅")\n        else:\n            print("این کتاب امانت نرفته بود!")\n\n    def show(self):\n        if not self.books:\n            print("کتابخانه خالی است")\n        for b in self.books:\n            status = "امانت" if b.borrowed else "موجود"\n            print(f"{b.title} - {b.author} [{status}]")\n\nlib = Library()\nlib.add(Book("کویر", "بزرگ علوی"))\nlib.add(Book("بوف کور", "صادق هدایت"))\n\nwhile True:\n    c = input("1) نمایش 2) امانت 3) بازگشت 4) خروج: ").strip()\n    if c == "1":\n        lib.show()\n    elif c == "2":\n        lib.borrow(input("عنوان: "))\n    elif c == "3":\n        lib.give_back(input("عنوان: "))\n    elif c == "4":\n        print("خداحافظ! 🎓 دوره را تمام کردید!")\n        break\n    else:\n        print("گزینه نامعتبر!")`}
+});
+</script>
+<script>
+/* ================= Helpers & state ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const FA = ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"];
+const toFa = n => String(n).replace(/[0-9]/g, d => FA[+d]);
+
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem("pyAcademy."+k); return v ? JSON.parse(v) : fb; }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem("pyAcademy."+k, JSON.stringify(v)); }catch(e){} }
+};
+let progress = store.get("progress", {});
+let notes = store.get("notes", {});
+let chats = store.get("chats", {});
+let settings = store.get("settings", { theme:"dark", accent:"blue", fs:16, name:"", ai:{url:"",model:"",key:""} });
+
+/* Flatten items (lessons + capstones) in order */
+const ITEMS = [];
+COURSE.modules.forEach(m => {
+  m.lessons.forEach(l => ITEMS.push({ ...l, type:"lesson", mod:m }));
+  if (m.capstone) ITEMS.push({ ...m.capstone, type:"capstone", mod:m });
+});
+const byId = id => ITEMS.find(x => x.id === id);
+const isDone = id => !!(progress[id] && progress[id].done);
+
+function applySettings(){
+  document.documentElement.dataset.theme = settings.theme;
+  document.documentElement.dataset.accent = settings.accent;
+  document.documentElement.style.setProperty("--fs", settings.fs + "px");
+}
+applySettings();
+
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(()=> t.classList.remove("show"), 2600);
+}
+
+/* ================= Python syntax highlight ================= */
+function hl(code){
+  let s = esc(code);
+  const KW = "def|class|if|elif|else|for|while|in|not|and|or|return|import|from|as|break|continue|pass|try|except|finally|with|lambda|is|global|del|raise|yield|True|False|None";
+  const BI = "print|input|int|float|str|bool|len|range|type|sum|min|max|sorted|enumerate|open|super|round|list|dict|set|tuple|abs|self";
+  const re = new RegExp("(#[^\\n]*)|(&quot;|\"(?:\\\\.|[^\"\\\\\\n])*\"|'(?:\\\\.|[^'\\\\\\n])*')|\\b(" + KW + ")\\b|\\b(" + BI + ")\\b|\\b(\\d+(?:\\.\\d+)?)\\b", "g");
+  return s.replace(re, (m, c, str, kw, bi, num) => {
+    if (c) return '<span class="tok-c">' + c + '</span>';
+    if (str) return '<span class="tok-s">' + str + '</span>';
+    if (kw) return '<span class="tok-k">' + kw + '</span>';
+    if (bi) return '<span class="tok-b">' + bi + '</span>';
+    if (num) return '<span class="tok-n">' + num + '</span>';
+    return m;
+  });
+}
+function codebox(code, fname){
+  return '<div class="codebox"><div class="cb-head"><span class="dots"><i></i><i></i><i></i></span><span>' + (fname || "main.py") + '</span><button class="copy" data-copy>کپی</button></div><pre>' + hl(code) + '</pre></div>';
+}
+function renderContent(html){
+  return html
+    .replace(/~~~python\n([\s\S]*?)\n~~~/g, (m, c) => codebox(c))
+    .replace(/<pre-out>([\s\S]*?)<\/pre-out>/g, (m, c) => '<div class="codebox"><div class="out-label">خروجی ⬇</div><pre class="out">' + c + '</pre></div>');
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if (b){
+    const pre = b.closest(".codebox").querySelector("pre");
+    navigator.clipboard && navigator.clipboard.writeText(pre.textContent).then(()=> toast("کد کپی شد 📋"));
+  }
+});
+
+/* ================= Progress ring & sidebar ================= */
+function updateRing(){
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const pct = Math.round(done / total * 100);
+  $("#ringPct").textContent = toFa(pct) + "٪";
+  $("#ringFg").style.strokeDashoffset = 88 - (88 * pct / 100);
+}
+let openMods = store.get("openMods", { m1:true });
+let currentId = null;
+
+function renderSidebar(){
+  const tree = $("#sideTree");
+  tree.innerHTML = COURSE.modules.map((m, mi) => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const done = all.filter(x => isDone(x.id)).length;
+    const pct = Math.round(done / all.length * 100);
+    const items = all.map(it => {
+      const cap = it === m.capstone;
+      return '<button class="litem ' + (cap ? "cap" : "") + (isDone(it.id) ? " done" : "") + (currentId === it.id ? " active" : "") + '" data-go="' + it.id + '"><span class="dot">✓</span><span class="nm">' + (cap ? "🏗️ " : "") + esc(it.title) + '</span></button>';
+    }).join("");
+    return '<div class="mod' + (openMods[m.id] ? " open" : "") + '" id="mod-' + m.id + '">' +
+      '<button class="mod-head" data-mod="' + m.id + '"><span class="ic">' + m.icon + '</span><span class="t"><b>' + esc(m.title) + '</b><span>ماژول ' + toFa(mi+1) + ' · ' + toFa(done) + '/' + toFa(all.length) + ' تکمیل</span></span><span class="chev">◀</span></button>' +
+      '<div class="mod-prog"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="mod-lessons">' + items + '</div></div>';
+  }).join("");
+}
+document.addEventListener("click", e => {
+  const mh = e.target.closest("[data-mod]");
+  if (mh){ const id = mh.dataset.mod; openMods[id] = !openMods[id]; store.set("openMods", openMods); document.getElementById("mod-" + id).classList.toggle("open"); return; }
+  const go = e.target.closest("[data-go]");
+  if (go){ showItem(go.dataset.go); if (window.innerWidth < 920) $("#sidebar").classList.remove("open"), $("#overlay").classList.remove("show"); }
+});
+
+/* ================= Views ================= */
+function setNav(which){
+  $("#navHome").classList.toggle("active", which === "home");
+  $("#navProg").classList.toggle("active", which === "prog");
+}
+function firstUndone(){ return ITEMS.find(x => !isDone(x.id)) || ITEMS[0]; }
+
+function showHome(){
+  currentId = null; setNav("home"); renderSidebar();
+  location.hash = "home";
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const quizzes = Object.values(progress).filter(p => p.quiz).length;
+  const next = firstUndone();
+  const caps = COURSE.modules.length;
+  $("#view").innerHTML =
+  '<div class="hero">' +
+    '<div class="code-deco">def learn_python():<br>&nbsp;&nbsp;&nbsp;&nbsp;while not expert:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;practice()<br>&nbsp;&nbsp;&nbsp;&nbsp;return "🎓"</div>' +
+    '<h1>پایتون را از <em>صفر</em> تا ساخت پروژه یاد بگیرید</h1>' +
+    '<p>طرح درس گام‌به‌گام: هر درس با درسنامه، آزمون و پروژهٔ عملی تمام می‌شود و در پایان هر ماژول، یک پروژهٔ سنگین‌تر با تمرین عیب‌یابی در انتظار شماست.</p>' +
+    '<div class="stats">' +
+      '<div class="stat"><b>' + toFa(total) + '</b><span>درس و پروژه</span></div>' +
+      '<div class="stat g"><b>' + toFa(done) + '</b><span>تکمیل‌شده</span></div>' +
+      '<div class="stat"><b>' + toFa(quizzes) + '</b><span>آزمون ثبت‌شده</span></div>' +
+      '<div class="stat y"><b>' + toFa(caps) + '</b><span>پروژهٔ نهایی ماژول</span></div>' +
+    '</div>' +
+    '<button class="continue-btn" data-go="' + next.id + '">' + (done ? "▶ ادامهٔ یادگیری: " : "🚀 شروع دوره: ") + esc(next.title) + '</button>' +
+  '</div>' +
+  '<h2 class="sec">🗺️ طرح درس دوره</h2>' +
+  '<div class="mcards">' + COURSE.modules.map((m, i) => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const d = all.filter(x => isDone(x.id)).length;
+    const pct = Math.round(d / all.length * 100);
+    return '<div class="mcard' + (pct === 100 ? " complete" : "") + '" data-openmod="' + m.id + '">' +
+      '<div class="top"><span class="ic">' + m.icon + '</span><div><h3>' + esc(m.title) + '</h3><span class="num">module ' + (i+1) + '/' + COURSE.modules.length + '</span></div></div>' +
+      '<p>' + esc(m.desc) + '</p>' +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="meta"><span>' + toFa(m.lessons.length) + ' درس + پروژه نهایی</span><span>' + toFa(pct) + '٪</span></div></div>';
+  }).join("") + '</div>';
+  window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => {
+  const mc = e.target.closest("[data-openmod]");
+  if (mc && !e.target.closest("[data-go]")){
+    const m = COURSE.modules.find(x => x.id === mc.dataset.openmod);
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const next = all.find(x => !isDone(x.id)) || all[0];
+    openMods[m.id] = true; store.set("openMods", openMods);
+    showItem(next.id);
+  }
+});
+
+function showProgress(){
+  currentId = null; setNav("prog"); renderSidebar();
+  location.hash = "progress";
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const pct = Math.round(done / total * 100);
+  let quizSum = 0, quizN = 0;
+  Object.values(progress).forEach(p => { if (p.quiz){ quizSum += p.quiz.score / p.quiz.total; quizN++; } });
+  const avg = quizN ? Math.round(quizSum / quizN * 100) : 0;
+  $("#view").innerHTML =
+  '<h2 class="sec" style="margin-top:4px">📊 گزارش پیشرفت شما</h2>' +
+  '<div class="pgrid">' +
+    '<div class="stat" style="padding:18px 20px"><b>' + toFa(pct) + '٪</b><span>پیشرفت کل دوره</span></div>' +
+    '<div class="stat g" style="padding:18px 20px"><b>' + toFa(done) + ' از ' + toFa(total) + '</b><span>درس و پروژهٔ تکمیل‌شده</span></div>' +
+    '<div class="stat y" style="padding:18px 20px"><b>' + toFa(avg) + '٪</b><span>میانگین نمرهٔ آزمون‌ها</span></div>' +
+  '</div>' +
+  COURSE.modules.map(m => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    return '<h2 class="sec">' + m.icon + ' ' + esc(m.title) + '</h2>' + all.map(it => {
+      const p = progress[it.id] || {};
+      const q = p.quiz ? toFa(p.quiz.score) + "/" + toFa(p.quiz.total) + " آزمون" : "";
+      return '<div class="prow"><span class="nm">' + (it.type === "capstone" ? "🏗️ " : "") + esc(it.title) + '</span><span class="score">' + q + '</span>' +
+        '<span class="badge ' + (p.done ? "done" : "todo") + '">' + (p.done ? "✓ تکمیل شد" : "در انتظار") + '</span>' +
+        '<button class="btn ghost" data-go="' + it.id + '" style="min-height:36px;padding:6px 12px">باز کردن</button></div>';
+    }).join("");
+  }).join("");
+  window.scrollTo(0, 0);
+}
+</script>
+<script>
+/* ================= Item view (lesson / capstone) ================= */
+function showItem(id, tab){
+  const it = byId(id); if (!it){ showHome(); return; }
+  currentId = id; setNav(null);
+  openMods[it.mod.id] = true; store.set("openMods", openMods);
+  renderSidebar();
+  location.hash = id;
+  const cap = it.type === "capstone";
+  const tabs = cap
+    ? [["proj","🚀 پروژه"],["bugs","🐞 عیب‌یابی"],["sol","✅ راه‌حل"],["notes","💬 یادداشت‌ها"],["ai","🤖 دستیار"]]
+    : [["read","📖 درسنامه"],["quiz","🧪 آزمون"],["proj","🚀 پروژهٔ عملی"],["notes","💬 یادداشت‌ها"],["ai","🤖 دستیار"]];
+  const active = tab || tabs[0][0];
+  $("#view").innerHTML =
+    '<div class="crumb"><a href="#" data-nav="home">خانه</a> ‹ ' + it.mod.icon + ' ' + esc(it.mod.title) + ' ‹ <b>' + esc(it.title) + '</b></div>' +
+    '<div class="lesson-head"><h1>' + (cap ? "🏗️ " : "") + esc(it.title) + '</h1>' +
+    '<div class="lesson-meta"><span>⏱ ' + esc(it.time) + '</span><span>' + (cap ? "🏗️ پروژهٔ پایانی ماژول" : "📘 درس") + '</span>' + (isDone(id) ? '<span style="color:var(--ok)">✓ تکمیل شده</span>' : '') + '</div>' +
+    (it.goals ? '<div class="goals"><b>🎯 در این درس یاد می‌گیرید:</b><ul>' + it.goals.map(g => '<li>' + esc(g) + '</li>').join("") + '</ul></div>' : '') +
+    '</div>' +
+    '<div class="tabs">' + tabs.map(t => '<button class="tab' + (t[0] === active ? " active" : "") + '" data-tab="' + t[0] + '">' + t[1] + '</button>').join("") + '</div>' +
+    '<div class="cnt" id="tabCnt"></div>';
+  $("#view").querySelectorAll("[data-tab]").forEach(b => b.onclick = () => {
+    $("#view").querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+    b.classList.add("active"); renderTab(it, b.dataset.tab);
+  });
+  const back = $("#view").querySelector('[data-nav="home"]');
+  if (back) back.onclick = e => { e.preventDefault(); showHome(); };
+  renderTab(it, active);
+  window.scrollTo(0, 0);
+}
+
+function doneRowHtml(id){
+  return '<div class="done-row">' + (isDone(id)
+    ? '<span class="txt">🎉 آفرین! این بخش را تکمیل کرده‌اید.</span><button class="btn ghost" data-undone>برگرداندن به حالت ناتمام</button>'
+    : '<span class="txt">درسنامه و پروژه را انجام دادید؟</span><button class="btn success" data-done>✓ علامت‌گذاری به عنوان تکمیل</button>') + '</div>';
+}
+function pagerHtml(id){
+  const i = ITEMS.findIndex(x => x.id === id);
+  const prev = ITEMS[i-1], next = ITEMS[i+1];
+  return '<div class="pager">' +
+    (prev ? '<button class="btn ghost" data-go="' + prev.id + '"><span class="lbl">قبلی</span> ▶ ' + esc(prev.title) + '</button>' : '<span></span>') +
+    (next ? '<button class="btn primary" data-go="' + next.id + '">' + esc(next.title) + ' ◀ <span class="lbl">بعدی</span></button>' : '<span></span>') + '</div>';
+}
+function wireDone(it, tabKey){
+  const c = $("#tabCnt");
+  const d = c.querySelector("[data-done]"), u = c.querySelector("[data-undone]");
+  if (d) d.onclick = () => { progress[it.id] = { ...(progress[it.id]||{}), done:true }; store.set("progress", progress); toast("تبریک! 🎉 یک گام جلوتر رفتید"); updateRing(); showItem(it.id, tabKey); };
+  if (u) u.onclick = () => { if (progress[it.id]) progress[it.id].done = false; store.set("progress", progress); updateRing(); showItem(it.id, tabKey); };
+}
+
+function editorHtml(code, runId){
+  return '<div class="editor-wrap"><div class="editor-head"><span class="fname">🐍 editor.py</span><button class="btn primary run" data-run="' + runId + '">▶ اجرای کد</button></div>' +
+    '<textarea class="code-edit" id="ed-' + runId + '" spellcheck="false" dir="ltr">' + esc(code) + '</textarea>' +
+    '<div class="run-out" id="out-' + runId + '" dir="ltr">خروجی اینجا نمایش داده می‌شود... <span class="run-hint">(اجرای کد به اینترنت نیاز دارد — بار اول چند ثانیه طول می‌کشد)</span></div></div>';
+}
+let pyPromise = null;
+function loadPy(){
+  if (!pyPromise){
+    pyPromise = new Promise((res, rej) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+      s.onload = () => loadPyodide().then(res, rej);
+      s.onerror = () => { pyPromise = null; rej(new Error("offline")); };
+      document.head.appendChild(s);
+    });
+  }
+  return pyPromise;
+}
+async function runCode(runId){
+  const code = document.getElementById("ed-" + runId).value;
+  const out = document.getElementById("out-" + runId);
+  if (!navigator.onLine && !window.loadPyodide){
+    out.innerHTML = '<span class="err">⚠ آفلاین هستید.</span> برای اجرای کد داخل مرورگر، اینترنت لازم است. می‌توانید کد را کپی کرده و در پایتون نصب‌شده روی سیستم خود اجرا کنید.';
+    return;
+  }
+  out.textContent = "⏳ در حال آماده‌سازی پایتون...";
+  try{
+    const py = await loadPy();
+    let buf = "";
+    py.setStdout({ batched: s => { buf += s + "\n"; } });
+    py.setStderr({ batched: s => { buf += s + "\n"; } });
+    py.setStdin({ stdin: () => window.prompt("ورودی برنامه (input):") || "" });
+    await py.runPythonAsync(code);
+    out.textContent = buf.trim() || "(برنامه بدون خروجی اجرا شد ✓)";
+  }catch(err){
+    const msg = String(err).split("\n").filter(l => l.trim()).slice(-3).join("\n");
+    out.innerHTML = '<span class="err">' + esc(msg) + '</span>\n<span class="run-hint">💡 پیام خطا را بخوانید — نوع خطا و شمارهٔ خط راهنمای شماست. از تب دستیار 🤖 هم می‌توانید کمک بگیرید.</span>';
+  }
+}
+document.addEventListener("click", e => {
+  const r = e.target.closest("[data-run]");
+  if (r) runCode(r.dataset.run);
+});
+
+/* ================= Tab renderer ================= */
+function renderTab(it, key){
+  const c = $("#tabCnt");
+  const cap = it.type === "capstone";
+  if (key === "read"){
+    c.innerHTML = '<div class="prose">' + renderContent(it.content) + '</div>' + doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "read");
+  }
+  else if (key === "quiz"){
+    const saved = (progress[it.id] || {}).quiz;
+    c.innerHTML = (saved ? '<div class="quiz-result show ' + (saved.score >= 2 ? "pass" : "fail") + '">آخرین نتیجهٔ شما: <span class="em">' + toFa(saved.score) + ' از ' + toFa(saved.total) + '</span></div>' : '') +
+      it.quiz.map((q, qi) => '<div class="quiz-q" data-q="' + qi + '"><div class="qt"><span class="qn">' + toFa(qi+1) + '</span>' + esc(q.q) + '</div>' +
+        q.opts.map((o, oi) => '<button class="opt" data-oi="' + oi + '"><span class="radio"></span>' + esc(o) + '</button>').join("") +
+        '<div class="q-exp">💡 ' + esc(q.exp) + '</div></div>').join("") +
+      '<button class="btn primary" id="gradeBtn" style="margin-top:14px">📝 ثبت و تصحیح آزمون</button>' +
+      '<div class="quiz-result" id="qres"></div>' + pagerHtml(it.id);
+    c.querySelectorAll(".quiz-q").forEach(qEl => {
+      qEl.querySelectorAll(".opt").forEach(op => op.onclick = () => {
+        if (qEl.dataset.locked) return;
+        qEl.querySelectorAll(".opt").forEach(x => x.classList.remove("sel"));
+        op.classList.add("sel");
+      });
+    });
+    $("#gradeBtn").onclick = () => {
+      let score = 0, answered = 0;
+      c.querySelectorAll(".quiz-q").forEach(qEl => { if (qEl.querySelector(".opt.sel")) answered++; });
+      if (answered < it.quiz.length){ toast("لط��اً به همهٔ سوال‌ها پاسخ دهید"); return; }
+      c.querySelectorAll(".quiz-q").forEach(qEl => {
+        const qi = +qEl.dataset.q, q = it.quiz[qi];
+        qEl.dataset.locked = "1";
+        qEl.querySelectorAll(".opt").forEach(op => {
+          const oi = +op.dataset.oi;
+          if (oi === q.a) op.classList.add("right");
+          else if (op.classList.contains("sel")) op.classList.add("wrong");
+        });
+        if (+qEl.querySelector(".opt.sel").dataset.oi === q.a) score++;
+        qEl.querySelector(".q-exp").classList.add("show");
+      });
+      progress[it.id] = { ...(progress[it.id]||{}), quiz:{ score, total: it.quiz.length } };
+      store.set("progress", progress);
+      const res = $("#qres");
+      const pass = score >= Math.ceil(it.quiz.length * 2 / 3);
+      res.className = "quiz-result show " + (pass ? "pass" : "fail");
+      res.innerHTML = pass
+        ? '🎉 عالی بود! نمره: <span class="em">' + toFa(score) + ' از ' + toFa(it.quiz.length) + '</span> — آمادهٔ پروژهٔ عملی هستید 🚀'
+        : 'نمره: <span class="em">' + toFa(score) + ' از ' + toFa(it.quiz.length) + '</span> — پیشنهاد می‌کنیم درسنامه را یک بار دیگر مرور کنید 📖';
+      $("#gradeBtn").style.display = "none";
+      toast("نتیجهٔ آزمون ثبت شد");
+    };
+  }
+  else if (key === "proj" && !cap){
+    const p = it.project;
+    c.innerHTML = '<div class="proj-banner"><h3>🚀 ' + esc(p.title) + '</h3><p>' + esc(p.desc) + '</p></div>' +
+      '<h3 style="margin:16px 0 8px">📋 گام‌های ساخت:</h3><ol class="steps">' + p.steps.map(s => '<li>' + esc(s) + '</li>').join("") + '</ol>' +
+      editorHtml(p.starter, it.id) +
+      '<details class="rev"><summary>🔓 مشاهدهٔ راه‌حل پیشنهادی (اول خودتان تلاش کنید!)</summary><div class="body">' + codebox(p.solution, "solution.py") + '</div></details>' +
+      doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "proj");
+  }
+  else if (key === "proj" && cap){
+    c.innerHTML = '<div class="proj-banner"><h3>🏗️ پروژهٔ سنگین ماژول</h3><p>' + esc(it.story) + '</p></div>' +
+      '<h3 style="margin:16px 0 8px">✅ الزامات پروژه:</h3><ol class="steps">' + it.requirements.map(r => '<li>' + esc(r) + '</li>').join("") + '</ol>' +
+      '<div class="callout warn"><span class="ci">🐞</span><div>کد زیر عمداً <b>' + toFa(it.bugs.length) + ' باگ</b> دارد! اول خودتان اجرا و عیب‌یابی کنید، بعد از تب «🐞 عیب‌یابی» راهنمایی بگیرید.</div></div>' +
+      editorHtml(it.buggy, it.id) +
+      doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "proj");
+  }
+  else if (key === "bugs"){
+    c.innerHTML = '<div class="callout note"><span class="ci">🕵️</span><div>مثل یک کارآگاه پیش بروید: اول سرنخ (مشکل) را بخوانید و خودتان در کد دنبالش بگردید؛ فقط در صورت نیاز راه‌حل را باز کنید.</div></div>' +
+      it.bugs.map((b, i) => '<div class="bug-item"><button class="bh"><span class="no">🐞 باگ ' + toFa(i+1) + '</span><span>' + esc(b.hint) + '</span></button><div class="bb"><b>🔧 راه‌حل:</b> ' + esc(b.fix) + '</div></div>').join("") +
+      pagerHtml(it.id);
+    c.querySelectorAll(".bug-item .bh").forEach(h => h.onclick = () => h.parentElement.classList.toggle("open"));
+  }
+  else if (key === "sol"){
+    c.innerHTML = '<div class="callout tip"><span class="ci">✅</span><div>راه‌حل کامل و بدون باگ. آن را با نسخهٔ خودتان مقایسه کنید — مقایسه کردن یکی از بهترین روش‌های یادگیری است.</div></div>' +
+      codebox(it.solution, "solution.py") + doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "sol");
+  }
+  else if (key === "notes"){
+    renderNotes(it);
+  }
+  else if (key === "ai"){
+    renderAI(it);
+  }
+}
+
+/* ================= Notes ================= */
+function renderNotes(it){
+  const c = $("#tabCnt");
+  const list = notes[it.id] || [];
+  c.innerHTML = '<div class="note-form"><textarea id="noteTxt" rows="3" placeholder="یادداشت، سوال یا نکتهٔ خود را دربارهٔ این درس بنویسید..."></textarea><button class="btn primary" id="noteAdd">➕ افزودن یادداشت</button></div>' +
+    '<div id="noteList">' + (list.length ? list.map((n, i) =>
+      '<div class="note"><div class="nh"><span class="avatar">' + esc((n.who || "من")[0]) + '</span><span class="who">' + esc(n.who || "من") + '</span><span>' + esc(n.when) + '</span><button class="del" data-del="' + i + '">🗑 حذف</button></div><p>' + esc(n.text) + '</p></div>').join("")
+      : '<div class="empty">💭 هنوز یادداشتی برای این درس ننوشته‌اید. نکته‌های مهم را همین‌جا ثبت کنید!</div>') + '</div>' +
+    pagerHtml(it.id);
+  $("#noteAdd").onclick = () => {
+    const t = $("#noteTxt").value.trim();
+    if (!t){ toast("متن یادداشت خالی است"); return; }
+    const d = new Date();
+    (notes[it.id] = notes[it.id] || []).unshift({ text:t, who: settings.name || "من", when: toFa(d.toLocaleDateString("fa-IR")) + " · " + d.toLocaleTimeString("fa-IR", {hour:"2-digit",minute:"2-digit"}) });
+    store.set("notes", notes); toast("یادداشت ثبت شد ✓"); renderNotes(it);
+  };
+  c.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+    notes[it.id].splice(+b.dataset.del, 1); store.set("notes", notes); renderNotes(it);
+  });
+}
+
+/* ================= AI assistant ================= */
+function aiConfigured(){ return !!(settings.ai && settings.ai.key); }
+function renderAI(it){
+  const c = $("#tabCnt");
+  const online = navigator.onLine;
+  const msgs = chats[it.id] || [];
+  c.innerHTML = '<div class="ai-status' + (online ? " on" : "") + '"><span class="led"></span>' + (online ? "آنلاین — دستیار آمادهٔ پاسخگویی است" : "آفلاین — با وصل شدن به اینترنت، دستیار فعال می‌شود") + '</div>' +
+    (!aiConfigured() ? '<div class="ai-setup"><p>🤖 برای کمک لحظه‌ای هوش مصنوعی، کلید API خود را (سازگار با OpenAI) در تنظیمات وارد کنید. کلید فقط روی مرورگر خودتان ذخیره می‌شود.</p><button class="btn primary" id="aiGoSet">⚙️ باز کردن تنظیمات</button></div>' : '') +
+    '<div class="chat-box"><div class="chat-msgs" id="chatMsgs">' +
+      (msgs.length ? msgs.map(m => '<div class="msg ' + (m.role === "user" ? "user" : "ai") + '">' + esc(m.content) + '</div>').join("") : '<div class="empty">سوالی دربارهٔ «' + esc(it.title) + '» دارید؟ همین‌جا بپرسید! 👋</div>') + '</div>' +
+    '<div class="sugg">' + ["این درس را ساده‌تر توضیح بده","یک تمرین اضافه بهم بده","کدم خطا می‌دهد، چطور عیب‌یابی کنم؟"].map(s => '<button data-sugg="' + s + '">' + s + '</button>').join("") + '</div>' +
+    '<div class="chat-input"><input id="chatIn" placeholder="سوال خود را بنویسید..."/><button class="btn primary" id="chatSend">ارسال ◀</button></div></div>' +
+    pagerHtml(it.id);
+  const goSet = $("#aiGoSet"); if (goSet) goSet.onclick = openSettings;
+  const send = txt => sendAI(it, txt);
+  $("#chatSend").onclick = () => { const v = $("#chatIn").value.trim(); if (v) send(v); };
+  $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter"){ const v = $("#chatIn").value.trim(); if (v) send(v); } });
+  c.querySelectorAll("[data-sugg]").forEach(b => b.onclick = () => send(b.dataset.sugg));
+  const box = $("#chatMsgs"); box.scrollTop = box.scrollHeight;
+}
+async function sendAI(it, text){
+  if (!navigator.onLine){ toast("آفلاین هستید — دستیار به اینترنت نیاز دارد"); return; }
+  if (!aiConfigured()){ toast("ابتدا کلید API را در تنظیمات وارد کنید ⚙️"); openSettings(); return; }
+  const hist = chats[it.id] = chats[it.id] || [];
+  hist.push({ role:"user", content:text });
+  store.set("chats", chats);
+  const box = $("#chatMsgs");
+  box.innerHTML += '<div class="msg user">' + esc(text) + '</div><div class="msg ai thinking" id="thinkMsg">در حال فکر کردن...</div>';
+  $("#chatIn").value = ""; box.scrollTop = box.scrollHeight;
+  try{
+    const url = (settings.ai.url || "https://api.openai.com/v1/chat/completions").trim();
+    const body = {
+      model: (settings.ai.model || "gpt-4o-mini").trim(),
+      messages: [
+        { role:"system", content:"تو یک مربی مهربان پایتون برای مبتدیان فارسی‌زبان هستی. کوتاه، ساده و با مثال جواب بده. موضوع فعلی دانشجو: «" + it.title + "» از ماژول «" + it.mod.title + "»." },
+        ...hist.slice(-8)
+      ]
+    };
+    const r = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + settings.ai.key.trim() }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error("خطای سرویس (" + r.status + ") — کلید یا آدرس API را بررسی کنید");
+    const data = await r.json();
+    const ans = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "پاسخی دریافت نشد.";
+    hist.push({ role:"assistant", content:ans }); store.set("chats", chats);
+    const th = $("#thinkMsg"); th.classList.remove("thinking"); th.removeAttribute("id"); th.textContent = ans;
+  }catch(err){
+    const th = $("#thinkMsg");
+    if (th){ th.classList.remove("thinking"); th.removeAttribute("id"); th.textContent = "⚠ " + (err && err.message ? err.message : "ارتباط برقرار نشد"); }
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+/* ================= Settings modal ================= */
+function openSettings(){
+  $("#themeSeg").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.theme === settings.theme));
+  $("#accentRow").querySelectorAll(".sw").forEach(s => s.classList.toggle("on", s.dataset.accent === settings.accent));
+  $("#fontRange").value = settings.fs;
+  $("#userName").value = settings.name || "";
+  $("#aiUrl").value = settings.ai.url || "";
+  $("#aiModel").value = settings.ai.model || "";
+  $("#aiKey").value = settings.ai.key || "";
+  $("#setModal").classList.add("show");
+}
+function saveSettings(){ store.set("settings", settings); applySettings(); }
+function wireSettings(){
+  $("#navSet").onclick = openSettings;
+  $("#setModal").addEventListener("click", e => {
+    if (e.target.dataset.close !== undefined || e.target.id === "setModal") $("#setModal").classList.remove("show");
+    const tb = e.target.closest("#themeSeg [data-theme]");
+    if (tb){ settings.theme = tb.dataset.theme; saveSettings(); openSettings(); }
+    const sw = e.target.closest("#accentRow [data-accent]");
+    if (sw){ settings.accent = sw.dataset.accent; saveSettings(); openSettings(); }
+  });
+  $("#fontRange").oninput = e => { settings.fs = +e.target.value; saveSettings(); };
+  $("#userName").onchange = e => { settings.name = e.target.value.trim(); saveSettings(); };
+  $("#aiUrl").onchange = e => { settings.ai.url = e.target.value.trim(); saveSettings(); };
+  $("#aiModel").onchange = e => { settings.ai.model = e.target.value.trim(); saveSettings(); };
+  $("#aiKey").onchange = e => { settings.ai.key = e.target.value.trim(); saveSettings(); toast("تنظیمات دستیار ذخیره شد 🤖"); };
+  $("#resetAll").onclick = () => {
+    if (confirm("همهٔ پیشرفت، یادداشت‌ها و تنظیمات پاک شود؟")){
+      Object.keys(localStorage).filter(k => k.startsWith("pyAcademy.")).forEach(k => localStorage.removeItem(k));
+      location.reload();
+    }
+  };
+}
+
+/* ================= Boot ================= */
+function route(){
+  const h = (location.hash || "").replace("#", "");
+  if (h === "progress") showProgress();
+  else if (h && byId(h)) showItem(h);
+  else showHome();
+}
+$("#navHome").onclick = showHome;
+$("#navProg").onclick = showProgress;
+$("#menuBtn").onclick = () => { $("#sidebar").classList.toggle("open"); $("#overlay").classList.toggle("show", $("#sidebar").classList.contains("open")); };
+$("#overlay").onclick = () => { $("#sidebar").classList.remove("open"); $("#overlay").classList.remove("show"); };
+window.addEventListener("online", () => { toast("اینترنت وصل شد — دستیار هوش مصنوعی فعال است 🟢"); });
+window.addEventListener("offline", () => { toast("آفلاین شدید — محتوای درس‌ها همچنان در دسترس است"); });
+wireSettings();
+updateRing();
+renderSidebar();
+route();
+</script>
+</body>
+</html>

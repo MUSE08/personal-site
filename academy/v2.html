@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-theme="dark" data-accent="blue">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>آکادمی پایتون ۲ | مسیر حرفه‌ای داده و یادگیری ماشین</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --radius:10px;
+  --code-font:"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;
+  --fs:16px;
+}
+html[data-theme="dark"]{
+  --bg:#14161a; --surface:#1c1f25; --raised:#262a32; --hover:#2c313a;
+  --text:#e9ebee; --text2:rgba(233,235,238,.62); --border:rgba(255,255,255,.09);
+  --code-bg:#101216; --code-border:rgba(255,255,255,.07);
+  --green:#72BC8F; --green-soft:rgba(114,188,143,.14);
+  --red:#E97366; --red-soft:rgba(233,115,102,.13);
+  --orange:#DE9255; --orange-soft:rgba(222,146,85,.13);
+  --yellow:#EAC26B; --yellow-soft:rgba(234,194,107,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+html[data-theme="light"]{
+  --bg:#f7f7f5; --surface:#ffffff; --raised:#f0efed; --hover:#e9e8e5;
+  --text:#2c2c2b; --text2:#7d7a75; --border:#e6e5e3;
+  --code-bg:#15181d; --code-border:#15181d;
+  --green:#46A171; --green-soft:#E8F1EC;
+  --red:#E56458; --red-soft:#FCE9E7;
+  --orange:#D5803B; --orange-soft:#FBEBDE;
+  --yellow:#b8860b; --yellow-soft:#faf1dc;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.05);
+}
+html[data-theme="dark"][data-accent="blue"]{--accent:#5E9FE8; --accent-soft:rgba(94,159,232,.14); --accent-text:#0d1117;}
+html[data-theme="light"][data-accent="blue"]{--accent:#2783DE; --accent-soft:#E5F2FC; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="yellow"]{--accent:#EAC26B; --accent-soft:rgba(234,194,107,.15); --accent-text:#1a1408;}
+html[data-theme="light"][data-accent="yellow"]{--accent:#c28a10; --accent-soft:#faf1dc; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="green"]{--accent:#72BC8F; --accent-soft:rgba(114,188,143,.15); --accent-text:#0b130e;}
+html[data-theme="light"][data-accent="green"]{--accent:#46A171; --accent-soft:#E8F1EC; --accent-text:#fff;}
+html[data-theme="dark"][data-accent="purple"]{--accent:#BF8EDA; --accent-soft:rgba(191,142,218,.15); --accent-text:#150b1b;}
+html[data-theme="light"][data-accent="purple"]{--accent:#8b5fb0; --accent-soft:#f3ebf9; --accent-text:#fff;}
+
+*{box-sizing:border-box}
+html{font-size:var(--fs);}
+body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;font-size:1rem;}
+button{font-family:inherit;cursor:pointer;font-size:.95rem;}
+input,textarea,select{font-family:inherit;font-size:.95rem;color:var(--text);}
+a{color:var(--accent)}
+::selection{background:var(--accent-soft)}
+
+/* ---------- Header ---------- */
+header{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;padding:10px 20px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;white-space:nowrap;}
+.logo .py{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:linear-gradient(135deg,#3776ab 0%,#2b5f8a 55%,#ffd43b 56%,#e8b923 100%);font-size:18px;}
+.logo small{display:block;font-weight:400;font-size:.72rem;color:var(--text2);line-height:1.2}
+header .spacer{flex:1}
+.hbtn{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);min-height:40px;}
+.hbtn:hover{background:var(--hover)}
+.hbtn.active{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:700;}
+.hbtn.icon-only{padding:8px 10px}
+#menuBtn{display:none}
+.ring-wrap{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:99px;background:var(--raised);}
+.ring-wrap b{font-size:.85rem}
+.ring-wrap span{font-size:.72rem;color:var(--text2)}
+svg.ring{transform:rotate(-90deg)}
+svg.ring .bg{stroke:var(--border);}
+svg.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
+
+/* ---------- Layout ---------- */
+.layout{display:flex;min-height:calc(100vh - 61px);}
+aside{width:308px;flex-shrink:0;border-inline-end:1px solid var(--border);background:var(--surface);padding:16px 12px 40px;overflow-y:auto;position:sticky;top:61px;height:calc(100vh - 61px);}
+main{flex:1;min-width:0;padding:32px clamp(16px,4vw,48px) 90px;}
+.inner{max-width:860px;margin:0 auto;}
+
+/* ---------- Sidebar ---------- */
+.side-title{font-size:.75rem;font-weight:700;color:var(--text2);letter-spacing:.06em;margin:6px 10px 10px;}
+.mod{margin-bottom:6px;border-radius:var(--radius);}
+.mod-head{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:none;background:transparent;color:var(--text);border-radius:var(--radius);text-align:right;min-height:44px;}
+.mod-head:hover{background:var(--hover)}
+.mod-head .ic{width:32px;height:32px;border-radius:8px;background:var(--accent-soft);display:grid;place-items:center;font-size:16px;flex-shrink:0;}
+.mod-head .t{flex:1;min-width:0}
+.mod-head .t b{display:block;font-size:.9rem;line-height:1.4}
+.mod-head .t span{font-size:.72rem;color:var(--text2)}
+.mod-head .chev{color:var(--text2);transition:transform .2s;font-size:.7rem}
+.mod.open .chev{transform:rotate(90deg)}
+.mod-lessons{display:none;padding:2px 6px 6px;}
+.mod.open .mod-lessons{display:block}
+.litem{display:flex;align-items:center;gap:9px;width:100%;padding:8px 10px;margin:1px 0;border:none;background:transparent;color:var(--text2);border-radius:8px;text-align:right;font-size:.86rem;min-height:40px;}
+.litem:hover{background:var(--hover);color:var(--text)}
+.litem.active{background:var(--accent-soft);color:var(--accent);font-weight:700;}
+.litem .dot{width:18px;height:18px;border-radius:50%;border:1.6px solid var(--border);flex-shrink:0;display:grid;place-items:center;font-size:10px;color:transparent;background:transparent;}
+.litem.done .dot{background:var(--green);border-color:var(--green);color:#fff;}
+.litem.cap{color:var(--yellow)}
+.litem.cap:hover{color:var(--yellow)}
+.litem.cap .dot{border-style:dashed}
+.litem .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mod-prog{height:3px;border-radius:99px;background:var(--border);margin:4px 12px 8px;overflow:hidden;}
+.mod-prog i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .5s;}
+
+/* ---------- Hero / dashboard ---------- */
+.hero{position:relative;border:1px solid var(--border);border-radius:16px;padding:34px 34px 30px;background:
+  radial-gradient(1000px 380px at 85% -60%, var(--accent-soft), transparent 60%),
+  var(--surface);overflow:hidden;margin-bottom:28px;}
+.hero .code-deco{position:absolute;inset-inline-start:auto;inset-inline-end:24px;top:18px;font-family:var(--code-font);font-size:.72rem;color:var(--text2);opacity:.5;direction:ltr;text-align:left;line-height:1.9;pointer-events:none;user-select:none;}
+.hero h1{margin:0 0 8px;font-size:1.9rem;font-weight:800;line-height:1.35}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{margin:0;color:var(--text2);max-width:560px}
+.hero .stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+.stat{background:var(--raised);border-radius:12px;padding:12px 18px;min-width:120px;}
+.stat b{display:block;font-size:1.35rem;color:var(--accent)}
+.stat span{font-size:.78rem;color:var(--text2)}
+.stat.g b{color:var(--green)} .stat.y b{color:var(--yellow)}
+.continue-btn{margin-top:22px;display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:var(--accent);color:var(--accent-text);border:none;border-radius:10px;font-weight:800;font-size:1rem;min-height:46px;}
+.continue-btn:hover{filter:brightness(1.08)}
+
+h2.sec{font-size:1.25rem;margin:34px 0 16px;display:flex;align-items:center;gap:10px;}
+h2.sec::after{content:"";flex:1;height:1px;background:var(--border);}
+.mcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px;}
+.mcard{border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:18px;cursor:pointer;transition:border-color .15s, transform .15s;position:relative;}
+.mcard:hover{border-color:var(--accent);transform:translateY(-2px);}
+.mcard .top{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.mcard .ic{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);display:grid;place-items:center;font-size:19px;}
+.mcard .num{font-size:.7rem;color:var(--text2);font-family:var(--code-font);direction:ltr}
+.mcard h3{margin:0 0 4px;font-size:1rem;}
+.mcard p{margin:0 0 14px;font-size:.82rem;color:var(--text2);line-height:1.6;min-height:2.6em;}
+.mcard .bar{height:5px;border-radius:99px;background:var(--raised);overflow:hidden;}
+.mcard .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;}
+.mcard .meta{display:flex;justify-content:space-between;font-size:.72rem;color:var(--text2);margin-top:7px;}
+.mcard.complete{border-color:var(--green)}
+.mcard.complete .bar i{background:var(--green)}
+
+/* progress view */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:26px;}
+.prow{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.prow .nm{flex:1;font-size:.9rem}
+.prow .score{font-family:var(--code-font);font-size:.8rem;direction:ltr;color:var(--text2)}
+.badge{font-size:.72rem;padding:3px 10px;border-radius:99px;font-weight:700;}
+.badge.done{background:var(--green-soft);color:var(--green)}
+.badge.todo{background:var(--raised);color:var(--text2)}
+
+/* ---------- Lesson page ---------- */
+.crumb{font-size:.8rem;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.crumb a{color:var(--text2);text-decoration:none;cursor:pointer}
+.crumb a:hover{color:var(--accent)}
+.lesson-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:6px;flex-wrap:wrap;}
+.lesson-head h1{margin:0;font-size:1.55rem;font-weight:800;flex:1;min-width:200px;line-height:1.4}
+.lesson-meta{display:flex;gap:14px;color:var(--text2);font-size:.8rem;margin-bottom:20px;flex-wrap:wrap;}
+.goals{border:1px solid var(--border);border-inline-start:3px solid var(--accent);background:var(--surface);border-radius:10px;padding:14px 18px;margin-bottom:24px;}
+.goals b{font-size:.86rem}
+.goals ul{margin:8px 0 0;padding-inline-start:20px;font-size:.88rem;color:var(--text2)}
+.goals li{margin:3px 0}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:26px;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:none;background:transparent;color:var(--text2);padding:11px 16px;font-size:.9rem;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;gap:7px;}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:700;}
+.tab .cnt{background:var(--raised);color:var(--text2);border-radius:99px;font-size:.68rem;padding:1px 7px;}
+
+.prose h2{font-size:1.18rem;margin:30px 0 10px;padding-inline-start:12px;border-inline-start:3px solid var(--accent);}
+.prose h3{font-size:1rem;margin:22px 0 8px;color:var(--accent)}
+.prose p{margin:10px 0;color:var(--text);}
+.prose ul,.prose ol{padding-inline-start:22px;margin:10px 0}
+.prose li{margin:5px 0}
+.prose table{border-collapse:collapse;width:100%;margin:14px 0;font-size:.88rem;}
+.prose th,.prose td{border:1px solid var(--border);padding:8px 12px;text-align:right;}
+.prose th{background:var(--raised);font-size:.8rem}
+.prose code{font-family:var(--code-font);font-size:.82em;background:var(--raised);border:1px solid var(--border);border-radius:5px;padding:1px 6px;direction:ltr;unicode-bidi:embed;}
+.callout{display:flex;gap:12px;border-radius:10px;padding:13px 16px;margin:16px 0;font-size:.9rem;border:1px solid transparent;}
+.callout .ci{flex-shrink:0}
+.callout.tip{background:var(--accent-soft);}
+.callout.warn{background:var(--orange-soft);}
+.callout.note{background:var(--raised);border-color:var(--border)}
+
+/* code blocks */
+.codebox{direction:ltr;text-align:left;background:var(--code-bg);border:1px solid var(--code-border);border-radius:10px;margin:14px 0;overflow:hidden;}
+.codebox .cb-head{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.06);font-family:var(--code-font);font-size:.7rem;color:rgba(233,235,238,.5);}
+.codebox .dots{display:flex;gap:5px}
+.codebox .dots i{width:9px;height:9px;border-radius:50%;display:block}
+.codebox .dots i:nth-child(1){background:#E97366}.codebox .dots i:nth-child(2){background:#EAC26B}.codebox .dots i:nth-child(3){background:#72BC8F}
+.codebox .cb-head .copy{margin-inline-start:auto;background:transparent;border:1px solid rgba(255,255,255,.15);color:rgba(233,235,238,.6);border-radius:6px;padding:2px 10px;font-size:.68rem;font-family:var(--sans)}
+.codebox .cb-head .copy:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+.codebox pre{margin:0;padding:14px 16px;overflow-x:auto;font-family:var(--code-font);font-size:.83rem;line-height:1.75;color:#e6edf3;}
+.tok-k{color:#ff7b72}.tok-s{color:#a5d6ff}.tok-c{color:#8b949e;font-style:italic}.tok-n{color:#79c0ff}.tok-f{color:#d2a8ff}.tok-b{color:#ffa657}.tok-o{color:#ff7b72}
+.out-label{font-size:.68rem;color:rgba(233,235,238,.45);padding:6px 16px 0;font-family:var(--code-font)}
+.codebox pre.out{color:#9ba3ae;padding-top:6px;font-size:.8rem}
+</style>
+<style>
+/* ---------- Quiz ---------- */
+.quiz-q{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:18px 20px;margin-bottom:16px;}
+.quiz-q .qt{font-weight:700;margin-bottom:12px;display:flex;gap:10px;}
+.quiz-q .qn{color:var(--accent);font-family:var(--code-font);direction:ltr}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:right;padding:11px 14px;margin:6px 0;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--text);font-size:.9rem;min-height:44px;transition:border-color .12s;}
+.opt:hover{border-color:var(--accent)}
+.opt .radio{width:17px;height:17px;border-radius:50%;border:1.6px solid var(--border);flex-shrink:0}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .radio{border-color:var(--accent);background:var(--accent);box-shadow:inset 0 0 0 3px var(--surface)}
+.opt.right{border-color:var(--green);background:var(--green-soft)}
+.opt.wrong{border-color:var(--red);background:var(--red-soft)}
+.opt:disabled{cursor:default;opacity:.9}
+.q-exp{margin-top:10px;font-size:.84rem;color:var(--text2);background:var(--raised);border-radius:8px;padding:10px 14px;display:none}
+.q-exp.show{display:block}
+.quiz-result{border-radius:12px;padding:18px 20px;margin-top:18px;display:none;align-items:center;gap:14px;}
+.quiz-result.show{display:flex}
+.quiz-result.pass{background:var(--green-soft);border:1px solid var(--green)}
+.quiz-result.fail{background:var(--orange-soft);border:1px solid var(--orange)}
+.quiz-result .em{font-size:1.6rem}
+.quiz-result b{display:block}
+.quiz-result span{font-size:.84rem;color:var(--text2)}
+
+/* ---------- Buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:600;min-height:44px;}
+.btn:hover{background:var(--hover)}
+.btn.primary{background:var(--accent);color:var(--accent-text);border-color:transparent}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent)}
+.btn.success{background:var(--green);color:#fff;border-color:transparent}
+.btn.ghost{border-color:transparent}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- Project / capstone ---------- */
+.proj-banner{display:flex;gap:14px;align-items:flex-start;border:1px solid var(--border);border-inline-start:3px solid var(--yellow);border-radius:12px;background:var(--surface);padding:18px 20px;margin-bottom:20px;}
+.proj-banner .ic{font-size:1.5rem}
+.proj-banner h3{margin:0 0 4px;font-size:1.05rem}
+.proj-banner p{margin:0;font-size:.88rem;color:var(--text2)}
+.steps{counter-reset:st;list-style:none;padding:0;margin:16px 0;}
+.steps li{position:relative;padding:0 44px 18px 0;counter-increment:st;}
+.steps li::before{content:counter(st);position:absolute;right:0;top:0;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:800;font-size:.8rem;display:grid;place-items:center;font-family:var(--code-font);}
+.steps li::after{content:"";position:absolute;right:13.5px;top:32px;bottom:2px;width:1.5px;background:var(--border);}
+.steps li:last-child::after{display:none}
+.editor-wrap{border:1px solid var(--code-border);border-radius:10px;overflow:hidden;background:var(--code-bg);margin:14px 0;}
+.editor-head{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid rgba(255,255,255,.06);}
+.editor-head .fname{font-family:var(--code-font);font-size:.72rem;color:rgba(233,235,238,.55);direction:ltr}
+.editor-head .run{margin-inline-start:auto;display:inline-flex;align-items:center;gap:6px;background:var(--green);border:none;color:#08130c;font-weight:700;border-radius:7px;padding:5px 14px;font-size:.78rem;}
+.editor-head .run:disabled{opacity:.6}
+textarea.code-edit{width:100%;min-height:230px;background:transparent;border:none;resize:vertical;padding:14px 16px;font-family:var(--code-font);font-size:.83rem;line-height:1.7;color:#e6edf3;direction:ltr;text-align:left;outline:none;tab-size:4;}
+.run-out{border-top:1px solid rgba(255,255,255,.07);padding:10px 16px;font-family:var(--code-font);font-size:.78rem;color:#9ba3ae;direction:ltr;text-align:left;white-space:pre-wrap;max-height:220px;overflow:auto;}
+.run-out .err{color:#E97366}
+.run-hint{font-size:.75rem;color:var(--text2);margin:6px 2px 0;}
+details.rev{border:1px solid var(--border);border-radius:10px;background:var(--surface);margin:12px 0;overflow:hidden;}
+details.rev summary{padding:13px 18px;cursor:pointer;font-weight:700;font-size:.9rem;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;}
+details.rev summary::-webkit-details-marker{display:none}
+details.rev summary .chev{margin-inline-start:auto;transition:transform .2s;color:var(--text2);font-size:.7rem}
+details.rev[open] summary .chev{transform:rotate(90deg)}
+details.rev .body{padding:2px 18px 16px;font-size:.9rem;}
+details.rev.hintbox summary{color:var(--yellow)}
+.bug-item{border:1px solid var(--border);border-radius:10px;margin:10px 0;overflow:hidden;background:var(--surface)}
+.bug-item .bh{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;min-height:44px;font-size:.9rem}
+.bug-item .bh:hover{background:var(--hover)}
+.bug-item .bh .no{width:26px;height:26px;border-radius:8px;background:var(--red-soft);color:var(--red);display:grid;place-items:center;font-family:var(--code-font);font-size:.75rem;font-weight:700;flex-shrink:0}
+.bug-item .bb{display:none;padding:0 16px 14px;font-size:.88rem;color:var(--text2)}
+.bug-item.open .bb{display:block}
+.done-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px 20px;margin-top:28px;}
+.done-row .txt{flex:1;min-width:200px}
+.done-row .txt b{display:block}
+.done-row .txt span{font-size:.82rem;color:var(--text2)}
+.pager{display:flex;gap:12px;margin-top:20px;}
+.pager .btn{flex:1;justify-content:space-between}
+.pager .btn small{color:var(--text2);font-weight:400}
+.pager .btn .lbl{display:flex;flex-direction:column;align-items:flex-start;text-align:start}
+
+/* ---------- Notes ---------- */
+.note-form{display:flex;gap:10px;margin-bottom:18px;align-items:flex-start}
+.note-form textarea{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 14px;min-height:74px;resize:vertical;outline:none;}
+.note-form textarea:focus{border-color:var(--accent)}
+.note{border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:14px 16px;margin-bottom:10px;}
+.note .nh{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.note .avatar{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:.8rem;}
+.note .who b{font-size:.84rem;display:block;line-height:1.3}
+.note .who span{font-size:.7rem;color:var(--text2)}
+.note .del{margin-inline-start:auto;border:none;background:transparent;color:var(--text2);font-size:.8rem;padding:6px}
+.note .del:hover{color:var(--red)}
+.note p{margin:0;font-size:.9rem;white-space:pre-wrap}
+.empty{color:var(--text2);text-align:center;padding:34px 10px;font-size:.9rem;border:1.5px dashed var(--border);border-radius:12px;}
+.empty .em{font-size:1.8rem;display:block;margin-bottom:8px}
+
+/* ---------- AI chat ---------- */
+.ai-status{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--text2);margin-bottom:14px;}
+.ai-status .led{width:9px;height:9px;border-radius:50%;background:var(--red)}
+.ai-status.on .led{background:var(--green);box-shadow:0 0 6px var(--green)}
+.chat-box{border:1px solid var(--border);border-radius:14px;background:var(--surface);display:flex;flex-direction:column;height:460px;overflow:hidden;}
+.chat-msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:82%;padding:10px 15px;border-radius:14px;font-size:.9rem;white-space:pre-wrap;line-height:1.7}
+.msg.user{align-self:flex-start;background:var(--accent);color:var(--accent-text);border-bottom-right-radius:4px;}
+.msg.ai{align-self:flex-end;background:var(--raised);border-bottom-left-radius:4px;}
+.msg.ai.thinking{color:var(--text2);font-style:italic}
+.chat-input{display:flex;gap:8px;padding:12px;border-top:1px solid var(--border);}
+.chat-input textarea{flex:1;background:var(--raised);border:1px solid var(--border);border-radius:10px;padding:10px 14px;resize:none;height:46px;outline:none}
+.chat-input textarea:focus{border-color:var(--accent)}
+.sugg{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.sugg button{border:1px solid var(--border);background:var(--surface);color:var(--text2);border-radius:99px;padding:7px 14px;font-size:.78rem;}
+.sugg button:hover{color:var(--accent);border-color:var(--accent)}
+.ai-setup{border:1.5px dashed var(--border);border-radius:12px;padding:20px;font-size:.88rem;color:var(--text2);margin-bottom:14px}
+.ai-setup b{color:var(--text)}
+
+/* ---------- Modal / drawer / toast ---------- */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;display:none;}
+.overlay.show{display:block}
+.modal{position:fixed;z-index:100;inset:0;display:none;place-items:center;padding:20px;}
+.modal.show{display:grid}
+.modal .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:min(560px,100%);max-height:88vh;overflow-y:auto;box-shadow:var(--shadow);}
+.panel-head{display:flex;align-items:center;gap:10px;padding:18px 22px 0;}
+.panel-head h2{margin:0;font-size:1.15rem;flex:1}
+.panel-head .x{border:none;background:var(--raised);color:var(--text2);width:34px;height:34px;border-radius:8px;font-size:1rem;}
+.panel-body{padding:18px 22px 24px;}
+.set-group{margin-bottom:22px;}
+.set-group>label{display:block;font-size:.8rem;font-weight:700;color:var(--text2);margin-bottom:9px;}
+.seg{display:flex;background:var(--raised);border-radius:9px;padding:3px;gap:3px;}
+.seg button{flex:1;border:none;background:transparent;color:var(--text2);padding:8px;border-radius:7px;min-height:40px}
+.seg button.on{background:var(--surface);color:var(--text);font-weight:700;box-shadow:var(--shadow)}
+.swatches{display:flex;gap:10px}
+.sw{width:40px;height:40px;border-radius:50%;border:2.5px solid transparent;cursor:pointer;position:relative}
+.sw.on{border-color:var(--text)}
+.sw span{position:absolute;inset:3px;border-radius:50%;}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:.78rem;color:var(--text2);margin-bottom:5px}
+.field input,.field select{width:100%;background:var(--raised);border:1px solid var(--border);border-radius:8px;padding:10px 13px;outline:none;min-height:42px}
+.field input:focus{border-color:var(--accent)}
+.field input[dir=ltr]{direction:ltr;text-align:left;font-family:var(--code-font);font-size:.8rem}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-row input[type=range]{flex:1;accent-color:var(--accent)}
+.danger-zone{border:1px solid var(--red);border-radius:10px;padding:14px 16px;}
+.danger-zone p{margin:0 0 10px;font-size:.82rem;color:var(--text2)}
+.btn.danger{color:var(--red);border-color:var(--red);background:transparent}
+.btn.danger:hover{background:var(--red-soft)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--raised);border:1px solid var(--border);color:var(--text);padding:12px 22px;border-radius:12px;font-size:.9rem;z-index:200;transition:transform .3s;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:920px){
+  #menuBtn{display:inline-flex}
+  aside{position:fixed;inset-inline-start:0;top:0;height:100vh;z-index:95;transform:translateX(100%);transition:transform .25s;width:min(320px,86vw);padding-top:20px;}
+  html[dir="rtl"] aside{transform:translateX(100%)}
+  aside.open{transform:translateX(0)!important}
+  main{padding:22px 16px 80px}
+  .hero{padding:24px 20px}
+  .hero h1{font-size:1.45rem}
+  .hero .code-deco{display:none}
+  header{padding:10px 12px;gap:8px}
+  .ring-wrap span{display:none}
+  .hbtn .lb{display:none}
+  .hbtn{padding:8px 11px}
+  .pager{flex-direction:column}
+  .note-form{flex-direction:column}
+  .note-form .btn{width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <button class="hbtn icon-only" id="menuBtn" aria-label="منو">☰</button>
+  <div class="logo">
+    <div class="py">🐍</div>
+    <div>آکادمی پایتون ۲<small>مسیر حرفه‌ای: داده و یادگیری ماشین</small></div>
+  </div>
+  <div class="spacer"></div>
+  <div class="ring-wrap" title="پیشرفت کل دوره">
+    <svg class="ring" width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <circle class="bg" cx="17" cy="17" r="14" fill="none" stroke-width="3.5"></circle>
+      <circle class="fg" id="ringFg" cx="17" cy="17" r="14" fill="none" stroke-width="3.5" stroke-dasharray="88" stroke-dashoffset="88"></circle>
+    </svg>
+    <div><b id="ringPct">۰٪</b> <span>پیشرفت</span></div>
+  </div>
+  <button class="hbtn" id="navHome">🗺️ <span class="lb">طرح درس</span></button>
+  <button class="hbtn" id="navProg">📊 <span class="lb">پیشرفت من</span></button>
+  <button class="hbtn icon-only" id="navSet" aria-label="تنظیمات">⚙️</button>
+</header>
+
+<div class="layout">
+  <aside id="sidebar" aria-label="فهرست درس‌ها">
+    <div class="side-title">📚 نقشهٔ راه دوره</div>
+    <div id="sideTree"></div>
+  </aside>
+  <main><div class="inner" id="view"></div></main>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="modal" id="setModal" role="dialog" aria-modal="true" aria-label="تنظیمات">
+  <div class="panel">
+    <div class="panel-head"><h2>⚙️ شخصی‌سازی و تنظیمات</h2><button class="x" data-close>✕</button></div>
+    <div class="panel-body">
+      <div class="set-group">
+        <label>حالت نمایش</label>
+        <div class="seg" id="themeSeg">
+          <button data-theme="dark">🌙 تیره (حالت برنامه‌نویس)</button>
+          <button data-theme="light">☀️ روشن</button>
+        </div>
+      </div>
+      <div class="set-group">
+        <label>رنگ اصلی</label>
+        <div class="swatches" id="accentRow">
+          <button class="sw" data-accent="blue" aria-label="آبی"><span style="background:#5E9FE8"></span></button>
+          <button class="sw" data-accent="yellow" aria-label="زرد پایتونی"><span style="background:#EAC26B"></span></button>
+          <button class="sw" data-accent="green" aria-label="سبز"><span style="background:#72BC8F"></span></button>
+          <button class="sw" data-accent="purple" aria-label="بنفش"><span style="background:#BF8EDA"></span></button>
+        </div>
+      </div>
+      <div class="set-group">
+        <label>اندازهٔ متن</label>
+        <div class="range-row"><span style="font-size:.75rem">کوچک</span><input type="range" id="fontRange" min="14" max="19" step="1"><span style="font-size:1.05rem">بزرگ</span></div>
+      </div>
+      <div class="set-group">
+        <label>نام شما (برای یادداشت‌ها)</label>
+        <div class="field"><input id="userName" placeholder="مثلاً: علی"></div>
+      </div>
+      <div class="set-group">
+        <label>🤖 اتصال دستیار هوش مصنوعی (اختیاری)</label>
+        <div class="field"><label>آدرس سرویس (سازگار با OpenAI)</label><input id="aiUrl" dir="ltr" placeholder="https://api.openai.com/v1/chat/completions"></div>
+        <div class="field"><label>نام مدل</label><input id="aiModel" dir="ltr" placeholder="gpt-4o-mini"></div>
+        <div class="field"><label>کلید API (فقط روی همین مرورگر ذخیره می‌شود)</label><input id="aiKey" dir="ltr" type="password" placeholder="sk-..."></div>
+      </div>
+      <div class="set-group">
+        <div class="danger-zone">
+          <p>پاک کردن همهٔ پیشرفت، نمره‌ها و یادداشت‌ها. این کار قابل بازگشت نیست.</p>
+          <button class="btn danger" id="resetAll">🗑️ شروع دوباره از صفر</button>
+        </div>
+      </div>
+      <button class="btn primary" style="width:100%" data-close>ذخیره و بستن</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" role="status"></div>
+<script>
+const COURSE = { modules: [
+{
+ id:"m1", icon:"⚡", title:"پایتون حرفه‌ای: توابع پیشرفته", desc:"کامپریهنشن، جنریتور و دکوراتور — ابزارهایی که کد شما را کوتاه، سریع و حرفه‌ای می‌کنند.",
+ lessons:[
+ {id:"m1l1", title:"کامپریهنشن، لامبدا و آرگومان‌های انعطاف‌پذیر", time:"۳۰ دقیقه",
+  goals:["با کامپریهنشن‌ها کدهای کوتاه و سریع بنویسید","توابعی با تعداد آرگومان نامشخص بسازید","با لامبدا مرتب‌سازی‌های حرفه‌ای انجام دهید"],
+  content:`
+<h2>کامپریهنشن: خط تولید داده</h2>
+<p>در پایتون حرفه‌ای، به‌جای حلقه‌های چندخطی برای ساختن لیست، از <b>کامپریهنشن</b> استفاده می‌کنیم — هم کوتاه‌تر است و هم سریع‌تر اجرا می‌شود:</p>
+~~~python
+nums = [1, 2, 3, 4, 5, 6]
+squares = [n * n for n in nums]
+evens = [n for n in nums if n % 2 == 0]
+print(squares)
+print(evens)
+
+# دیکشنری‌کامپریهنشن هم داریم!
+ages = {"sara": 24, "reza": 31, "ali": 19}
+adults = {name: age for name, age in ages.items() if age >= 20}
+print(adults)
+~~~
+<pre-out>[1, 4, 9, 16, 25, 36]
+[2, 4, 6]
+{'sara': 24, 'reza': 31}</pre-out>
+<div class="callout tip"><span class="ci">💡</span><div>در تحلیل داده و یادگیری ماشین، کامپریهنشن‌ها همه‌جا هستند — از پاک‌سازی داده تا ساخت ویژگی‌های جدید. روی آن‌ها مسلط شوید!</div></div>
+<h2>*args و **kwargs: توابع انعطاف‌پذیر</h2>
+<p>گاهی نمی‌دانید تابع‌تان چند ورودی می‌گیرد. <code>*args</code> آرگومان‌های موقعیتی اضافه را در یک <b>تاپل</b> و <code>**kwargs</code> آرگومان‌های نام‌دار را در یک <b>دیکشنری</b> جمع می‌کند:</p>
+~~~python
+def report(title, *scores, **options):
+    print("گزارش:", title)
+    print("میانگین:", round(sum(scores) / len(scores), 2))
+    if options.get("show_max"):
+        print("بیشترین:", max(scores))
+
+report("ریاضی", 17, 19, 20, show_max=True)
+~~~
+<pre-out>گزارش: ریاضی
+میانگین: 18.67
+بیشترین: 20</pre-out>
+<h2>لامبدا: تابع یک‌خطی بی‌نام</h2>
+<p>برای کارهای کوچک — مخصوصاً به‌عنوان <code>key</code> در مرتب‌سازی — به تعریف کامل تابع نیازی نیست:</p>
+~~~python
+products = [("لپ‌تاپ", 45), ("موس", 2), ("مانیتور", 12)]
+by_price = sorted(products, key=lambda p: p[1], reverse=True)
+for name, price in by_price:
+    print(name, "→", price, "میلیون")
+~~~
+<pre-out>لپ‌تاپ → 45 میلیون
+مانیتور → 12 میلیون
+موس → 2 میلیون</pre-out>
+<div class="callout note"><span class="ci">📝</span><div>قانون طلایی: اگر منطق لامبدا بیشتر از یک خط شد، آن را تابع معمولی با نام گویا کنید. خوانایی همیشه برنده است.</div></div>`,
+  quiz:[
+   {q:"خروجی [n * 2 for n in range(3)] چیست؟", opts:["[0, 2, 4]","[2, 4, 6]","[0, 1, 2]","خطا می‌دهد"], a:0, exp:"range(3) اعداد ۰ و ۱ و ۲ را می‌دهد و هرکدام دو برابر می‌شوند."},
+   {q:"*args آرگومان‌های اضافه را در چه ساختاری جمع می‌کند؟", opts:["لیست","دیکشنری","تاپل","مجموعه"], a:2, exp:"آرگومان‌های موقعیتی اضافه در یک تاپل جمع می‌شوند؛ **kwargs دیکشنری می‌سازد."},
+   {q:"در sorted(data, key=lambda x: x[1]) لامبدا چه نقشی دارد؟", opts:["دادهٔ اول را حذف می‌کند","معیار مقایسه را مشخص می‌کند","لیست را برعکس می‌کند","داده را کپی می‌کند"], a:1, exp:"key تعیین می‌کند مرتب‌سازی بر اساس چه مقداری انجام شود — اینجا عنصر دوم هر آیتم."}
+  ],
+  project:{title:"پالایشگر دادهٔ کاربران", desc:"لیستی از کاربران خام را با ابزارهای این درس تمیز و مرتب کنید — دقیقاً همان کاری که هر روز در مهندسی داده انجام می‌شود.",
+   steps:["با کامپریهنشن کاربران زیر ۱۸ سال را حذف کنید","با کامپریهنشن نام‌ها را با حرف بزرگ شروع کنید (title)","با sorted و لامبدا بر اساس سن نزولی مرتب و چاپ کنید"],
+   starter:`users = [("sara", 24), ("omid", 15), ("reza", 31), ("niloofar", 17), ("ali", 19)]\n\n# ۱) فقط بزرگسالان (سن >= 18)\n# ۲) نام‌ها با .title() زیبا شوند\n# ۳) مرتب‌سازی نزولی بر اساس سن و چاپ\n`,
+   solution:`users = [("sara", 24), ("omid", 15), ("reza", 31), ("niloofar", 17), ("ali", 19)]\n\nadults = [(name.title(), age) for name, age in users if age >= 18]\nby_age = sorted(adults, key=lambda u: u[1], reverse=True)\n\nfor name, age in by_age:\n    print(f"{name}: {age} سال")`}
+ },
+ {id:"m1l2", title:"جنریتورها: پردازش داده بدون اشغال حافظه", time:"۳۵ دقیقه",
+  goals:["بفهمید جنریتور چیست و چرا حافظه را نجات می‌دهد","با yield جنریتور بسازید","خط لولهٔ پردازش دادهٔ جریانی بسازید"],
+  content:`
+<h2>مشکل: دادهٔ بزرگ، حافظهٔ کوچک</h2>
+<p>فرض کنید یک فایل لاگ ۱۰ گیگابایتی دارید. اگر همه را در یک لیست بریزید، حافظه پر می‌شود! <b>جنریتور</b> داده را <b>یکی‌یکی و فقط هنگام نیاز</b> تولید می‌کند — این یعنی پردازش «تنبل» (lazy) و این قلب مهندسی داده است.</p>
+<h2>ساخت جنریتور با yield</h2>
+<p>هر تابعی که به‌جای <code>return</code> از <code>yield</code> استفاده کند، جنریتور می‌شود. اجرا در هر <code>yield</code> متوقف و با درخواست بعدی ادامه می‌یابد:</p>
+~~~python
+def countdown(n):
+    print("شروع شمارش!")
+    while n > 0:
+        yield n
+        n -= 1
+
+for x in countdown(3):
+    print(x)
+~~~
+<pre-out>شروع شمارش!
+3
+2
+1</pre-out>
+<h2>عبارت جنریتوری</h2>
+<p>مثل کامپریهنشن، ولی با پرانتز — بدون ساختن لیست در حافظه. مجموع مربع یک میلیون عدد، تقریباً بدون مصرف حافظه:</p>
+~~~python
+total = sum(n * n for n in range(1, 1_000_001))
+print(total)
+~~~
+<pre-out>333333833333500000</pre-out>
+<h2>خط لولهٔ جریانی (Pipeline)</h2>
+<p>جنریتورها را می‌توان مثل قطعات لوله به هم وصل کرد — هر رکورد تک‌تک از کل مسیر عبور می‌کند:</p>
+~~~python
+numbers = range(1, 11)
+evens = (n for n in numbers if n % 2 == 0)
+squared = (n * n for n in evens)
+print(list(squared))
+~~~
+<pre-out>[4, 16, 36, 64, 100]</pre-out>
+<div class="callout warn"><span class="ci">⚠️</span><div><b>نکتهٔ مهم:</b> جنریتور یک‌بارمصرف است! بعد از یک‌بار پیمایش خالی می‌شود و <code>len()</code> هم روی آن کار نمی‌کند. این دو، منبع باگ‌های رایج‌اند — در پروژهٔ پایانی این ماژول با هر دو روبه‌رو می‌شوید!</div></div>`,
+  quiz:[
+   {q:"مزیت اصلی جنریتور نسبت به لیست چیست؟", opts:["سریع‌تر مرتب می‌شود","داده را یکی‌یکی تولید می‌کند و حافظه نمی‌گیرد","خوانایی بیشتر","امنیت بیشتر"], a:1, exp:"جنریتور مقادیر را هنگام نیاز تولید می‌کند و کل داده را در حافظه نگه نمی‌دارد."},
+   {q:"کدام کلیدواژه یک تابع را جنریتور می‌کند؟", opts:["return","async","yield","lazy"], a:2, exp:"وجود yield در بدنهٔ تابع آن را به جنریتور تبدیل می‌کند."},
+   {q:"اگر یک جنریتور را دوبار پیمایش کنیم چه می‌شود؟", opts:["دوباره از اول شروع می‌شود","بار دوم خالی است","خطای حافظه می‌دهد","داده‌ها دو برابر می‌شوند"], a:1, exp:"جنریتور یک‌بارمصرف است؛ پس از اتمام، پیمایش دوباره چیزی برنمی‌گرداند."}
+  ],
+  project:{title:"مولد اعداد اول جریانی", desc:"جنریتوری بسازید که اعداد اول را بی‌نهایت تولید کند — پایهٔ پردازش جریانی.",
+   steps:["تابع is_prime را کامل کنید","جنریتور primes() بسازید که با yield اعداد اول را یکی‌یکی بدهد","۱۰ عدد اول نخست را با آن چاپ کنید"],
+   starter:`def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef primes():\n    # جنریتوری بسازید که از ۲ شروع کند و اعداد اول را yield کند\n    pass\n\n# ۱۰ عدد اول نخست را چاپ کنید\n`,
+   solution:`def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n ** 0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n\ndef primes():\n    n = 2\n    while True:\n        if is_prime(n):\n            yield n\n        n += 1\n\ngen = primes()\nfor _ in range(10):\n    print(next(gen), end=" ")`}
+ },
+ {id:"m1l3", title:"دکوراتورها: جادوی @", time:"۳۵ دقیقه",
+  goals:["مفهوم کلوژر و تابع مرتبهٔ بالاتر را بفهمید","دکوراتور بنویسید و با @ استفاده کنید","دکوراتور زمان‌سنج و لاگ‌گیر بسازید"],
+  content:`
+<h2>تابع، شهروند درجه‌یک</h2>
+<p>در پایتون تابع‌ها را می‌توان مثل داده جابه‌جا کرد: در متغیر ریخت، به تابع دیگر پاس داد و از تابع برگرداند. <b>دکوراتور</b> تابعی است که تابع دیگری را می‌گیرد و نسخهٔ «تقویت‌شده»ای از آن برمی‌گرداند — بدون دست زدن به کد اصلی.</p>
+<h2>دکوراتور زمان‌سنج</h2>
+~~~python
+import time
+
+def timer(func):
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        elapsed = time.time() - start
+        print(f"⏱ {func.__name__} در {elapsed:.4f} ثانیه اجرا شد")
+        return result
+    return wrapper
+
+@timer
+def slow_sum(n):
+    return sum(range(n))
+
+print("نتیجه:", slow_sum(1_000_000))
+~~~
+<pre-out>⏱ slow_sum در 0.0310 ثانیه اجرا شد
+نتیجه: 499999500000</pre-out>
+<p>خط <code>@timer</code> دقیقاً معادل <code>slow_sum = timer(slow_sum)</code> است — تابع اصلی داخل <code>wrapper</code> پیچیده می‌شود.</p>
+<h2>چرا در دنیای واقعی مهم است؟</h2>
+<ul>
+<li><b>وب:</b> در Flask و FastAPI مسیرها با دکوراتور تعریف می‌شوند: <code>@app.get("/users")</code></li>
+<li><b>داده:</b> کش کردن نتایج محاسبات سنگین با <code>@functools.lru_cache</code></li>
+<li><b>همه‌جا:</b> لاگ‌گیری، کنترل دسترسی و تلاش مجدد (retry) بدون تکرار کد</li>
+</ul>
+~~~python
+from functools import lru_cache
+
+@lru_cache(maxsize=None)
+def fib(n):
+    return n if n < 2 else fib(n - 1) + fib(n - 2)
+
+print(fib(80))  # بدون کش، قرن‌ها طول می‌کشید!
+~~~
+<pre-out>23416728348467685</pre-out>
+<div class="callout tip"><span class="ci">💡</span><div>کلوژر یعنی تابع داخلی، متغیرهای تابع بیرونی را «به خاطر می‌سپارد» — wrapper حتی بعد از پایان timer به func دسترسی دارد. دکوراتور بدون کلوژر ممکن نبود.</div></div>`,
+  quiz:[
+   {q:"@timer بالای تعریف تابع f معادل کدام است؟", opts:["timer = f(timer)","f = timer(f)","f.timer()","timer(f())"], a:1, exp:"دکوراتور تابع را می‌گیرد و نسخهٔ جدید را جایگزین نام قبلی می‌کند."},
+   {q:"چرا wrapper از *args و **kwargs استفاده می‌کند؟", opts:["برای سرعت بیشتر","تا با هر تابعی با هر تعداد ورودی کار کند","اجبار پایتون است","برای مصرف کمتر حافظه"], a:1, exp:"دکوراتور باید عمومی باشد و ورودی‌های هر تابعی را عبور دهد."},
+   {q:"@lru_cache چه کاری می‌کند؟", opts:["تابع را سریع‌تر کامپایل می‌کند","نتایج قبلی را به خاطر می‌سپارد","خطاها را مخفی می‌کند","تابع را async می‌کند"], a:1, exp:"با کش کردن نتایج، فراخوانی‌های تکراری فوراً جواب می‌گیرند."}
+  ],
+  project:{title:"دکوراتور لاگ‌گیر", desc:"دکوراتوری بسازید که هر فراخوانی تابع را با ورودی و خروجی‌اش گزارش کند — ابزار شمارهٔ یک عیب‌یابی در پروژه‌های واقعی.",
+   steps:["دکوراتور log بنویسید که قبل از اجرا نام تابع و ورودی‌ها را چاپ کند","بعد از اجرا خروجی را هم چاپ کند","آن را روی دو تابع مختلف امتحان کنید"],
+   starter:`def log(func):\n    def wrapper(*args, **kwargs):\n        # قبل از اجرا: نام تابع و ورودی‌ها را چاپ کنید\n        result = func(*args, **kwargs)\n        # بعد از اجرا: خروجی را چاپ کنید\n        return result\n    return wrapper\n\n@log\ndef add(a, b):\n    return a + b\n\nadd(3, 4)\n`,
+   solution:`def log(func):\n    def wrapper(*args, **kwargs):\n        print(f"📞 فراخوانی {func.__name__} با ورودی {args}")\n        result = func(*args, **kwargs)\n        print(f"↩ خروجی: {result}")\n        return result\n    return wrapper\n\n@log\ndef add(a, b):\n    return a + b\n\n@log\ndef power(base, exp):\n    return base ** exp\n\nadd(3, 4)\npower(2, 10)`}
+ }
+ ],
+ capstone:{id:"m1cap", title:"پروژهٔ پایانی: خط پردازش لاگ سرور + عیب‌یابی", time:"۶۰ دقیقه",
+  story:"شما مهندس دادهٔ یک استارتاپ هستید. سرور شب گذشته چند بار خطا داده و مدیر فنی یک گزارش فوری می‌خواهد. باید با جنریتورها یک خط لولهٔ پردازش لاگ بسازید که رکوردها را جریانی تجزیه، فیلتر و شمارش کند. کد آماده است اما ۴ باگ دارد!",
+  requirements:["لاگ خام را خط‌به‌خط با جنریتور تجزیه کند (تاریخ، سطح، پیام)","رکوردهای ERROR را جدا کند","تعداد کل رکوردها و تعداد خطاها را گزارش دهد","پیام همهٔ خطاها را چاپ کند"],
+  buggy:`# این کد ۴ باگ دارد! 🐞\nlog_text = """2026-01-01 INFO server started\n2026-01-01 ERROR disk almost full\n2026-01-02 WARN slow query detected\n2026-01-02 ERROR connection timeout\n2026-01-03 INFO backup completed"""\n\ndef parse(text):\n    for line in text.split("\\n"):\n        parts = line.split(" ")\n        yield {"date": parts[0], "level": parts[1], "msg": parts[2]}\n\ndef only(records, level):\n    return (r for r in records if r["level"] = level)\n\nrecords = parse(log_text)\ntotal = len(records)\nerrors = only(records, "ERROR")\n\nprint("کل رکوردها:", total)\nprint("تعداد خطاها:", len(list(errors)))\nfor e in errors:\n    print("🔴", e["date"], "-", e["msg"])`,
+  bugs:[
+   {hint:"باگ ۱ (خطای نحوی): در تابع only یک علامت مقایسه اشتباه است.", fix:"در شرط فیلتر باید == باشد نه = — علامت تساوی تکی یعنی انتساب و اینجا SyntaxError می‌دهد."},
+   {hint:"باگ ۲ (منطقی): پیام خطاها ناقص چاپ می‌شود — فقط کلمهٔ اول!", fix:"line.split(\" \") پیام را هم تکه‌تکه می‌کند. باید line.split(\" \", 2) بنویسید تا فقط دو جدایی اول انجام شود و parts[2] کل پیام باشد."},
+   {hint:"باگ ۳ (TypeError): len روی خروجی parse کار نمی‌کند.", fix:"جنریتور طول ندارد! یا records = list(parse(log_text)) کنید یا با sum(1 for _ in ...) بشمارید. تبدیل به لیست ساده‌ترین راه است."},
+   {hint:"باگ ۴ (یک‌بارمصرف بودن): حلقهٔ آخر هیچ خطایی چاپ نمی‌کند!", fix:"جنریتور errors با len(list(errors)) مصرف شده و برای حلقه خالی است. اول errors = list(only(records, \"ERROR\")) بسازید و بعد هم بشمارید هم پیمایش کنید."}
+  ],
+  solution:`log_text = """2026-01-01 INFO server started\n2026-01-01 ERROR disk almost full\n2026-01-02 WARN slow query detected\n2026-01-02 ERROR connection timeout\n2026-01-03 INFO backup completed"""\n\ndef parse(text):\n    for line in text.split("\\n"):\n        parts = line.split(" ", 2)\n        yield {"date": parts[0], "level": parts[1], "msg": parts[2]}\n\ndef only(records, level):\n    return (r for r in records if r["level"] == level)\n\nrecords = list(parse(log_text))\ntotal = len(records)\nerrors = list(only(records, "ERROR"))\n\nprint("کل رکوردها:", total)\nprint("تعداد خطاها:", len(errors))\nfor e in errors:\n    print("🔴", e["date"], "-", e["msg"])`}
+},
+{
+ id:"m2", icon:"🧪", title:"کد تمیز، تایپ‌هینت و تست", desc:"مهارتی که برنامه‌نویس معمولی را از مهندس نرم‌افزار جدا می‌کند: کدی که دیگران بفهمند و تست‌ها از آن محافظت کنند.",
+ lessons:[
+ {id:"m2l1", title:"تایپ‌هینت و اصول کد تمیز", time:"۳۰ دقیقه",
+  goals:["نوع ورودی و خروجی توابع را مشخص کنید","docstring استاندارد بنویسید","اصول نام‌گذاری و توابع کوچک را به کار ببرید"],
+  content:`
+<h2>تایپ‌هینت: قرارداد شفاف</h2>
+<p>پایتون اجباری به تعیین نوع ندارد، اما در پروژه‌های واقعی، <b>تایپ‌هینت</b> کد را خواناتر می‌کند و ابزارهایی مثل VS Code خطاها را قبل از اجرا پیدا می‌کنند:</p>
+~~~python
+def apply_discount(price: int, percent: float) -> int:
+    """قیمت نهایی را پس از اعمال تخفیف برمی‌گرداند.
+
+    Args:
+        price: قیمت اولیه به تومان
+        percent: درصد تخفیف بین ۰ تا ۱۰۰
+    """
+    return round(price * (1 - percent / 100))
+
+print(apply_discount(250_000, 15))
+~~~
+<pre-out>212500</pre-out>
+<p>انواع پیچیده‌تر هم قابل بیان‌اند: <code>list[int]</code>، <code>dict[str, float]</code>، و <code>int | None</code> برای مقداری که ممکن است وجود نداشته باشد.</p>
+<h2>سه اصل طلایی کد تمیز</h2>
+<ul>
+<li><b>نام گویا:</b> <code>total_price</code> نه <code>tp</code> — کد بیشتر خوانده می‌شود تا نوشته شود.</li>
+<li><b>تابع کوچک:</b> هر تابع فقط یک کار. اگر توضیحش «و» دارد، دو تابع است!</li>
+<li><b>تکرار ممنوع (DRY):</b> کد تکراری را به تابع تبدیل کنید — یک‌بار تعریف، همه‌جا استفاده.</li>
+</ul>
+<div class="callout warn"><span class="ci">⚠️</span><div>تایپ‌هینت فقط «راهنما»ست؛ پایتون هنگام اجرا آن را اجبار نمی‌کند. برای بررسی خودکار از ابزار <code>mypy</code> روی سیستم خودتان استفاده کنید.</div></div>
+<h2>ثابت‌ها و اعداد جادویی</h2>
+~~~python
+# ❌ بد: عدد جادویی — این 0.09 چیست؟
+def final_price(price):
+    return price * 1.09
+
+# ✅ خوب: با نام و قابل تغییر در یک نقطه
+TAX_RATE: float = 0.09
+
+def final_price_clean(price: int) -> float:
+    return price * (1 + TAX_RATE)
+
+print(final_price_clean(100_000))
+~~~
+<pre-out>109000.00000000001</pre-out>
+<div class="callout note"><span class="ci">📝</span><div>به خروجی بالا دقت کنید: 109000.00000000001! اعداد اعشاری در کامپیوتر دقت محدودی دارند — برای پول همیشه با عدد صحیح (تومان/ریال) حساب کنید یا round بزنید.</div></div>`,
+  quiz:[
+   {q:"در def f(x: int) -> str عبارت -> str چه می‌گوید؟", opts:["x باید str شود","نوع مقدار برگشتی str است","تابع همیشه str چاپ می‌کند","خطا در صورت برنگرداندن str"], a:1, exp:"فلش، نوع خروجی تابع را اعلام می‌کند — البته فقط به‌عنوان راهنما."},
+   {q:"اصل DRY یعنی چه؟", opts:["کد را خشک و کوتاه بنویس","از تکرار کد پرهیز کن","همیشه کامنت بنویس","توابع را مستقل نگه دار"], a:1, exp:"Don't Repeat Yourself — منطق تکراری باید یک‌جا تعریف شود."},
+   {q:"چرا برای پول از float استفاده نمی‌کنیم؟", opts:["کند است","دقت اعشاری محدود و خطای گرد کردن دارد","حافظهٔ زیاد می‌گیرد","با print کار نمی‌کند"], a:1, exp:"اعداد ممیز شناور خطای دقت دارند (مثل 109000.00000000001) — پول را با عدد صحیح نگه دارید."}
+  ],
+  project:{title:"بازنویسی تمیز", desc:"یک تابع کثیف و مبهم به شما رسیده — آن را طبق اصول این درس بازنویسی کنید.",
+   steps:["نام‌های گویا جایگزین کنید و عدد جادویی را ثابت نام‌دار کنید","تایپ‌هینت و docstring اضافه کنید","خروجی هر دو نسخه را مقایسه کنید تا رفتار عوض نشده باشد"],
+   starter:`# این تابع کار می‌کند ولی افتضاح است! بازنویسی‌اش کنید:\ndef c(a, b):\n    x = a * b\n    y = x * 0.09\n    return x + y\n\nprint(c(3, 250000))\n`,
+   solution:`TAX_RATE: float = 0.09\n\ndef calc_total(quantity: int, unit_price: int) -> int:\n    """مبلغ نهایی سفارش را با احتساب مالیات برمی‌گرداند."""\n    subtotal = quantity * unit_price\n    tax = subtotal * TAX_RATE\n    return round(subtotal + tax)\n\nprint(calc_total(3, 250_000))`}
+ },
+ {id:"m2l2", title:"تست‌نویسی: محافظ کد شما", time:"۴۰ دقیقه",
+  goals:["بفهمید تست خودکار چرا حیاتی است","با unittest تست بنویسید و اجرا کنید","حالت‌های مرزی و خطاها را تست کنید"],
+  content:`
+<h2>چرا تست؟</h2>
+<p>هر بار که کد را تغییر می‌دهید، از کجا مطمئنید چیزی نشکسته؟ <b>تست خودکار</b> یعنی کدی که کد شما را بررسی می‌کند — یک‌بار می‌نویسید و هزار بار با خیال راحت اجرا می‌کنید. در شرکت‌های نرم‌افزاری، کد بدون تست اصلاً پذیرفته نمی‌شود.</p>
+<h2>اولین تست با unittest</h2>
+~~~python
+import unittest
+
+def apply_discount(price: int, percent: float) -> int:
+    if not 0 <= percent <= 100:
+        raise ValueError("درصد تخفیف باید بین ۰ تا ۱۰۰ باشد")
+    return round(price * (1 - percent / 100))
+
+class TestDiscount(unittest.TestCase):
+    def test_normal(self):
+        self.assertEqual(apply_discount(1000, 10), 900)
+
+    def test_zero_percent(self):
+        self.assertEqual(apply_discount(1000, 0), 1000)
+
+    def test_invalid_percent(self):
+        with self.assertRaises(ValueError):
+            apply_discount(1000, 150)
+
+unittest.main(argv=["ignored"], exit=False)
+~~~
+<pre-out>...
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+OK</pre-out>
+<p>هر متد که با <code>test_</code> شروع شود یک تست است. <code>assertEqual</code> برابری را می‌سنجد و <code>assertRaises</code> بررسی می‌کند که خطای درست پرتاب شود.</p>
+<h2>هنر انتخاب تست: حالت‌های مرزی</h2>
+<ul>
+<li><b>حالت عادی:</b> تخفیف ۱۰٪ روی ۱۰۰۰</li>
+<li><b>مرزها:</b> تخفیف ۰٪ و ۱۰۰٪ — دقیقاً لبهٔ محدوده</li>
+<li><b>ورودی خراب:</b> درصد منفی یا ۱۵۰ — باید خطای مناسب بدهد</li>
+</ul>
+<div class="callout tip"><span class="ci">💡</span><div>در رویکرد TDD (توسعهٔ تست‌محور) اول تست را می‌نویسید که رد می‌شود، بعد کد را می‌نویسید تا سبز شود. پروژهٔ پایانی این ماژول را با همین نگاه حل کنید: تست‌ها قاضی نهایی‌اند!</div></div>`,
+  quiz:[
+   {q:"متدهای تست در unittest باید با چه پیشوندی شروع شوند؟", opts:["check_","test_","assert_","try_"], a:1, exp:"فقط متدهایی که با test_ شروع شوند به‌عنوان تست اجرا می‌شوند."},
+   {q:"برای بررسی اینکه تابعی خطا پرتاب می‌کند از چه استفاده می‌کنیم؟", opts:["assertEqual","assertError","assertRaises","try/except"], a:2, exp:"با with self.assertRaises(ValueError) بررسی می‌کنیم خطای مورد انتظار رخ دهد."},
+   {q:"«حالت مرزی» یعنی چه؟", opts:["تستی که همیشه رد می‌شود","ورودی‌های لبهٔ محدودهٔ مجاز مثل ۰ و ۱۰۰","تست سرعت برنامه","تست ظاهر برنامه"], a:1, exp:"بیشترین باگ‌ها دقیقاً در مرز محدوده‌ها پنهان می‌شوند — همیشه مرزها را تست کنید."}
+  ],
+  project:{title:"تست‌نویس شوید", desc:"برای تابع اعتبارسنجی رمز عبور، مجموعه‌تست کامل بنویسید.",
+   steps:["تست حالت عادی: رمز معتبر باید True برگرداند","تست مرزی: رمز دقیقاً ۸ کاراکتری","تست ورودی بد: رمز کوتاه یا بدون عدد باید False برگرداند"],
+   starter:`import unittest\n\ndef is_strong(password: str) -> bool:\n    """رمز قوی: حداقل ۸ کاراکتر و دست‌کم یک رقم."""\n    return len(password) >= 8 and any(ch.isdigit() for ch in password)\n\nclass TestPassword(unittest.TestCase):\n    pass  # تست‌ها را اینجا بنویسید\n\nunittest.main(argv=["x"], exit=False)\n`,
+   solution:`import unittest\n\ndef is_strong(password: str) -> bool:\n    """رمز قوی: حداقل ۸ کاراکتر و دست‌کم یک رقم."""\n    return len(password) >= 8 and any(ch.isdigit() for ch in password)\n\nclass TestPassword(unittest.TestCase):\n    def test_valid(self):\n        self.assertTrue(is_strong("python123"))\n\n    def test_exactly_8_chars(self):\n        self.assertTrue(is_strong("abcdefg1"))\n\n    def test_too_short(self):\n        self.assertFalse(is_strong("ab1"))\n\n    def test_no_digit(self):\n        self.assertFalse(is_strong("abcdefgh"))\n\nunittest.main(argv=["x"], exit=False)`}
+ }
+ ],
+ capstone:{id:"m2cap", title:"پروژهٔ پایانی: نجات ماژول سبد خرید + عیب‌یابی", time:"۶۰ دقیقه",
+  story:"به تیم جدیدی پیوسته‌اید و اولین وظیفهٔ شما این است: ماژول سبد خرید فروشگاه تست‌های رد‌شده دارد و مشتری‌ها شاکی‌اند! تست‌ها درست‌اند — کد ۴ باگ دارد. تست‌ها را اجرا کنید، از پیام شکست‌ها سرنخ بگیرید و کد را درست کنید تا همهٔ تست‌ها سبز شوند. این دقیقاً روال کاری روزمره در شرکت‌هاست.",
+  requirements:["افزودن کالا با تعداد، به سبد","محاسبهٔ جمع کل","اعمال کد تخفیف WELCOME معادل ۱۰٪","همهٔ تست‌ها باید pass شوند (قاضی نهایی!)"],
+  buggy:`# کد ۴ باگ دارد — تست‌ها درست‌اند، به آن‌ها دست نزنید! 🐞\nimport unittest\n\nclass Cart:\n    def __init__(self):\n        self.items = {}\n\n    def add(self, name: str, price: int, qty: int = 1):\n        if name in self.items:\n            self.items[name]["qty"] = qty\n        else:\n            self.items[name] = {"price": price, "qty": qty}\n\n    def total(self) -> int:\n        return sum(item["price"] for item in self.items.values())\n\n    def apply_coupon(self, code: str) -> int:\n        if code == "welcome":\n            return round(self.total() * 0.9)\n        return self.total()\n\nclass TestCart(unittest.TestCase):\n    def test_add_and_total(self):\n        c = Cart()\n        c.add("کتاب", 80_000, 2)\n        c.add("خودکار", 5_000)\n        self.assertEqual(c.total(), 165_000)\n\n    def test_add_same_item_twice(self):\n        c = Cart()\n        c.add("کتاب", 80_000, 1)\n        c.add("کتاب", 80_000, 2)\n        self.assertEqual(c.total(), 240_000)\n\n    def test_coupon(self):\n        c = Cart()\n        c.add("هدفون", 900_000)\n        self.assertEqual(c.apply_coupon("WELCOME"), 810_000)\n\n    def test_bad_coupon(self):\n        c = Cart()\n        c.add("هدفون", 900_000)\n        self.assertEqual(c.apply_coupon("FAKE"), 900_000)\n\nunittest.main(argv=["x"], exit=False)`,
+  bugs:[
+   {hint:"باگ ۱: تست test_add_and_total رد می‌شود — جمع کل، تعداد را نادیده می‌گیرد.", fix:"در total باید قیمت در تعداد ضرب شود: sum(item[\"price\"] * item[\"qty\"] for ...)."},
+   {hint:"باگ ۲: تست test_add_same_item_twice رد می‌شود — افزودن دوبارهٔ یک کالا تعداد قبلی را پاک می‌کند.", fix:"در add وقتی کالا موجود است باید جمع شود: self.items[name][\"qty\"] += qty نه = qty."},
+   {hint:"باگ ۳: تست test_coupon رد می‌شود — کد تخفیف درست تشخیص داده نمی‌شود.", fix:"مقایسه به حروف حساس است: کد ورودی WELCOME است ولی شرط با \"welcome\" مقایسه می‌کند. یا code.upper() == \"WELCOME\" کنید یا رشتهٔ شرط را اصلاح کنید."},
+   {hint:"باگ ۴ (مفهومی): حتی بعد از رفع باگ ۳، اگر مشتری کد را با حروف کوچک بفرستد چه؟ تستی برای آن وجود ندارد!", fix:"تست جدید بنویسید: self.assertEqual(c.apply_coupon(\"welcome\"), 810_000) و مطمئن شوید با code.upper() پیاده شده — تست‌نویس خوب حفره‌های تست را هم پیدا می‌کند."}
+  ],
+  solution:`import unittest\n\nclass Cart:\n    def __init__(self):\n        self.items = {}\n\n    def add(self, name: str, price: int, qty: int = 1):\n        if name in self.items:\n            self.items[name]["qty"] += qty\n        else:\n            self.items[name] = {"price": price, "qty": qty}\n\n    def total(self) -> int:\n        return sum(item["price"] * item["qty"] for item in self.items.values())\n\n    def apply_coupon(self, code: str) -> int:\n        if code.upper() == "WELCOME":\n            return round(self.total() * 0.9)\n        return self.total()\n\nclass TestCart(unittest.TestCase):\n    def test_add_and_total(self):\n        c = Cart()\n        c.add("کتاب", 80_000, 2)\n        c.add("خودکار", 5_000)\n        self.assertEqual(c.total(), 165_000)\n\n    def test_add_same_item_twice(self):\n        c = Cart()\n        c.add("کتاب", 80_000, 1)\n        c.add("کتاب", 80_000, 2)\n        self.assertEqual(c.total(), 240_000)\n\n    def test_coupon(self):\n        c = Cart()\n        c.add("هدفون", 900_000)\n        self.assertEqual(c.apply_coupon("WELCOME"), 810_000)\n\n    def test_coupon_lowercase(self):\n        c = Cart()\n        c.add("هدفون", 900_000)\n        self.assertEqual(c.apply_coupon("welcome"), 810_000)\n\n    def test_bad_coupon(self):\n        c = Cart()\n        c.add("هدفون", 900_000)\n        self.assertEqual(c.apply_coupon("FAKE"), 900_000)\n\nunittest.main(argv=["x"], exit=False)`}
+},
+{
+ id:"m3", icon:"🔢", title:"NumPy و محاسبات عددی", desc:"موتور محاسباتی دنیای داده — آرایه‌ها، برداری‌سازی و آماری که پایهٔ pandas و یادگیری ماشین است.",
+ lessons:[
+ {id:"m3l1", title:"آرایه‌ها و جادوی برداری‌سازی", time:"۳۵ دقیقه",
+  goals:["آرایهٔ NumPy بسازید و با لیست مقایسه کنید","عملیات ریاضی را یک‌جا روی کل آرایه انجام دهید","با فیلتر بولی داده انتخاب کنید"],
+  content:`
+<h2>چرا NumPy؟</h2>
+<p><b>NumPy</b> قلب محاسبات عددی پایتون است: آرایه‌های آن تا صدها برابر سریع‌تر از لیست معمولی هستند و pandas، scikit-learn و تقریباً همهٔ ابزارهای داده روی آن ساخته شده‌اند.</p>
+<div class="callout note"><span class="ci">📦</span><div>اولین اجرای کدهای این ماژول کمی طول می‌کشد — کتابخانهٔ NumPy خودکار داخل مرورگر دانلود می‌شود. صبور باشید!</div></div>
+<h2>برداری‌سازی: خداحافظ حلقه‌ها</h2>
+~~~python
+import numpy as np
+
+prices = np.array([120, 95, 210, 300, 150])
+
+# عملیات روی کل آرایه، بدون حلقه!
+with_tax = prices * 1.09
+discounted = prices - 10
+print(with_tax)
+print(discounted)
+~~~
+<pre-out>[130.8 103.55 228.9 327. 163.5]
+[110  85 200 290 140]</pre-out>
+<h2>فیلتر بولی: انتخاب هوشمند</h2>
+<p>یک شرط روی کل آرایه اعمال کنید و فقط عناصر مطلوب را بردارید — پرکاربردترین الگوی تحلیل داده:</p>
+~~~python
+import numpy as np
+
+scores = np.array([12, 18.5, 9, 15, 19.75, 7, 16])
+
+passed = scores[scores >= 10]
+print("قبولی‌ها:", passed)
+print("چند نفر قبول؟", (scores >= 10).sum())
+print("میانگین قبولی‌ها:", passed.mean().round(2))
+~~~
+<pre-out>قبولی‌ها: [12.   18.5  15.   19.75 16.  ]
+چند نفر قبول؟ 5
+میانگین قبولی‌ها: 16.25</pre-out>
+<div class="callout tip"><span class="ci">💡</span><div>عبارت <code>scores >= 10</code> خودش یک آرایهٔ True/False است. جمع زدن آن تعداد Trueها را می‌دهد — ترفندی که در مصاحبه‌های استخدامی داده زیاد می‌پرسند!</div></div>`,
+  quiz:[
+   {q:"حاصل np.array([1, 2, 3]) * 2 چیست؟", opts:["[1, 2, 3, 1, 2, 3]","[2, 4, 6]","خطا","[1, 4, 9]"], a:1, exp:"برخلاف لیست که تکرار می‌شود، آرایهٔ NumPy عنصربه‌عنصر در ۲ ضرب می‌شود."},
+   {q:"scores[scores > 15] چه برمی‌گرداند؟", opts:["اولین عنصر بزرگ‌تر از ۱۵","همهٔ عناصر بزرگ‌تر از ۱۵","تعداد عناصر بزرگ‌تر از ۱۵","True یا False"], a:1, exp:"فیلتر بولی زیرمجموعهٔ عناصری را که شرط دارند برمی‌گرداند."},
+   {q:"مزیت اصلی برداری‌سازی چیست؟", opts:["کد امن‌تر می‌شود","سرعت بسیار بالاتر و کد کوتاه‌تر از حلقه","مصرف اینترنت کمتر","خوانایی کمتر ولی سرعت بیشتر"], a:1, exp:"عملیات برداری در لایهٔ C اجرا می‌شود — هم سریع‌تر و هم خواناتر از حلقهٔ دستی."}
+  ],
+  project:{title:"تحلیلگر دمای هفتگی", desc:"دمای ثبت‌شدهٔ یک هفته را با NumPy تحلیل کنید.",
+   steps:["میانگین، بیشینه و کمینهٔ دما را چاپ کنید","روزهای گرم‌تر از میانگین را با فیلتر بولی جدا کنید","دماها را از سلسیوس به فارنهایت تبدیل کنید (F = C × 1.8 + 32)"],
+   starter:`import numpy as np\n\ntemps = np.array([31.5, 29.0, 33.2, 35.1, 30.4, 28.8, 34.0])\n\n# ۱) میانگین، بیشینه، کمینه\n# ۲) روزهای گرم‌تر از میانگین\n# ۳) تبدیل به فارنهایت\n`,
+   solution:`import numpy as np\n\ntemps = np.array([31.5, 29.0, 33.2, 35.1, 30.4, 28.8, 34.0])\n\nprint("میانگین:", temps.mean().round(2))\nprint("گرم‌ترین روز:", temps.max())\nprint("خنک‌ترین روز:", temps.min())\n\nhot_days = temps[temps > temps.mean()]\nprint("روزهای گرم‌تر از میانگین:", hot_days)\n\nfahrenheit = temps * 1.8 + 32\nprint("فارنهایت:", fahrenheit.round(1))`}
+ },
+ {id:"m3l2", title:"آمار، ماتریس و دادهٔ دوبعدی", time:"۳۵ دقیقه",
+  goals:["آمار توصیفی (میانگین، میانه، انحراف معیار) بگیرید","با آرایهٔ دوبعدی (ماتریس) کار کنید","روی سطر و ستون جداگانه محاسبه کنید"],
+  content:`
+<h2>آمار توصیفی در یک نگاه</h2>
+~~~python
+import numpy as np
+
+salaries = np.array([18, 22, 25, 21, 90, 23, 20])  # میلیون تومان
+
+print("میانگین:", salaries.mean().round(1))
+print("میانه:", np.median(salaries))
+print("انحراف معیار:", salaries.std().round(1))
+~~~
+<pre-out>میانگین: 31.3
+میانه: 22.0
+انحراف معیار: 24.2</pre-out>
+<div class="callout warn"><span class="ci">⚠️</span><div>میانگین ۳۱ میلیون است ولی میانه فقط ۲۲! یک حقوق ۹۰ میلیونی (دادهٔ پرت) میانگین را بالا کشیده. درس مهم تحلیل داده: همیشه میانه را هم ببینید!</div></div>
+<h2>ماتریس: دادهٔ دوبعدی</h2>
+<p>دادهٔ واقعی معمولاً جدولی است: مثلاً نمرهٔ ۳ دانشجو در ۴ درس. پارامتر <code>axis</code> تعیین می‌کند محاسبه روی ستون (0) باشد یا سطر (1):</p>
+~~~python
+import numpy as np
+
+#            ریاضی  فیزیک  شیمی  زبان
+grades = np.array([
+    [17, 15, 19, 14],   # سارا
+    [12, 18, 11, 16],   # رضا
+    [19, 17, 18, 20],   # آیدا
+])
+
+print("میانگین هر دانشجو:", grades.mean(axis=1).round(2))
+print("میانگین هر درس:", grades.mean(axis=0).round(2))
+print("بهترین دانشجو: ردیف", grades.mean(axis=1).argmax())
+~~~
+<pre-out>میانگین هر دانشجو: [16.25 14.25 18.5 ]
+میانگین هر درس: [16.   16.67 16.   16.67]
+بهترین دانشجو: ردیف 2</pre-out>
+<div class="callout tip"><span class="ci">💡</span><div><code>argmax()</code> به‌جای خود مقدار، <b>مکان</b> بزرگ‌ترین مقدار را می‌دهد — در یادگیری ماشین برای پیدا کردن محتمل‌ترین کلاس پیش‌بینی‌شده دائماً استفاده می‌شود.</div></div>`,
+  quiz:[
+   {q:"در آرایهٔ دوبعدی، mean(axis=1) چه محاسبه می‌کند؟", opts:["میانگین کل ماتریس","میانگین هر سطر","میانگین هر ستون","میانهٔ ماتریس"], a:1, exp:"axis=1 یعنی حرکت در طول ستون‌ها برای هر سطر — یعنی میانگین سطری."},
+   {q:"چرا گاهی میانه از میانگین قابل‌اعتمادتر است؟", opts:["همیشه بزرگ‌تر است","در برابر داده‌های پرت مقاوم است","سریع‌تر محاسبه می‌شود","دقت اعشاری بیشتری دارد"], a:1, exp:"یک مقدار خیلی بزرگ یا کوچک، میانگین را جابه‌جا می‌کند ولی میانه تقریباً ثابت می‌ماند."},
+   {q:"argmax() چه برمی‌گرداند؟", opts:["بزرگ‌ترین مقدار","اندیس بزرگ‌ترین مقدار","تعداد مقادیر بیشینه","آخرین مقدار بزرگ"], a:1, exp:"argmax موقعیت (اندیس) بیشینه را برمی‌گرداند، نه خود مقدار را."}
+  ],
+  project:{title:"تحلیل فروش فصلی", desc:"فروش ۳ شعبه در ۴ فصل را با ماتریس تحلیل کنید.",
+   steps:["فروش سالانهٔ هر شعبه را حساب کنید (جمع هر سطر)","پرفروش‌ترین فصل را با argmax پیدا کنید","شعبهٔ برتر سال را مشخص کنید"],
+   starter:`import numpy as np\n\n#          بهار  تابستان  پاییز  زمستان\nsales = np.array([\n    [120, 135, 148, 160],   # شعبه تهران\n    [80,  95,  88,  102],   # شعبه اصفهان\n    [60,  72,  70,  85],    # شعبه شیراز\n])\nbranches = ["تهران", "اصفهان", "شیراز"]\nseasons = ["بهار", "تابستان", "پاییز", "زمستان"]\n\n# تحلیل را اینجا بنویسید\n`,
+   solution:`import numpy as np\n\nsales = np.array([\n    [120, 135, 148, 160],\n    [80,  95,  88,  102],\n    [60,  72,  70,  85],\n])\nbranches = ["تهران", "اصفهان", "شیراز"]\nseasons = ["بهار", "تابستان", "پاییز", "زمستان"]\n\nyearly = sales.sum(axis=1)\nfor name, total in zip(branches, yearly):\n    print(f"{name}: {total} میلیون")\n\nbest_season = sales.sum(axis=0).argmax()\nprint("پرفروش‌ترین فصل:", seasons[best_season])\n\nbest_branch = yearly.argmax()\nprint("شعبهٔ برتر:", branches[best_branch])`}
+ }
+ ],
+ capstone:{id:"m3cap", title:"پروژهٔ پایانی: کارنامهٔ هوشمند کلاس + عیب‌یابی", time:"۶۰ دقیقه",
+  story:"مدرسه‌ای از شما خواسته سیستم کارنامهٔ خودکار بسازد: میانگین هر دانش‌آموز، رتبه‌بندی، تشخیص مردودی‌ها و گزارش سخت‌ترین درس. کد نوشته شده ولی ۴ باگ دارد و خروجی‌های عجیب می‌دهد!",
+  requirements:["میانگین هر دانش‌آموز را حساب کند","دانش‌آموزانی که در حداقل یک درس زیر ۱۰ دارند را پیدا کند","سخت‌ترین درس (کمترین میانگین) را گزارش دهد","رتبهٔ اول کلاس را اعلام کند"],
+  buggy:`# این کد ۴ باگ دارد! 🐞\nimport numpy as np\n\nstudents = ["سارا", "رضا", "آیدا", "امیر"]\nlessons = ["ریاضی", "فیزیک", "شیمی"]\ngrades = np.array([\n    [17, 15, 19],\n    [12, 8, 11],\n    [19, 17, 18],\n    [9, 14, 16],\n])\n\n# میانگین هر دانش‌آموز\navgs = grades.mean(axis=0)\nfor name, avg in zip(students, avgs):\n    print(f"{name}: {avg:.2f}")\n\n# دانش‌آموزان دارای نمرهٔ زیر ۱۰\nhas_fail = (grades < 10).sum(axis=1)\nfor i, n in enumerate(has_fail):\n    if n > 0:\n        print(students[i], "در", n, "درس مردود است")\n\n# سخت‌ترین درس\nhardest = grades.mean(axis=0).argmax()\nprint("سخت‌ترین درس:", lessons[hardest])\n\n# رتبهٔ اول\nbest = grades.mean(axis=1).max()\nprint("رتبهٔ اول:", students[best])`,
+  bugs:[
+   {hint:"باگ ۱: میانگین‌ها فقط ۳ عدد است ولی ۴ دانش‌آموز داریم — zip بی‌سروصدا نفر آخر را حذف می‌کند!", fix:"میانگین هر دانش‌آموز یعنی میانگین هر سطر: grades.mean(axis=1) نه axis=0."},
+   {hint:"باگ ۲: پیام مردودی گمراه‌کننده است — نمرهٔ زیر ۱۰ در یک درس یعنی مردود در همان درس، نه کل کارنامه.", fix:"پیام را دقیق کنید و برای پیدا کردن نام درس‌های مردودی از np.where(grades[i] < 10)[0] استفاده کنید تا اندیس درس‌ها را بدهد."},
+   {hint:"باگ ۳: سخت‌ترین درس اشتباه گزارش می‌شود — درسی با بالاترین میانگین چاپ می‌شود!", fix:"سخت‌ترین درس کمترین میانگین را دارد: باید argmin() باشد نه argmax()."},
+   {hint:"باگ ۴ (TypeError یا IndexError): خط آخر خراب می‌شود — max مقدار می‌دهد نه مکان.", fix:"برای اندیس بهترین دانش‌آموز باید argmax() باشد: students[grades.mean(axis=1).argmax()]."}
+  ],
+  solution:`import numpy as np\n\nstudents = ["سارا", "رضا", "آیدا", "امیر"]\nlessons = ["ریاضی", "فیزیک", "شیمی"]\ngrades = np.array([\n    [17, 15, 19],\n    [12, 8, 11],\n    [19, 17, 18],\n    [9, 14, 16],\n])\n\navgs = grades.mean(axis=1)\nfor name, avg in zip(students, avgs):\n    print(f"{name}: {avg:.2f}")\n\nfor i, name in enumerate(students):\n    fails = np.where(grades[i] < 10)[0]\n    if len(fails) > 0:\n        failed_lessons = [lessons[j] for j in fails]\n        print(name, "مردود در:", "، ".join(failed_lessons))\n\nhardest = grades.mean(axis=0).argmin()\nprint("سخت‌ترین درس:", lessons[hardest])\n\nbest = avgs.argmax()\nprint("رتبهٔ اول:", students[best], "با میانگین", round(avgs[best], 2))`}
+},
+{
+ id:"m4", icon:"🐼", title:"تحلیل داده با pandas", desc:"ابزار شمارهٔ یک تحلیلگران داده در سراسر دنیا — جدول، فیلتر، گروه‌بندی و پاک‌سازی دادهٔ واقعی.",
+ lessons:[
+ {id:"m4l1", title:"DataFrame: جدول قدرتمند داده", time:"۴۰ دقیقه",
+  goals:["DataFrame بسازید و نمایش دهید","ستون انتخاب و ستون جدید بسازید","با شرط فیلتر کنید"],
+  content:`
+<h2>pandas: اکسل حرفه‌ای‌ها</h2>
+<p><b>DataFrame</b> یک جدول با سطر و ستون است — مثل اکسل، اما با قدرت کد. هر تحلیلگر داده روزش را با pandas شروع می‌کند:</p>
+~~~python
+import pandas as pd
+
+df = pd.DataFrame({
+    "name": ["لپ‌تاپ", "موس", "مانیتور", "کیبورد", "هدفون"],
+    "price": [45_000, 800, 12_500, 2_300, 4_100],
+    "stock": [5, 40, 12, 25, 0],
+})
+print(df)
+~~~
+<pre-out>     name  price  stock
+0   لپ‌تاپ  45000      5
+1     موس    800     40
+2  مانیتور  12500     12
+3   کیبورد   2300     25
+4   هدفون   4100      0</pre-out>
+<h2>انتخاب، ستون جدید و فیلتر</h2>
+~~~python
+import pandas as pd
+
+df = pd.DataFrame({
+    "name": ["لپ‌تاپ", "موس", "مانیتور", "کیبورد", "هدفون"],
+    "price": [45_000, 800, 12_500, 2_300, 4_100],
+    "stock": [5, 40, 12, 25, 0],
+})
+
+# ستون جدید: ارزش موجودی
+df["value"] = df["price"] * df["stock"]
+
+# فیلتر: کالاهای موجود با ارزش بالا
+available = df[(df["stock"] > 0) & (df["value"] > 50_000)]
+print(available[["name", "value"]])
+
+print("گران‌ترین کالا:", df.loc[df["price"].idxmax(), "name"])
+~~~
+<pre-out>     name   value
+0   لپ‌تاپ  225000
+2  مانیتور  150000
+3   کیبورد   57500
+گران‌ترین کالا: لپ‌تاپ</pre-out>
+<div class="callout warn"><span class="ci">⚠️</span><div>در فیلترهای ترکیبی pandas باید از <code>&</code> و <code>|</code> استفاده کنید (نه and و or) و هر شرط داخل پرانتز باشد — از رایج‌ترین خطاهای مبتدیان!</div></div>`,
+  quiz:[
+   {q:"برای ساخت ستون جدید در DataFrame چه می‌نویسیم؟", opts:["df.add_column(...)","df[\"new\"] = ...","df.new_column(...)","pd.column(df, ...)"], a:1, exp:"انتساب مستقیم به نام ستون جدید، آن را می‌سازد."},
+   {q:"در فیلتر ترکیبی pandas کدام عملگر درست است؟", opts:["and","&","&&","+"], a:1, exp:"pandas از عملگرهای بیتی & و | با پرانتز دور هر شرط استفاده می‌کند."},
+   {q:"idxmax() روی یک ستون چه می‌دهد؟", opts:["بیشینهٔ مقدار","اندیس سطر دارای بیشینه","تعداد مقادیر بیشینه","مرتب‌شدهٔ ستون"], a:1, exp:"مثل argmax در NumPy — مکان بیشینه را برمی‌گرداند که با loc قابل استفاده است."}
+  ],
+  project:{title:"گزارش فروشگاه", desc:"برای مدیر فروشگاه یک گزارش سریع از وضعیت انبار بسازید.",
+   steps:["ستون ارزش موجودی (قیمت × موجودی) بسازید","کالاهای تمام‌شده (موجودی صفر) را جدا چاپ کنید","ارزش کل انبار را محاسبه کنید"],
+   starter:`import pandas as pd\n\ndf = pd.DataFrame({\n    "name": ["شارژر", "کابل", "پاوربانک", "قاب گوشی", "گلس محافظ"],\n    "price": [350, 120, 980, 250, 90],\n    "stock": [12, 30, 0, 45, 0],\n})\n\n# گزارش را اینجا بسازید\n`,
+   solution:`import pandas as pd\n\ndf = pd.DataFrame({\n    "name": ["شارژر", "کابل", "پاوربانک", "قاب گوشی", "گلس محافظ"],\n    "price": [350, 120, 980, 250, 90],\n    "stock": [12, 30, 0, 45, 0],\n})\n\ndf["value"] = df["price"] * df["stock"]\nprint(df)\n\nout_of_stock = df[df["stock"] == 0]\nprint("\\n⚠ کالاهای تمام‌شده:")\nprint(out_of_stock[["name", "price"]])\n\nprint("\\n💰 ارزش کل انبار:", df["value"].sum(), "هزار تومان")`}
+ },
+ {id:"m4l2", title:"groupby، دادهٔ گمشده و پاک‌سازی", time:"۴۵ دقیقه",
+  goals:["داده را گروه‌بندی و خلاصه کنید","مقادیر گمشده (NaN) را مدیریت کنید","دادهٔ کثیف واقعی را پاک‌سازی کنید"],
+  content:`
+<h2>groupby: خلاصه‌سازی هوشمند</h2>
+<p>مهم‌ترین ابزار تحلیل: داده را بر اساس یک ستون گروه کن، روی هر گروه محاسبه انجام بده:</p>
+~~~python
+import pandas as pd
+
+orders = pd.DataFrame({
+    "city": ["تهران", "مشهد", "تهران", "اصفهان", "مشهد", "تهران"],
+    "amount": [250, 120, 340, 90, 210, 180],
+})
+
+summary = orders.groupby("city")["amount"].agg(["sum", "mean", "count"])
+print(summary)
+~~~
+<pre-out>         sum        mean  count
+city                           
+اصفهان    90   90.000000      1
+تهران    770  256.666667      3
+مشهد     330  165.000000      2</pre-out>
+<h2>دادهٔ گمشده: مهمان ناخواندهٔ هر دیتاست</h2>
+<p>در دنیای واقعی همیشه بخشی از داده خالی است (<code>NaN</code>). دو راهکار اصلی: حذف یا پر کردن:</p>
+~~~python
+import pandas as pd
+import numpy as np
+
+df = pd.DataFrame({
+    "user": ["سارا", "رضا", "آیدا", "امیر"],
+    "age": [24, np.nan, 31, np.nan],
+    "score": [88, 92, np.nan, 75],
+})
+
+print("تعداد گمشده‌ها در هر ستون:")
+print(df.isna().sum())
+
+# پر کردن سن با میانگین و حذف سطرهای بدون نمره
+df["age"] = df["age"].fillna(df["age"].mean())
+df = df.dropna(subset=["score"])
+print(df)
+~~~
+<pre-out>تعداد گمشده‌ها در هر ستون:
+user     0
+age      2
+score    1
+dtype: int64
+  user   age  score
+0  سارا  24.0   88.0
+1  رضا  27.5   92.0
+3  امیر  27.5   75.0</pre-out>
+<div class="callout tip"><span class="ci">💡</span><div>قانون طلایی پاک‌سازی: قبل از هر تحلیلی اول <code>df.isna().sum()</code> را بزنید. تحلیل روی دادهٔ کثیف، نتیجهٔ کثیف می‌دهد — در مهندسی داده می‌گویند: Garbage in, garbage out!</div></div>`,
+  quiz:[
+   {q:"orders.groupby(\"city\")[\"amount\"].sum() چه می‌دهد؟", opts:["جمع کل ستون amount","جمع amount به تفکیک هر شهر","تعداد شهرها","بزرگ‌ترین سفارش هر شهر"], a:1, exp:"groupby داده را به گروه‌های هم‌شهر تقسیم و درون هر گروه جمع می‌زند."},
+   {q:"fillna(df[\"age\"].mean()) چه می‌کند؟", opts:["سطرهای خالی را حذف می‌کند","جاهای خالی را با میانگین پر می‌کند","میانگین را حذف می‌کند","ستون را عددی می‌کند"], a:1, exp:"fillna مقادیر NaN را با مقدار داده‌شده جایگزین می‌کند — اینجا میانگین ستون."},
+   {q:"عبارت Garbage in, garbage out یعنی چه؟", opts:["حافظه باید خالی شود","تحلیل روی دادهٔ بی‌کیفیت، نتیجهٔ بی‌اعتبار می‌دهد","کد کثیف کند است","داده باید فشرده شود"], a:1, exp:"کیفیت خروجی هر تحلیل یا مدل، به کیفیت دادهٔ ورودی وابسته است."}
+  ],
+  project:{title:"پاک‌سازی دیتاست کارمندان", desc:"دیتاست حقوق کارمندان ناقص است — پاک‌سازی و تحلیلش کنید.",
+   steps:["تعداد مقادیر گمشده را گزارش کنید","حقوق‌های خالی را با میانگین بخش مربوطه پر کنید (راهنما: groupby + transform)","میانگین حقوق هر بخش را چاپ کنید"],
+   starter:`import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    "name": ["سارا", "رضا", "آیدا", "امیر", "مینا", "کاوه"],\n    "dept": ["فنی", "فروش", "فنی", "فروش", "فنی", "فروش"],\n    "salary": [45, np.nan, 52, 30, np.nan, 28],\n})\n\n# پاک‌سازی و تحلیل را اینجا بنویسید\n`,
+   solution:`import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\n    "name": ["سارا", "رضا", "آیدا", "امیر", "مینا", "کاوه"],\n    "dept": ["فنی", "فروش", "فنی", "فروش", "فنی", "فروش"],\n    "salary": [45, np.nan, 52, 30, np.nan, 28],\n})\n\nprint("گمشده‌ها:", df["salary"].isna().sum())\n\ndf["salary"] = df["salary"].fillna(\n    df.groupby("dept")["salary"].transform("mean")\n)\nprint(df)\n\nprint("\\nمیانگین حقوق هر بخش:")\nprint(df.groupby("dept")["salary"].mean().round(1))`}
+ }
+ ],
+ capstone:{id:"m4cap", title:"پروژهٔ پایانی: تحلیل فروش فروشگاه آنلاین + عیب‌یابی", time:"۷۵ دقیقه",
+  story:"مدیر یک فروشگاه آنلاین دادهٔ سفارش‌های یک هفته را به شما داده: بعضی مبالغ خالی‌اند، یک سفارش لغو شده و گزارش نهایی باید درآمد هر دستهٔ کالا و بهترین روز فروش را نشان دهد. کدی که همکار قبلی نوشته ۵ باگ دارد!",
+  requirements:["سفارش‌های لغوشده را کنار بگذارد","مبالغ خالی را با میانگین همان دسته پر کند","درآمد کل و درآمد هر دسته را گزارش دهد","پرفروش‌ترین روز هفته را مشخص کند"],
+  buggy:`# این کد ۵ باگ دارد! 🐞\nimport pandas as pd\nimport numpy as np\n\norders = pd.DataFrame({\n    "day": ["شنبه", "شنبه", "یکشنبه", "دوشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه"],\n    "category": ["کتاب", "لوازم", "کتاب", "لوازم", "کتاب", "لوازم", "کتاب"],\n    "amount": [120, np.nan, 200, 340, np.nan, 150, 90],\n    "status": ["ok", "ok", "ok", "canceled", "ok", "ok", "ok"],\n})\n\n# حذف لغوشده‌ها\nvalid = orders[orders["status"] == "cancelled"]\n\n# پر کردن مبالغ خالی با میانگین دسته\nvalid["amount"] = valid["amount"].fillna(\n    valid.groupby("category")["amount"].mean()\n)\n\n# گزارش\nprint("درآمد کل:", valid["amount"].sum())\nprint(valid.groupby("category")["amount"].sum())\n\nbest_day = valid.groupby("day")["amount"].sum().max()\nprint("بهترین روز:", best_day)`,
+  bugs:[
+   {hint:"باگ ۱: جدول valid تقریباً خالی است — فیلتر برعکس عمل می‌کند!", fix:"شرط باید سفارش‌های سالم را نگه دارد: orders[\"status\"] == \"ok\" یا != \"canceled\". ضمناً دقت کنید املای داده canceled است نه cancelled — مقایسهٔ رشته‌ای باید دقیقاً با مقادیر واقعی داده باشد."},
+   {hint:"باگ ۲ (هشدار SettingWithCopyWarning): روی برش جدول می‌نویسیم!", fix:"بعد از فیلتر، کپی مستقل بسازید: valid = orders[...].copy() تا تغییرات مطمئن و بدون هشدار اعمال شود."},
+   {hint:"باگ ۳: مبالغ خالی هنوز NaN می‌مانند — fillna با خروجی groupby.mean هم‌تراز نیست.", fix:"خروجی groupby(...).mean() بر اساس نام دسته ایندکس می‌شود نه شمارهٔ سطر. باید از transform استفاده کنید: valid.groupby(\"category\")[\"amount\"].transform(\"mean\")."},
+   {hint:"باگ ۴: بهترین روز یک عدد چاپ می‌شود نه نام روز!", fix:"max() مقدار فروش را می‌دهد؛ برای نام روز باید idxmax() بزنید."},
+   {hint:"باگ ۵ (مفهومی): درآمد کل با اعشار طولانی چاپ می‌شود و گزارش حرفه‌ای نیست.", fix:"گزارش مالی را گرد کنید: round(valid[\"amount\"].sum()) و برای جدول دسته‌ها .round(1) — خروجی تمیز، نشانهٔ تحلیلگر حرفه‌ای است."}
+  ],
+  solution:`import pandas as pd\nimport numpy as np\n\norders = pd.DataFrame({\n    "day": ["شنبه", "شنبه", "یکشنبه", "دوشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه"],\n    "category": ["کتاب", "لوازم", "کتاب", "لوازم", "کتاب", "لوازم", "کتاب"],\n    "amount": [120, np.nan, 200, 340, np.nan, 150, 90],\n    "status": ["ok", "ok", "ok", "canceled", "ok", "ok", "ok"],\n})\n\nvalid = orders[orders["status"] == "ok"].copy()\n\nvalid["amount"] = valid["amount"].fillna(\n    valid.groupby("category")["amount"].transform("mean")\n)\n\nprint("درآمد کل:", round(valid["amount"].sum()))\nprint(valid.groupby("category")["amount"].sum().round(1))\n\nbest_day = valid.groupby("day")["amount"].sum().idxmax()\nprint("بهترین روز:", best_day)`}
+},
+{
+ id:"m5", icon:"🔧", title:"مهندسی داده: ETL، وب و API", desc:"دادهٔ خام را از منبع بگیر، تمیز کن و تحویل بده — چرخهٔ کامل ETL و کار با API که شغل اصلی مهندس داده است.",
+ lessons:[
+ {id:"m5l1", title:"ETL: از CSV و JSON تا دادهٔ تمیز", time:"۴۵ دقیقه",
+  goals:["بفهمید ETL چیست و چرا قلب مهندسی داده است","دادهٔ CSV و JSON را بخوانید و تبدیل کنید","یک خط لولهٔ کوچک اما واقعی بسازید"],
+  content:`
+<h2>ETL یعنی چه؟</h2>
+<p>سه حرف طلایی مهندسی داده: <b>Extract</b> (استخراج از منبع: فایل، API، دیتابیس)، <b>Transform</b> (پاک‌سازی و تبدیل)، <b>Load</b> (بارگذاری در مقصد). هر شرکت داده‌محوری صدها خط لولهٔ ETL دارد که شبانه‌روز کار می‌کنند.</p>
+<h2>خواندن CSV خام</h2>
+~~~python
+import csv, io
+
+raw = """name,city,amount\nsara,tehran,250\nreza,mashhad,120\naida,tehran,340"""
+
+reader = csv.DictReader(io.StringIO(raw))
+rows = list(reader)
+print(rows[0])
+print("تعداد رکورد:", len(rows))
+~~~
+<pre-out>{'name': 'sara', 'city': 'tehran', 'amount': '250'}
+تعداد رکورد: 3</pre-out>
+<div class="callout warn"><span class="ci">⚠️</span><div>به <code>'250'</code> دقت کنید — رشته است نه عدد! CSV همه‌چیز را متنی می‌خواند. فراموش کردن تبدیل نوع، یکی از رایج‌ترین باگ‌های دنیای واقعی است.</div></div>
+<h2>JSON: زبان مشترک سرویس‌ها</h2>
+~~~python
+import json
+
+api_response = '{"users": [{"name": "sara", "active": true}, {"name": "reza", "active": false}]}'
+
+data = json.loads(api_response)
+active_users = [u["name"] for u in data["users"] if u["active"]]
+print("کاربران فعال:", active_users)
+
+# تبدیل برعکس: دیکشنری ← متن JSON
+report = {"total": 2, "active": 1}
+print(json.dumps(report))
+~~~
+<pre-out>کاربران فعال: ['sara']
+{"total": 2, "active": 1}</pre-out>
+<h2>یک خط لولهٔ کامل کوچک</h2>
+~~~python
+import csv, io, json
+
+raw = """name,amount\nsara,250\nreza,\naida,340"""
+
+# Extract
+rows = list(csv.DictReader(io.StringIO(raw)))
+# Transform: تبدیل نوع + حذف رکوردهای خراب
+clean = [{"name": r["name"], "amount": int(r["amount"])}
+         for r in rows if r["amount"]]
+# Load: اینجا خروجی JSON — در دنیای واقعی: دیتابیس
+print(json.dumps(clean, ensure_ascii=False))
+~~~
+<pre-out>[{"name": "sara", "amount": 250}, {"name": "aida", "amount": 340}]</pre-out>`,
+  quiz:[
+   {q:"در ETL حرف T مخفف چیست و چه کاری می‌کند؟", opts:["Test — تست داده","Transform — پاک‌سازی و تبدیل داده","Transfer — انتقال فایل","Total — جمع زدن"], a:1, exp:"Extract، Transform، Load — تبدیل و پاک‌سازی قلب ماجراست."},
+   {q:"چرا بعد از خواندن CSV باید نوع داده را تبدیل کنیم؟", opts:["برای زیبایی کد","CSV همه چیز را رشته می‌خواند و محاسبات عددی خراب می‌شود","پایتون اجبار می‌کند","برای صرفه‌جویی در حافظه"], a:1, exp:"'250' + '100' می‌شود '250100'! بدون int() یا float() محاسبات غلط از آب درمی‌آید."},
+   {q:"json.loads چه کاری می‌کند؟", opts:["دیکشنری را به متن تبدیل می‌کند","متن JSON را به اشیاء پایتون تبدیل می‌کند","فایل JSON دانلود می‌کند","JSON را فشرده می‌کند"], a:1, exp:"loads یعنی load string — متن را می‌خواند و دیکشنری/لیست پایتونی می‌سازد. برعکسش dumps است."}
+  ],
+  project:{title:"پاک‌ساز دادهٔ ثبت‌نام", desc:"دادهٔ ثبت‌نام کارگاه به‌صورت CSV خام رسیده — یک ETL کامل رویش اجرا کنید.",
+   steps:["رکوردهای بدون ایمیل را حذف کنید","سن را به عدد تبدیل و ایمیل را حروف کوچک کنید","خروجی تمیز را به‌صورت JSON چاپ کنید"],
+   starter:`import csv, io, json\n\nraw = """name,email,age\nSara,SARA@Gmail.com,24\nReza,,31\nAida,aida@yahoo.com,19\nAmir,AMIR@gmail.com,"""\n\n# Extract → Transform → Load را اینجا بنویسید\n`,
+   solution:`import csv, io, json\n\nraw = """name,email,age\nSara,SARA@Gmail.com,24\nReza,,31\nAida,aida@yahoo.com,19\nAmir,AMIR@gmail.com,"""\n\nrows = list(csv.DictReader(io.StringIO(raw)))\n\nclean = []\nfor r in rows:\n    if not r["email"]:\n        continue\n    clean.append({\n        "name": r["name"],\n        "email": r["email"].lower(),\n        "age": int(r["age"]) if r["age"] else None,\n    })\n\nprint(json.dumps(clean, ensure_ascii=False, indent=2))`}
+ },
+ {id:"m5l2", title:"وب و API: داده از اینترنت", time:"۴۰ دقیقه",
+  goals:["بفهمید API و HTTP چطور کار می‌کنند","پاسخ JSON یک API را پردازش کنید","با requests و FastAPI در دنیای واقعی آشنا شوید"],
+  content:`
+<h2>API: پیشخدمت داده</h2>
+<p>API مثل گارسون رستوران است: سفارش می‌دهید (Request)، غذا می‌آورد (Response — معمولاً JSON). مهم‌ترین اجزا: <b>آدرس (URL)</b>، <b>متد</b> (GET برای خواندن، POST برای ارسال) و <b>کد وضعیت</b> (۲۰۰ موفق، ۴۰۴ پیدا نشد، ۵۰۰ خطای سرور).</p>
+<p>در پایتون روی سیستم خودتان، کتابخانهٔ <code>requests</code> ابزار اصلی است:</p>
+~~~python
+# روی سیستم خودتان (نیاز به: pip install requests)
+import requests
+
+resp = requests.get("https://api.github.com/users/python")
+if resp.status_code == 200:
+    data = resp.json()
+    print(data["name"], "-", data["public_repos"], "مخزن")
+~~~
+<div class="callout note"><span class="ci">📝</span><div>کد بالا را در اجراگر مرورگر نزنید (کتابخانهٔ requests اینجا در دسترس نیست) — در عوض تمرین پایین را ببینید که دقیقاً همان منطق را با پاسخ ذخیره‌شده تمرین می‌کند.</div></div>
+<h2>پردازش پاسخ API (قابل اجرا همین‌جا!)</h2>
+~~~python
+import json
+
+# پاسخ واقعی یک API آب‌وهوا — ذخیره‌شده
+response_text = '''{
+  "city": "Tehran",
+  "days": [
+    {"day": "شنبه", "temp": 31, "condition": "sunny"},
+    {"day": "یکشنبه", "temp": 27, "condition": "cloudy"},
+    {"day": "دوشنبه", "temp": 22, "condition": "rainy"}
+  ]
+}'''
+
+data = json.loads(response_text)
+hot = [d for d in data["days"] if d["temp"] > 25]
+print("شهر:", data["city"])
+for d in hot:
+    print(d["day"], "→", d["temp"], "درجه")
+~~~
+<pre-out>شهر: Tehran
+شنبه → 31 درجه
+یکشنبه → 27 درجه</pre-out>
+<h2>طرف دیگر ماجرا: ساخت API با FastAPI</h2>
+<p>وقتی خودتان سرویس‌دهنده باشید، با FastAPI در چند خط API می‌سازید (روی سیستم خودتان با <code>pip install fastapi uvicorn</code>):</p>
+~~~python
+# main.py — اجرا: uvicorn main:app --reload
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/products")
+def list_products():
+    return [{"id": 1, "name": "لپ‌تاپ", "price": 45_000_000}]
+~~~
+<div class="callout tip"><span class="ci">💡</span><div>دکوراتور <code>@app.get</code> را یادتان می‌آید؟ همان مفهوم ماژول ۱! مسیر مهندسی داده و ML پر از API است: مدل‌های یادگیری ماشین معمولاً به‌صورت یک API با FastAPI به دنیا عرضه می‌شوند.</div></div>`,
+  quiz:[
+   {q:"کد وضعیت ۲۰۰ در HTTP یعنی چه؟", opts:["خطای سرور","درخواست موفق بود","صفحه پیدا نشد","دسترسی ممنوع"], a:1, exp:"200 = OK. خطاهای ۴۰۰ مشکل درخواست‌کننده و ۵۰۰ مشکل سرور است."},
+   {q:"برای خواندن داده از API معمولاً کدام متد استفاده می‌شود؟", opts:["POST","GET","DELETE","PUT"], a:1, exp:"GET برای دریافت/خواندن و POST برای ایجاد/ارسال داده است."},
+   {q:"resp.json() در کتابخانهٔ requests چه می‌کند؟", opts:["پاسخ را ذخیره می‌کند","متن JSON پاسخ را به دیکشنری/لیست پایتون تبدیل می‌کند","درخواست جدید می‌فرستد","پاسخ را فشرده می‌کند"], a:1, exp:"معادل json.loads(resp.text) است — خروجی آمادهٔ پردازش پایتونی."}
+  ],
+  project:{title:"تحلیلگر پاسخ API فروشگاه", desc:"پاسخ JSON یک API فروشگاهی را پردازش کنید — دقیقاً مثل کار روزانهٔ یک مهندس داده.",
+   steps:["متن JSON را با json.loads بخوانید","محصولات موجود (in_stock) را جدا کنید","میانگین قیمت موجودی‌ها و ارزان‌ترین محصول را چاپ کنید"],
+   starter:`import json\n\nresponse_text = '''{\n  "products": [\n    {"name": "لپ‌تاپ", "price": 45000, "in_stock": true},\n    {"name": "موس", "price": 800, "in_stock": true},\n    {"name": "مانیتور", "price": 12500, "in_stock": false},\n    {"name": "کیبورد", "price": 2300, "in_stock": true}\n  ]\n}'''\n\n# پردازش را اینجا بنویسید\n`,
+   solution:`import json\n\nresponse_text = '''{\n  "products": [\n    {"name": "لپ‌تاپ", "price": 45000, "in_stock": true},\n    {"name": "موس", "price": 800, "in_stock": true},\n    {"name": "مانیتور", "price": 12500, "in_stock": false},\n    {"name": "کیبورد", "price": 2300, "in_stock": true}\n  ]\n}'''\n\ndata = json.loads(response_text)\navailable = [p for p in data["products"] if p["in_stock"]]\n\nprices = [p["price"] for p in available]\nprint("میانگین قیمت موجودی‌ها:", round(sum(prices) / len(prices)))\n\ncheapest = min(available, key=lambda p: p["price"])\nprint("ارزان‌ترین:", cheapest["name"], "-", cheapest["price"])`}
+ }
+ ],
+ capstone:{id:"m5cap", title:"پروژهٔ پایانی: خط لولهٔ ETL فروش + عیب‌یابی", time:"۷۵ دقیقه",
+  story:"شرکت شما هر شب دادهٔ فروش را از API دریافت می‌کند و باید گزارش تمیز تحویل مدیران بدهد. خط لولهٔ ETL نوشته شده ولی امشب کرش کرده و گزارش غلط می‌دهد — ۵ باگ دارد. پیدایشان کنید، مدیران منتظرند!",
+  requirements:["دادهٔ JSON خام را بخواند (Extract)","رکوردهای نامعتبر را حذف و مبلغ را عددی کند (Transform)","جمع فروش هر شهر را محاسبه کند (Load)","پرفروش‌ترین شهر را اعلام کند"],
+  buggy:`# این کد ۵ باگ دارد! 🐞\nimport json\n\nraw = '''{"sales": [\n  {"city": "tehran", "amount": "250"},\n  {"city": "mashhad", "amount": "120"},\n  {"city": "tehran", "amount": null},\n  {"city": "isfahan", "amount": "90"},\n  {"city": "Tehran", "amount": "340"}\n]}'''\n\n# Extract\ndata = json.load(raw)\n\n# Transform\nclean = []\nfor rec in data["sales"]:\n    if rec["amount"] is None:\n        continue\n    clean.append({"city": rec["city"], "amount": rec["amount"]})\n\n# Load: جمع فروش هر شهر\ntotals = {}\nfor rec in clean:\n    totals[rec["city"]] += rec["amount"]\n\nprint("فروش هر شهر:", totals)\n\nbest = max(totals)\nprint("پرفروش‌ترین شهر:", best)`,
+  bugs:[
+   {hint:"باگ ۱ (AttributeError): همان خط اول Extract خراب می‌شود.", fix:"برای متن باید json.loads (با s) استفاده کنید — json.load برای فایل بازشده است."},
+   {hint:"باگ ۲ (TypeError در جمع): مبلغ‌ها رشته‌اند نه عدد!", fix:"در Transform باید تبدیل نوع انجام شود: \"amount\": int(rec[\"amount\"])."},
+   {hint:"باگ ۳ (KeyError): اولین بار که شهری دیده می‌شود، کلید در دیکشنری وجود ندارد.", fix:"قبل از += باید مقدار اولیه بسازید: totals[rec[\"city\"]] = totals.get(rec[\"city\"], 0) + rec[\"amount\"]."},
+   {hint:"باگ ۴ (منطقی): tehran و Tehran دو شهر جدا حساب می‌شوند!", fix:"در Transform نام شهر را یکدست کنید: rec[\"city\"].lower() — یکسان‌سازی مقادیر، قدم کلیدی پاک‌سازی داده است."},
+   {hint:"باگ ۵ (منطقی): پرفروش‌ترین شهر اشتباه اعلام می‌شود — max روی دیکشنری فقط نام کلیدها را الفبایی مقایسه می‌کند!", fix:"باید بر اساس مقدار مقایسه شود: max(totals, key=totals.get)."}
+  ],
+  solution:`import json\n\nraw = '''{"sales": [\n  {"city": "tehran", "amount": "250"},\n  {"city": "mashhad", "amount": "120"},\n  {"city": "tehran", "amount": null},\n  {"city": "isfahan", "amount": "90"},\n  {"city": "Tehran", "amount": "340"}\n]}'''\n\n# Extract\ndata = json.loads(raw)\n\n# Transform\nclean = []\nfor rec in data["sales"]:\n    if rec["amount"] is None:\n        continue\n    clean.append({"city": rec["city"].lower(), "amount": int(rec["amount"])})\n\n# Load\ntotals = {}\nfor rec in clean:\n    totals[rec["city"]] = totals.get(rec["city"], 0) + rec["amount"]\n\nprint("فروش هر شهر:", totals)\n\nbest = max(totals, key=totals.get)\nprint("پرفروش‌ترین شهر:", best, "با", totals[best])`}
+},
+{
+ id:"m6", icon:"🤖", title:"یادگیری ماشین از صفر", desc:"بدون جعبهٔ سیاه! رگرسیون و طبقه‌بندی را با دست خودتان از پایه می‌سازید تا واقعاً بفهمید ML چطور کار می‌کند.",
+ lessons:[
+ {id:"m6l1", title:"رگرسیون خطی و گرادیان کاهشی", time:"۵۵ دقیقه",
+  goals:["مفاهیم پایهٔ ML را بفهمید: ویژگی، برچسب، آموزش","یک مدل رگرسیون خطی را از صفر با NumPy بسازید","گرادیان کاهشی را با چشم ببینید"],
+  content:`
+<h2>یادگیری ماشین یعنی چه؟</h2>
+<p>به جای نوشتن قوانین دستی، به ماشین <b>مثال</b> نشان می‌دهیم تا خودش الگو را پیدا کند. واژه‌های کلیدی: <b>ویژگی (feature)</b> ورودی مدل (مثلاً متراژ خانه)، <b>برچسب (label)</b> جواب درست (قیمت)، <b>آموزش (training)</b> فرآیند پیدا کردن بهترین پارامترها.</p>
+<h2>ساده‌ترین مدل دنیا: خط مستقیم</h2>
+<p>می‌خواهیم قیمت خانه را از متراژ حدس بزنیم: <code>price = w * area + b</code>. آموزش یعنی پیدا کردن بهترین <code>w</code> و <code>b</code>. چطور؟ با <b>گرادیان کاهشی</b>: خطا را اندازه می‌گیریم و پارامترها را کمی در جهت کم‌شدن خطا تکان می‌دهیم — هزاران بار.</p>
+<div class="callout note"><span class="ci">📦</span><div>این درس از NumPy استفاده می‌کند — اگر اولین اجرا کمی طول کشید، دارد پکیج را دانلود می‌کند.</div></div>
+~~~python
+import numpy as np
+
+# داده: متراژ → قیمت (میلیارد تومان)
+area = np.array([50, 65, 80, 100, 120, 150], dtype=float)
+price = np.array([2.1, 2.8, 3.5, 4.4, 5.3, 6.5])
+
+# نرمال‌سازی: مقیاس ویژگی را کوچک می‌کنیم
+x = (area - area.mean()) / area.std()
+y = price
+
+w, b = 0.0, 0.0
+lr = 0.1  # نرخ یادگیری
+
+for step in range(200):
+    pred = w * x + b
+    error = pred - y
+    # گرادیان‌ها: مشتق خطا نسبت به w و b
+    dw = 2 * (error * x).mean()
+    db = 2 * error.mean()
+    w -= lr * dw
+    b -= lr * db
+    if step % 50 == 0:
+        print(f"گام {step}: خطا={float((error**2).mean()):.4f}")
+
+print(f"مدل آموخت: w={w:.3f}, b={b:.3f}")
+
+# پیش‌بینی برای خانهٔ ۹۰ متری
+new_x = (90 - area.mean()) / area.std()
+print(f"قیمت حدسی خانهٔ ۹۰ متری: {float(w * new_x + b):.2f} میلیارد")
+~~~
+<div class="callout tip"><span class="ci">💡</span><div>همین حلقهٔ ساده، قلب تپندهٔ تمام شبکه‌های عصبی مدرن است! GPT هم با همین منطق گرادیان کاهشی آموزش دیده — فقط با میلیاردها پارامتر به جای دو تا.</div></div>
+<h2>تقسیم آموزش/آزمون — قانون طلایی</h2>
+<p>هرگز مدل را با همان داده‌ای که آموزش دیده ارزیابی نکنید — مثل امتحانی که سوالاتش را از قبل دیده‌اید! داده را معمولاً ۸۰/۲۰ تقسیم می‌کنیم: بخش آموزش (train) و بخش آزمون (test). اگر مدل روی آموزش عالی ولی روی آزمون ضعیف بود، دچار <b>بیش‌برازش (overfitting)</b> شده — حفظ کرده، نفهمیده.</p>`,
+  quiz:[
+   {q:"در گرادیان کاهشی، نرخ یادگیری خیلی بزرگ چه مشکلی ایجاد می‌کند؟", opts:["آموزش کند می‌شود","خطا به جای کم شدن ممکن است منفجر شود و مدل همگرا نشود","حافظه پر می‌شود","هیچ مشکلی ندارد"], a:1, exp:"قدم‌های خیلی بزرگ از روی کمینه می‌پرند و خطا بزرگ و بزرگ‌تر می‌شود (divergence)."},
+   {q:"چرا داده را به train و test تقسیم می‌کنیم؟", opts:["برای سرعت بیشتر","تا عملکرد مدل روی دادهٔ ندیده سنجیده شود","چون حافظه کم است","برای زیبایی کد"], a:1, exp:"هدف ML تعمیم است — مدل باید روی دادهٔ جدید خوب کار کند، نه فقط دادهٔ حفظ‌شده."},
+   {q:"بیش‌برازش (overfitting) یعنی چه؟", opts:["مدل خیلی ساده است","مدل دادهٔ آموزش را حفظ کرده ولی روی دادهٔ جدید ضعیف است","داده کم است","نرخ یادگیری کوچک است"], a:1, exp:"علامتش: دقت آموزش بالا، دقت آزمون پایین. مدل الگو را نیاموخته، جزئیات را حفظ کرده."}
+  ],
+  project:{title:"پیش‌بینی نمره از ساعت مطالعه", desc:"با رگرسیون خطی از صفر، رابطهٔ ساعت مطالعه و نمره را یاد بگیرید.",
+   steps:["داده را نرمال کنید","حلقهٔ گرادیان کاهشی بنویسید (۲۰۰ گام، lr=0.1)","نمرهٔ دانشجویی که ۷ ساعت مطالعه می‌کند را پیش‌بینی کنید"],
+   starter:`import numpy as np\n\nhours = np.array([1, 2, 3, 4, 5, 6, 8, 10], dtype=float)\nscore = np.array([52, 58, 65, 70, 74, 80, 88, 94], dtype=float)\n\n# مدل را اینجا بسازید\n`,
+   solution:`import numpy as np\n\nhours = np.array([1, 2, 3, 4, 5, 6, 8, 10], dtype=float)\nscore = np.array([52, 58, 65, 70, 74, 80, 88, 94], dtype=float)\n\nx = (hours - hours.mean()) / hours.std()\ny = score\n\nw, b = 0.0, 0.0\nlr = 0.1\nfor step in range(200):\n    pred = w * x + b\n    error = pred - y\n    w -= lr * 2 * (error * x).mean()\n    b -= lr * 2 * error.mean()\n\nprint(f"w={w:.2f}, b={b:.2f}")\n\nnew_x = (7 - hours.mean()) / hours.std()\nprint(f"نمرهٔ پیش‌بینی‌شده برای ۷ ساعت: {float(w * new_x + b):.1f}")`}
+ },
+ {id:"m6l2", title:"طبقه‌بندی با kNN و مسیر آینده", time:"۵۰ دقیقه",
+  goals:["تفاوت رگرسیون و طبقه‌بندی را بفهمید","الگوریتم kNN را از صفر بنویسید","دقت (accuracy) مدل را ارزیابی کنید و مسیر ادامه را بشناسید"],
+  content:`
+<h2>طبقه‌بندی: حدس دسته، نه عدد</h2>
+<p>رگرسیون عدد پیش‌بینی می‌کند (قیمت، نمره)، طبقه‌بندی <b>دسته</b> (اسپم/عادی، بیمار/سالم). الگوریتم <b>kNN</b> (k نزدیک‌ترین همسایه) ساده‌ترین طبقه‌بند دنیاست: برای نمونهٔ جدید، k همسایهٔ نزدیک را پیدا کن و رأی اکثریت را بپذیر.</p>
+~~~python
+import numpy as np
+
+# ویژگی: [طول پیام, تعداد لینک] — برچسب: 1=اسپم, 0=عادی
+X_train = np.array([
+    [120, 5], [200, 8], [90, 4],   # اسپم‌ها
+    [300, 0], [450, 1], [250, 0],  # عادی‌ها
+], dtype=float)
+y_train = np.array([1, 1, 1, 0, 0, 0])
+
+def knn_predict(x_new, k=3):
+    dists = np.sqrt(((X_train - x_new) ** 2).sum(axis=1))
+    nearest = np.argsort(dists)[:k]      # k همسایهٔ نزدیک
+    votes = y_train[nearest]
+    return int(votes.sum() > k / 2)      # رأی اکثریت
+
+test_msg = np.array([150, 6], dtype=float)
+result = knn_predict(test_msg)
+print("اسپم" if result == 1 else "عادی")
+~~~
+<pre-out>اسپم</pre-out>
+<h2>ارزیابی: دقت مدل</h2>
+~~~python
+import numpy as np
+
+y_true = np.array([1, 0, 1, 1, 0, 0, 1, 0])
+y_pred = np.array([1, 0, 1, 0, 0, 1, 1, 0])
+
+accuracy = (y_true == y_pred).mean()
+print(f"دقت: {float(accuracy):.0%}")
+~~~
+<pre-out>دقت: 75%</pre-out>
+<div class="callout warn"><span class="ci">⚠️</span><div>دقت به‌تنهایی گول‌زننده است! اگر ۹۹٪ پیام‌ها عادی باشند، مدلی که همیشه بگوید «عادی» دقت ۹۹٪ دارد ولی بی‌مصرف است. در دنیای واقعی precision و recall هم می‌سنجیم.</div></div>
+<h2>🗺️ مسیر ادامهٔ راه شما</h2>
+<p>بعد از این دوره، مسیر پیشنهادی:</p>
+<div class="callout tip"><span class="ci">💡</span><div><b>مهندسی داده:</b> SQL عمیق ← Airflow (زمان‌بندی خط لوله) ← Spark (دادهٔ عظیم) ← ابزارهای ابری.<br><b>یادگیری ماشین:</b> scikit-learn (همهٔ الگوریتم‌های این ماژول با دو خط!) ← مسابقات Kaggle ← شبکهٔ عصبی با PyTorch.<br>شما اکنون پایهٔ هر دو مسیر را دارید.</div></div>`,
+  quiz:[
+   {q:"kNN برای پیش‌بینی یک نمونهٔ جدید چه می‌کند؟", opts:["یک خط رسم می‌کند","k نمونهٔ نزدیک را پیدا و رأی اکثریت را اعلام می‌کند","گرادیان محاسبه می‌کند","داده را مرتب می‌کند"], a:1, exp:"kNN آموزش واقعی ندارد — فقط فاصله تا همهٔ نمونه‌ها را می‌سنجد و از نزدیک‌ترین‌ها رأی می‌گیرد."},
+   {q:"چرا k در kNN معمولاً فرد انتخاب می‌شود؟", opts:["سریع‌تر است","تا رأی‌گیری مساوی نشود","دقت بالاتر می‌رود","اجباری است"], a:1, exp:"با k زوج (مثلاً ۴) ممکن است ۲-۲ شود و تصمیم‌گیری مبهم بماند. k فرد همیشه برنده دارد."},
+   {q:"مدلی با دقت ۹۹٪ روی داده‌ای که ۹۹٪ یک کلاس است چرا ممکن است بی‌ارزش باشد؟", opts:["دقت کم است","شاید همیشه کلاس غالب را حدس بزند و کلاس مهم (نادر) را هرگز پیدا نکند","کد کند می‌شود","ممکن نیست، ۹۹٪ عالی است"], a:1, exp:"در دادهٔ نامتوازن، دقت گمراه‌کننده است — برای همین precision/recall وجود دارند."}
+  ],
+  project:{title:"طبقه‌بند میوه‌ها", desc:"با kNN دستی، میوهٔ جدید را از روی وزن و قطر طبقه‌بندی کنید.",
+   steps:["تابع فاصلهٔ اقلیدسی بنویسید","با argsort سه همسایهٔ نزدیک را بیابید","برای میوهٔ [۱۴۵ گرم، ۷ سانت] رأی‌گیری کنید (0=سیب، 1=پرتقال)"],
+   starter:`import numpy as np\n\n# [وزن گرم, قطر سانت] — 0=سیب, 1=پرتقال\nX = np.array([[120, 6], [130, 6.5], [110, 5.5],\n              [160, 8], [170, 8.5], [155, 7.8]], dtype=float)\ny = np.array([0, 0, 0, 1, 1, 1])\n\n# kNN را اینجا بنویسید\n`,
+   solution:`import numpy as np\n\nX = np.array([[120, 6], [130, 6.5], [110, 5.5],\n              [160, 8], [170, 8.5], [155, 7.8]], dtype=float)\ny = np.array([0, 0, 0, 1, 1, 1])\n\ndef knn(x_new, k=3):\n    dists = np.sqrt(((X - x_new) ** 2).sum(axis=1))\n    nearest = np.argsort(dists)[:k]\n    return int(y[nearest].sum() > k / 2)\n\nfruit = np.array([145, 7], dtype=float)\nlabel = knn(fruit)\nprint("پرتقال" if label == 1 else "سیب")`}
+ }
+ ],
+ capstone:{id:"m6cap", title:"پروژهٔ پایانی: مدل قیمت خانه + عیب‌یابی", time:"۹۰ دقیقه",
+  story:"یک استارتاپ املاک مدل پیش‌بینی قیمت ساخته ولی خروجی‌اش NaN و اعداد بی‌معنی است! تیم می‌گوید «کد درست است، داده خراب است» — اما شما بهتر می‌دانید. ۵ باگ در کد هست. آخرین آزمون مسیر قهرمانی شماست!",
+  requirements:["ویژگی متراژ را نرمال کند","با گرادیان کاهشی مدل خطی آموزش دهد","خطا باید کم شود نه منفجر","قیمت خانهٔ ۹۵ متری را منطقی پیش‌بینی کند (حدود ۴ میلیارد)"],
+  buggy:`# این کد ۵ باگ دارد! 🐞\nimport numpy as np\n\narea = np.array([50, 65, 80, 100, 120, 150], dtype=float)\nprice = np.array([2.1, 2.8, 3.5, 4.4, 5.3, 6.5])\n\n# نرمال‌سازی\nx = area - area.mean() / area.std()\ny = price\n\nw, b = 0.0, 0.0\nlr = 1.5\n\nfor step in range(200):\n    pred = w * x + b\n    error = y - pred\n    dw = 2 * (error * x).mean()\n    db = 2 * error.mean()\n    w -= lr * dw\n    b -= lr * db\n\nmse = ((w * x + b - y) ** 2).mean()\nprint(f"خطای نهایی: {float(mse):.4f}")\nprint(f"w={w:.3f}, b={b:.3f}")\n\nnew_x = 95 - area.mean() / area.std()\nprint(f"قیمت خانهٔ ۹۵ متری: {float(w * new_x + b):.2f} میلیارد")`,
+  bugs:[
+   {hint:"باگ ۱ (منطقی — تقدم عملگرها): نرمال‌سازی اشتباه محاسبه می‌شود — تقسیم فقط روی mean اعمال شده!", fix:"پرانتز لازم است: x = (area - area.mean()) / area.std() — بدون پرانتز، اول تقسیم انجام می‌شود."},
+   {hint:"باگ ۲ (منطقی — جهت گرادیان): error برعکس تعریف شده (y - pred) ولی علامت به‌روزرسانی عوض نشده — مدل از جواب دور می‌شود!", fix:"یا error = pred - y کنید (فرم استاندارد)، یا علامت را برگردانید: w += lr * dw و b += lr * db."},
+   {hint:"باگ ۳ (انفجار عددی): خطا به جای کم شدن بزرگ و بزرگ‌تر می‌شود (nan/inf).", fix:"نرخ یادگیری ۱.۵ خیلی بزرگ است — lr = 0.1 بگذارید تا مدل همگرا شود."},
+   {hint:"باگ ۴ (منطقی): هنگام پیش‌بینی خانهٔ ۹۵ متری هم همان اشتباه نرمال‌سازی تکرار شده.", fix:"new_x = (95 - area.mean()) / area.std() — ورودی جدید باید دقیقاً مثل دادهٔ آموزش تبدیل شود."},
+   {hint:"باگ ۵ (ارزیابی گمراه‌کننده): خطا روی همان دادهٔ آموزش سنجیده می‌شود — درس train/test یادتان هست؟", fix:"حداقل یک نمونه را کنار بگذارید: با ۵ خانهٔ اول آموزش دهید و روی خانهٔ ششم (۱۵۰ متر، ۶.۵ میلیارد) بسنجید — در راه‌حل نمونه پیاده شده."}
+  ],
+  solution:`import numpy as np\n\narea = np.array([50, 65, 80, 100, 120, 150], dtype=float)\nprice = np.array([2.1, 2.8, 3.5, 4.4, 5.3, 6.5])\n\n# تقسیم آموزش/آزمون: خانهٔ آخر برای آزمون\narea_tr, price_tr = area[:5], price[:5]\narea_te, price_te = area[5:], price[5:]\n\nmu, sigma = area_tr.mean(), area_tr.std()\nx = (area_tr - mu) / sigma\ny = price_tr\n\nw, b = 0.0, 0.0\nlr = 0.1\n\nfor step in range(300):\n    pred = w * x + b\n    error = pred - y\n    w -= lr * 2 * (error * x).mean()\n    b -= lr * 2 * error.mean()\n\nmse = float(((w * x + b - y) ** 2).mean())\nprint(f"خطای آموزش: {mse:.4f}")\n\n# ارزیابی روی دادهٔ ندیده\nx_te = (area_te - mu) / sigma\npred_te = w * x_te + b\nprint(f"خانهٔ 150 متری — واقعی: {float(price_te[0])}, پیش‌بینی: {float(pred_te[0]):.2f}")\n\nnew_x = (95 - mu) / sigma\nprint(f"قیمت خانهٔ ۹۵ متری: {float(w * new_x + b):.2f} میلیارد")`}
+}
+]};
+</script>
+<script>
+/* ================= Helpers & state ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const FA = ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"];
+const toFa = n => String(n).replace(/[0-9]/g, d => FA[+d]);
+
+const store = {
+  get(k, fb){ try{ const v = localStorage.getItem("pyAcademy2."+k); return v ? JSON.parse(v) : fb; }catch(e){ return fb; } },
+  set(k, v){ try{ localStorage.setItem("pyAcademy2."+k, JSON.stringify(v)); }catch(e){} }
+};
+let progress = store.get("progress", {});
+let notes = store.get("notes", {});
+let chats = store.get("chats", {});
+let settings = store.get("settings", { theme:"dark", accent:"blue", fs:16, name:"", ai:{url:"",model:"",key:""} });
+
+/* Flatten items (lessons + capstones) in order */
+const ITEMS = [];
+COURSE.modules.forEach(m => {
+  m.lessons.forEach(l => ITEMS.push({ ...l, type:"lesson", mod:m }));
+  if (m.capstone) ITEMS.push({ ...m.capstone, type:"capstone", mod:m });
+});
+const byId = id => ITEMS.find(x => x.id === id);
+const isDone = id => !!(progress[id] && progress[id].done);
+
+function applySettings(){
+  document.documentElement.dataset.theme = settings.theme;
+  document.documentElement.dataset.accent = settings.accent;
+  document.documentElement.style.setProperty("--fs", settings.fs + "px");
+}
+applySettings();
+
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(t._h); t._h = setTimeout(()=> t.classList.remove("show"), 2600);
+}
+
+/* ================= Python syntax highlight ================= */
+function hl(code){
+  let s = esc(code);
+  const KW = "def|class|if|elif|else|for|while|in|not|and|or|return|import|from|as|break|continue|pass|try|except|finally|with|lambda|is|global|del|raise|yield|True|False|None";
+  const BI = "print|input|int|float|str|bool|len|range|type|sum|min|max|sorted|enumerate|open|super|round|list|dict|set|tuple|abs|self";
+  const re = new RegExp("(#[^\\n]*)|(&quot;|\"(?:\\\\.|[^\"\\\\\\n])*\"|'(?:\\\\.|[^'\\\\\\n])*')|\\b(" + KW + ")\\b|\\b(" + BI + ")\\b|\\b(\\d+(?:\\.\\d+)?)\\b", "g");
+  return s.replace(re, (m, c, str, kw, bi, num) => {
+    if (c) return '<span class="tok-c">' + c + '</span>';
+    if (str) return '<span class="tok-s">' + str + '</span>';
+    if (kw) return '<span class="tok-k">' + kw + '</span>';
+    if (bi) return '<span class="tok-b">' + bi + '</span>';
+    if (num) return '<span class="tok-n">' + num + '</span>';
+    return m;
+  });
+}
+function codebox(code, fname){
+  return '<div class="codebox"><div class="cb-head"><span class="dots"><i></i><i></i><i></i></span><span>' + (fname || "main.py") + '</span><button class="copy" data-copy>کپی</button></div><pre>' + hl(code) + '</pre></div>';
+}
+function renderContent(html){
+  return html
+    .replace(/~~~python\n([\s\S]*?)\n~~~/g, (m, c) => codebox(c))
+    .replace(/<pre-out>([\s\S]*?)<\/pre-out>/g, (m, c) => '<div class="codebox"><div class="out-label">خروجی ⬇</div><pre class="out">' + c + '</pre></div>');
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-copy]");
+  if (b){
+    const pre = b.closest(".codebox").querySelector("pre");
+    navigator.clipboard && navigator.clipboard.writeText(pre.textContent).then(()=> toast("کد کپی شد 📋"));
+  }
+});
+
+/* ================= Progress ring & sidebar ================= */
+function updateRing(){
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const pct = Math.round(done / total * 100);
+  $("#ringPct").textContent = toFa(pct) + "٪";
+  $("#ringFg").style.strokeDashoffset = 88 - (88 * pct / 100);
+}
+let openMods = store.get("openMods", { m1:true });
+let currentId = null;
+
+function renderSidebar(){
+  const tree = $("#sideTree");
+  tree.innerHTML = COURSE.modules.map((m, mi) => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const done = all.filter(x => isDone(x.id)).length;
+    const pct = Math.round(done / all.length * 100);
+    const items = all.map(it => {
+      const cap = it === m.capstone;
+      return '<button class="litem ' + (cap ? "cap" : "") + (isDone(it.id) ? " done" : "") + (currentId === it.id ? " active" : "") + '" data-go="' + it.id + '"><span class="dot">✓</span><span class="nm">' + (cap ? "🏗️ " : "") + esc(it.title) + '</span></button>';
+    }).join("");
+    return '<div class="mod' + (openMods[m.id] ? " open" : "") + '" id="mod-' + m.id + '">' +
+      '<button class="mod-head" data-mod="' + m.id + '"><span class="ic">' + m.icon + '</span><span class="t"><b>' + esc(m.title) + '</b><span>ماژول ' + toFa(mi+1) + ' · ' + toFa(done) + '/' + toFa(all.length) + ' تکمیل</span></span><span class="chev">◀</span></button>' +
+      '<div class="mod-prog"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="mod-lessons">' + items + '</div></div>';
+  }).join("");
+}
+document.addEventListener("click", e => {
+  const mh = e.target.closest("[data-mod]");
+  if (mh){ const id = mh.dataset.mod; openMods[id] = !openMods[id]; store.set("openMods", openMods); document.getElementById("mod-" + id).classList.toggle("open"); return; }
+  const go = e.target.closest("[data-go]");
+  if (go){ showItem(go.dataset.go); if (window.innerWidth < 920) $("#sidebar").classList.remove("open"), $("#overlay").classList.remove("show"); }
+});
+
+/* ================= Views ================= */
+function setNav(which){
+  $("#navHome").classList.toggle("active", which === "home");
+  $("#navProg").classList.toggle("active", which === "prog");
+}
+function firstUndone(){ return ITEMS.find(x => !isDone(x.id)) || ITEMS[0]; }
+
+function showHome(){
+  currentId = null; setNav("home"); renderSidebar();
+  location.hash = "home";
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const quizzes = Object.values(progress).filter(p => p.quiz).length;
+  const next = firstUndone();
+  const caps = COURSE.modules.length;
+  $("#view").innerHTML =
+  '<div class="hero">' +
+    '<div class="code-deco">def become_ml_engineer():<br>&nbsp;&nbsp;&nbsp;&nbsp;for skill in roadmap:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;master(skill)<br>&nbsp;&nbsp;&nbsp;&nbsp;return "🤖"</div>' +
+    '<h1>از برنامه‌نویس مبتدی تا مهندس <em>داده و ML</em></h1>' +
+    '<p>دورهٔ پیشرفته: پایتون حرفه‌ای، تحلیل داده با pandas، اتوماسیون و ETL، وب و API و ساخت مدل یادگیری ماشین از صفر — با پروژه‌های واقعی و تمرین عیب‌یابی.</p>' +
+    '<div class="stats">' +
+      '<div class="stat"><b>' + toFa(total) + '</b><span>درس و پروژه</span></div>' +
+      '<div class="stat g"><b>' + toFa(done) + '</b><span>تکمیل‌شده</span></div>' +
+      '<div class="stat"><b>' + toFa(quizzes) + '</b><span>آزمون ثبت‌شده</span></div>' +
+      '<div class="stat y"><b>' + toFa(caps) + '</b><span>پروژهٔ نهایی ماژول</span></div>' +
+    '</div>' +
+    '<button class="continue-btn" data-go="' + next.id + '">' + (done ? "▶ ادامهٔ یادگیری: " : "🚀 شروع دوره: ") + esc(next.title) + '</button>' +
+  '</div>' +
+  '<h2 class="sec">🗺️ طرح درس دوره</h2>' +
+  '<div class="mcards">' + COURSE.modules.map((m, i) => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const d = all.filter(x => isDone(x.id)).length;
+    const pct = Math.round(d / all.length * 100);
+    return '<div class="mcard' + (pct === 100 ? " complete" : "") + '" data-openmod="' + m.id + '">' +
+      '<div class="top"><span class="ic">' + m.icon + '</span><div><h3>' + esc(m.title) + '</h3><span class="num">module ' + (i+1) + '/' + COURSE.modules.length + '</span></div></div>' +
+      '<p>' + esc(m.desc) + '</p>' +
+      '<div class="bar"><i style="width:' + pct + '%"></i></div>' +
+      '<div class="meta"><span>' + toFa(m.lessons.length) + ' درس + پروژه نهایی</span><span>' + toFa(pct) + '٪</span></div></div>';
+  }).join("") + '</div>';
+  window.scrollTo(0, 0);
+}
+document.addEventListener("click", e => {
+  const mc = e.target.closest("[data-openmod]");
+  if (mc && !e.target.closest("[data-go]")){
+    const m = COURSE.modules.find(x => x.id === mc.dataset.openmod);
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    const next = all.find(x => !isDone(x.id)) || all[0];
+    openMods[m.id] = true; store.set("openMods", openMods);
+    showItem(next.id);
+  }
+});
+
+function showProgress(){
+  currentId = null; setNav("prog"); renderSidebar();
+  location.hash = "progress";
+  const total = ITEMS.length;
+  const done = ITEMS.filter(x => isDone(x.id)).length;
+  const pct = Math.round(done / total * 100);
+  let quizSum = 0, quizN = 0;
+  Object.values(progress).forEach(p => { if (p.quiz){ quizSum += p.quiz.score / p.quiz.total; quizN++; } });
+  const avg = quizN ? Math.round(quizSum / quizN * 100) : 0;
+  $("#view").innerHTML =
+  '<h2 class="sec" style="margin-top:4px">📊 گزارش پیشرفت شما</h2>' +
+  '<div class="pgrid">' +
+    '<div class="stat" style="padding:18px 20px"><b>' + toFa(pct) + '٪</b><span>پیشرفت کل دوره</span></div>' +
+    '<div class="stat g" style="padding:18px 20px"><b>' + toFa(done) + ' از ' + toFa(total) + '</b><span>درس و پروژهٔ تکمیل‌شده</span></div>' +
+    '<div class="stat y" style="padding:18px 20px"><b>' + toFa(avg) + '٪</b><span>میانگین نمرهٔ آزمون‌ها</span></div>' +
+  '</div>' +
+  COURSE.modules.map(m => {
+    const all = [...m.lessons, m.capstone].filter(Boolean);
+    return '<h2 class="sec">' + m.icon + ' ' + esc(m.title) + '</h2>' + all.map(it => {
+      const p = progress[it.id] || {};
+      const q = p.quiz ? toFa(p.quiz.score) + "/" + toFa(p.quiz.total) + " آزمون" : "";
+      return '<div class="prow"><span class="nm">' + (it.type === "capstone" ? "🏗️ " : "") + esc(it.title) + '</span><span class="score">' + q + '</span>' +
+        '<span class="badge ' + (p.done ? "done" : "todo") + '">' + (p.done ? "✓ تکمیل شد" : "در انتظار") + '</span>' +
+        '<button class="btn ghost" data-go="' + it.id + '" style="min-height:36px;padding:6px 12px">باز کردن</button></div>';
+    }).join("");
+  }).join("");
+  window.scrollTo(0, 0);
+}
+</script>
+<script>
+/* ================= Item view (lesson / capstone) ================= */
+function showItem(id, tab){
+  const it = byId(id); if (!it){ showHome(); return; }
+  currentId = id; setNav(null);
+  openMods[it.mod.id] = true; store.set("openMods", openMods);
+  renderSidebar();
+  location.hash = id;
+  const cap = it.type === "capstone";
+  const tabs = cap
+    ? [["proj","🚀 پروژه"],["bugs","🐞 عیب‌یابی"],["sol","✅ راه‌حل"],["notes","💬 یادداشت‌ها"],["ai","🤖 دستیار"]]
+    : [["read","📖 درسنامه"],["quiz","🧪 آزمون"],["proj","🚀 پروژهٔ عملی"],["notes","💬 یادداشت‌ها"],["ai","🤖 دستیار"]];
+  const active = tab || tabs[0][0];
+  $("#view").innerHTML =
+    '<div class="crumb"><a href="#" data-nav="home">خانه</a> ‹ ' + it.mod.icon + ' ' + esc(it.mod.title) + ' ‹ <b>' + esc(it.title) + '</b></div>' +
+    '<div class="lesson-head"><h1>' + (cap ? "🏗️ " : "") + esc(it.title) + '</h1>' +
+    '<div class="lesson-meta"><span>⏱ ' + esc(it.time) + '</span><span>' + (cap ? "🏗️ پروژهٔ پایانی ماژول" : "📘 درس") + '</span>' + (isDone(id) ? '<span style="color:var(--ok)">✓ تکمیل شده</span>' : '') + '</div>' +
+    (it.goals ? '<div class="goals"><b>🎯 در این درس یاد می‌گیرید:</b><ul>' + it.goals.map(g => '<li>' + esc(g) + '</li>').join("") + '</ul></div>' : '') +
+    '</div>' +
+    '<div class="tabs">' + tabs.map(t => '<button class="tab' + (t[0] === active ? " active" : "") + '" data-tab="' + t[0] + '">' + t[1] + '</button>').join("") + '</div>' +
+    '<div class="cnt" id="tabCnt"></div>';
+  $("#view").querySelectorAll("[data-tab]").forEach(b => b.onclick = () => {
+    $("#view").querySelectorAll(".tab").forEach(x => x.classList.remove("active"));
+    b.classList.add("active"); renderTab(it, b.dataset.tab);
+  });
+  const back = $("#view").querySelector('[data-nav="home"]');
+  if (back) back.onclick = e => { e.preventDefault(); showHome(); };
+  renderTab(it, active);
+  window.scrollTo(0, 0);
+}
+
+function doneRowHtml(id){
+  return '<div class="done-row">' + (isDone(id)
+    ? '<span class="txt">🎉 آفرین! این بخش را تکمیل کرده‌اید.</span><button class="btn ghost" data-undone>برگرداندن به حالت ناتمام</button>'
+    : '<span class="txt">درسنامه و پروژه را انجام دادید؟</span><button class="btn success" data-done>✓ علامت‌گذاری به عنوان تکمیل</button>') + '</div>';
+}
+function pagerHtml(id){
+  const i = ITEMS.findIndex(x => x.id === id);
+  const prev = ITEMS[i-1], next = ITEMS[i+1];
+  return '<div class="pager">' +
+    (prev ? '<button class="btn ghost" data-go="' + prev.id + '"><span class="lbl">قبلی</span> ▶ ' + esc(prev.title) + '</button>' : '<span></span>') +
+    (next ? '<button class="btn primary" data-go="' + next.id + '">' + esc(next.title) + ' ◀ <span class="lbl">بعدی</span></button>' : '<span></span>') + '</div>';
+}
+function wireDone(it, tabKey){
+  const c = $("#tabCnt");
+  const d = c.querySelector("[data-done]"), u = c.querySelector("[data-undone]");
+  if (d) d.onclick = () => { progress[it.id] = { ...(progress[it.id]||{}), done:true }; store.set("progress", progress); toast("تبریک! 🎉 یک گام جلوتر رفتید"); updateRing(); showItem(it.id, tabKey); };
+  if (u) u.onclick = () => { if (progress[it.id]) progress[it.id].done = false; store.set("progress", progress); updateRing(); showItem(it.id, tabKey); };
+}
+
+function editorHtml(code, runId){
+  return '<div class="editor-wrap"><div class="editor-head"><span class="fname">🐍 editor.py</span><button class="btn primary run" data-run="' + runId + '">▶ اجرای کد</button></div>' +
+    '<textarea class="code-edit" id="ed-' + runId + '" spellcheck="false" dir="ltr">' + esc(code) + '</textarea>' +
+    '<div class="run-out" id="out-' + runId + '" dir="ltr">خروجی اینجا نمایش داده می‌شود... <span class="run-hint">(اجرای کد به اینترنت نیاز دارد — بار اول چند ثانیه طول می‌کشد)</span></div></div>';
+}
+let pyPromise = null;
+function loadPy(){
+  if (!pyPromise){
+    pyPromise = new Promise((res, rej) => {
+      const s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+      s.onload = () => loadPyodide().then(res, rej);
+      s.onerror = () => { pyPromise = null; rej(new Error("offline")); };
+      document.head.appendChild(s);
+    });
+  }
+  return pyPromise;
+}
+async function runCode(runId){
+  const code = document.getElementById("ed-" + runId).value;
+  const out = document.getElementById("out-" + runId);
+  if (!navigator.onLine && !window.loadPyodide){
+    out.innerHTML = '<span class="err">⚠ آفلاین هستید.</span> برای اجرای کد داخل مرورگر، اینترنت لازم است. می‌توانید کد را کپی کرده و در پایتون نصب‌شده روی سیستم خود اجرا کنید.';
+    return;
+  }
+  out.textContent = "⏳ در حال آماده‌سازی پایتون...";
+  try{
+    const py = await loadPy();
+    try{ await py.loadPackagesFromImports(code); }catch(e){}
+    let buf = "";
+    py.setStdout({ batched: s => { buf += s + "\n"; } });
+    py.setStderr({ batched: s => { buf += s + "\n"; } });
+    py.setStdin({ stdin: () => window.prompt("ورودی برنامه (input):") || "" });
+    await py.runPythonAsync(code);
+    out.textContent = buf.trim() || "(برنامه بدون خروجی اجرا شد ✓)";
+  }catch(err){
+    const msg = String(err).split("\n").filter(l => l.trim()).slice(-3).join("\n");
+    out.innerHTML = '<span class="err">' + esc(msg) + '</span>\n<span class="run-hint">💡 پیام خطا را بخوانید — نوع خطا و شمارهٔ خط راهنمای شماست. از تب دستیار 🤖 هم می‌توانید کمک بگیرید.</span>';
+  }
+}
+document.addEventListener("click", e => {
+  const r = e.target.closest("[data-run]");
+  if (r) runCode(r.dataset.run);
+});
+
+/* ================= Tab renderer ================= */
+function renderTab(it, key){
+  const c = $("#tabCnt");
+  const cap = it.type === "capstone";
+  if (key === "read"){
+    c.innerHTML = '<div class="prose">' + renderContent(it.content) + '</div>' + doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "read");
+  }
+  else if (key === "quiz"){
+    const saved = (progress[it.id] || {}).quiz;
+    c.innerHTML = (saved ? '<div class="quiz-result show ' + (saved.score >= 2 ? "pass" : "fail") + '">آخرین نتیجهٔ شما: <span class="em">' + toFa(saved.score) + ' از ' + toFa(saved.total) + '</span></div>' : '') +
+      it.quiz.map((q, qi) => '<div class="quiz-q" data-q="' + qi + '"><div class="qt"><span class="qn">' + toFa(qi+1) + '</span>' + esc(q.q) + '</div>' +
+        q.opts.map((o, oi) => '<button class="opt" data-oi="' + oi + '"><span class="radio"></span>' + esc(o) + '</button>').join("") +
+        '<div class="q-exp">💡 ' + esc(q.exp) + '</div></div>').join("") +
+      '<button class="btn primary" id="gradeBtn" style="margin-top:14px">📝 ثبت و تصحیح آزمون</button>' +
+      '<div class="quiz-result" id="qres"></div>' + pagerHtml(it.id);
+    c.querySelectorAll(".quiz-q").forEach(qEl => {
+      qEl.querySelectorAll(".opt").forEach(op => op.onclick = () => {
+        if (qEl.dataset.locked) return;
+        qEl.querySelectorAll(".opt").forEach(x => x.classList.remove("sel"));
+        op.classList.add("sel");
+      });
+    });
+    $("#gradeBtn").onclick = () => {
+      let score = 0, answered = 0;
+      c.querySelectorAll(".quiz-q").forEach(qEl => { if (qEl.querySelector(".opt.sel")) answered++; });
+      if (answered < it.quiz.length){ toast("لط��اً به همهٔ سوال‌ها پاسخ دهید"); return; }
+      c.querySelectorAll(".quiz-q").forEach(qEl => {
+        const qi = +qEl.dataset.q, q = it.quiz[qi];
+        qEl.dataset.locked = "1";
+        qEl.querySelectorAll(".opt").forEach(op => {
+          const oi = +op.dataset.oi;
+          if (oi === q.a) op.classList.add("right");
+          else if (op.classList.contains("sel")) op.classList.add("wrong");
+        });
+        if (+qEl.querySelector(".opt.sel").dataset.oi === q.a) score++;
+        qEl.querySelector(".q-exp").classList.add("show");
+      });
+      progress[it.id] = { ...(progress[it.id]||{}), quiz:{ score, total: it.quiz.length } };
+      store.set("progress", progress);
+      const res = $("#qres");
+      const pass = score >= Math.ceil(it.quiz.length * 2 / 3);
+      res.className = "quiz-result show " + (pass ? "pass" : "fail");
+      res.innerHTML = pass
+        ? '🎉 عالی بود! نمره: <span class="em">' + toFa(score) + ' از ' + toFa(it.quiz.length) + '</span> — آمادهٔ پروژهٔ عملی هستید 🚀'
+        : 'نمره: <span class="em">' + toFa(score) + ' از ' + toFa(it.quiz.length) + '</span> — پیشنهاد می‌کنیم درسنامه را یک بار دیگر مرور کنید 📖';
+      $("#gradeBtn").style.display = "none";
+      toast("نتیجهٔ آزمون ثبت شد");
+    };
+  }
+  else if (key === "proj" && !cap){
+    const p = it.project;
+    c.innerHTML = '<div class="proj-banner"><h3>🚀 ' + esc(p.title) + '</h3><p>' + esc(p.desc) + '</p></div>' +
+      '<h3 style="margin:16px 0 8px">📋 گام‌های ساخت:</h3><ol class="steps">' + p.steps.map(s => '<li>' + esc(s) + '</li>').join("") + '</ol>' +
+      editorHtml(p.starter, it.id) +
+      '<details class="rev"><summary>🔓 مشاهدهٔ راه‌حل پیشنهادی (اول خودتان تلاش کنید!)</summary><div class="body">' + codebox(p.solution, "solution.py") + '</div></details>' +
+      doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "proj");
+  }
+  else if (key === "proj" && cap){
+    c.innerHTML = '<div class="proj-banner"><h3>🏗️ پروژهٔ سنگین ماژول</h3><p>' + esc(it.story) + '</p></div>' +
+      '<h3 style="margin:16px 0 8px">✅ الزامات پروژه:</h3><ol class="steps">' + it.requirements.map(r => '<li>' + esc(r) + '</li>').join("") + '</ol>' +
+      '<div class="callout warn"><span class="ci">🐞</span><div>کد زیر عمداً <b>' + toFa(it.bugs.length) + ' باگ</b> دارد! اول خودتان اجرا و عیب‌یابی کنید، بعد از تب «🐞 عیب‌یابی» راهنمایی بگیرید.</div></div>' +
+      editorHtml(it.buggy, it.id) +
+      doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "proj");
+  }
+  else if (key === "bugs"){
+    c.innerHTML = '<div class="callout note"><span class="ci">🕵️</span><div>مثل یک کارآگاه پیش بروید: اول سرنخ (مشکل) را بخوانید و خودتان در کد دنبالش بگردید؛ فقط در صورت نیاز راه‌حل را باز کنید.</div></div>' +
+      it.bugs.map((b, i) => '<div class="bug-item"><button class="bh"><span class="no">🐞 باگ ' + toFa(i+1) + '</span><span>' + esc(b.hint) + '</span></button><div class="bb"><b>🔧 راه‌حل:</b> ' + esc(b.fix) + '</div></div>').join("") +
+      pagerHtml(it.id);
+    c.querySelectorAll(".bug-item .bh").forEach(h => h.onclick = () => h.parentElement.classList.toggle("open"));
+  }
+  else if (key === "sol"){
+    c.innerHTML = '<div class="callout tip"><span class="ci">✅</span><div>راه‌حل کامل و بدون باگ. آن را با نسخهٔ خودتان مقایسه کنید — مقایسه کردن یکی از بهترین روش‌های یادگیری است.</div></div>' +
+      codebox(it.solution, "solution.py") + doneRowHtml(it.id) + pagerHtml(it.id);
+    wireDone(it, "sol");
+  }
+  else if (key === "notes"){
+    renderNotes(it);
+  }
+  else if (key === "ai"){
+    renderAI(it);
+  }
+}
+
+/* ================= Notes ================= */
+function renderNotes(it){
+  const c = $("#tabCnt");
+  const list = notes[it.id] || [];
+  c.innerHTML = '<div class="note-form"><textarea id="noteTxt" rows="3" placeholder="یادداشت، سوال یا نکتهٔ خود را دربارهٔ این درس بنویسید..."></textarea><button class="btn primary" id="noteAdd">➕ افزودن یادداشت</button></div>' +
+    '<div id="noteList">' + (list.length ? list.map((n, i) =>
+      '<div class="note"><div class="nh"><span class="avatar">' + esc((n.who || "من")[0]) + '</span><span class="who">' + esc(n.who || "من") + '</span><span>' + esc(n.when) + '</span><button class="del" data-del="' + i + '">🗑 حذف</button></div><p>' + esc(n.text) + '</p></div>').join("")
+      : '<div class="empty">💭 هنوز یادداشتی برای این درس ننوشته‌اید. نکته‌های مهم را همین‌جا ثبت کنید!</div>') + '</div>' +
+    pagerHtml(it.id);
+  $("#noteAdd").onclick = () => {
+    const t = $("#noteTxt").value.trim();
+    if (!t){ toast("متن یادداشت خالی است"); return; }
+    const d = new Date();
+    (notes[it.id] = notes[it.id] || []).unshift({ text:t, who: settings.name || "من", when: toFa(d.toLocaleDateString("fa-IR")) + " · " + d.toLocaleTimeString("fa-IR", {hour:"2-digit",minute:"2-digit"}) });
+    store.set("notes", notes); toast("یادداشت ثبت شد ✓"); renderNotes(it);
+  };
+  c.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
+    notes[it.id].splice(+b.dataset.del, 1); store.set("notes", notes); renderNotes(it);
+  });
+}
+
+/* ================= AI assistant ================= */
+function aiConfigured(){ return !!(settings.ai && settings.ai.key); }
+function renderAI(it){
+  const c = $("#tabCnt");
+  const online = navigator.onLine;
+  const msgs = chats[it.id] || [];
+  c.innerHTML = '<div class="ai-status' + (online ? " on" : "") + '"><span class="led"></span>' + (online ? "آنلاین — دستیار آمادهٔ پاسخگویی است" : "آفلاین — با وصل شدن به اینترنت، دستیار فعال می‌شود") + '</div>' +
+    (!aiConfigured() ? '<div class="ai-setup"><p>🤖 برای کمک لحظه‌ای هوش مصنوعی، کلید API خود را (سازگار با OpenAI) در تنظیمات وارد کنید. کلید فقط روی مرورگر خودتان ذخیره می‌شود.</p><button class="btn primary" id="aiGoSet">⚙️ باز کردن تنظیمات</button></div>' : '') +
+    '<div class="chat-box"><div class="chat-msgs" id="chatMsgs">' +
+      (msgs.length ? msgs.map(m => '<div class="msg ' + (m.role === "user" ? "user" : "ai") + '">' + esc(m.content) + '</div>').join("") : '<div class="empty">سوالی دربارهٔ «' + esc(it.title) + '» دارید؟ همین‌جا بپرسید! 👋</div>') + '</div>' +
+    '<div class="sugg">' + ["این درس را ساده‌تر توضیح بده","یک تمرین اضافه بهم بده","کدم خطا می‌دهد، چطور عیب‌یابی کنم؟"].map(s => '<button data-sugg="' + s + '">' + s + '</button>').join("") + '</div>' +
+    '<div class="chat-input"><input id="chatIn" placeholder="سوال خود را بنویسید..."/><button class="btn primary" id="chatSend">ارسال ◀</button></div></div>' +
+    pagerHtml(it.id);
+  const goSet = $("#aiGoSet"); if (goSet) goSet.onclick = openSettings;
+  const send = txt => sendAI(it, txt);
+  $("#chatSend").onclick = () => { const v = $("#chatIn").value.trim(); if (v) send(v); };
+  $("#chatIn").addEventListener("keydown", e => { if (e.key === "Enter"){ const v = $("#chatIn").value.trim(); if (v) send(v); } });
+  c.querySelectorAll("[data-sugg]").forEach(b => b.onclick = () => send(b.dataset.sugg));
+  const box = $("#chatMsgs"); box.scrollTop = box.scrollHeight;
+}
+async function sendAI(it, text){
+  if (!navigator.onLine){ toast("آفلاین هستید — دستیار به اینترنت نیاز دارد"); return; }
+  if (!aiConfigured()){ toast("ابتدا کلید API را در تنظیمات وارد کنید ⚙️"); openSettings(); return; }
+  const hist = chats[it.id] = chats[it.id] || [];
+  hist.push({ role:"user", content:text });
+  store.set("chats", chats);
+  const box = $("#chatMsgs");
+  box.innerHTML += '<div class="msg user">' + esc(text) + '</div><div class="msg ai thinking" id="thinkMsg">در حال فکر کردن...</div>';
+  $("#chatIn").value = ""; box.scrollTop = box.scrollHeight;
+  try{
+    const url = (settings.ai.url || "https://api.openai.com/v1/chat/completions").trim();
+    const body = {
+      model: (settings.ai.model || "gpt-4o-mini").trim(),
+      messages: [
+        { role:"system", content:"تو یک مربی مهربان پایتون برای مبتدیان فارسی‌زبان هستی. کوتاه، ساده و با مثال جواب بده. موضوع فعلی دانشجو: «" + it.title + "» از ماژول «" + it.mod.title + "»." },
+        ...hist.slice(-8)
+      ]
+    };
+    const r = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json", "Authorization":"Bearer " + settings.ai.key.trim() }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error("خطای سرویس (" + r.status + ") — کلید یا آدرس API را بررسی کنید");
+    const data = await r.json();
+    const ans = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "پاسخی دریافت نشد.";
+    hist.push({ role:"assistant", content:ans }); store.set("chats", chats);
+    const th = $("#thinkMsg"); th.classList.remove("thinking"); th.removeAttribute("id"); th.textContent = ans;
+  }catch(err){
+    const th = $("#thinkMsg");
+    if (th){ th.classList.remove("thinking"); th.removeAttribute("id"); th.textContent = "⚠ " + (err && err.message ? err.message : "ارتباط برقرار نشد"); }
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+/* ================= Settings modal ================= */
+function openSettings(){
+  $("#themeSeg").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.theme === settings.theme));
+  $("#accentRow").querySelectorAll(".sw").forEach(s => s.classList.toggle("on", s.dataset.accent === settings.accent));
+  $("#fontRange").value = settings.fs;
+  $("#userName").value = settings.name || "";
+  $("#aiUrl").value = settings.ai.url || "";
+  $("#aiModel").value = settings.ai.model || "";
+  $("#aiKey").value = settings.ai.key || "";
+  $("#setModal").classList.add("show");
+}
+function saveSettings(){ store.set("settings", settings); applySettings(); }
+function wireSettings(){
+  $("#navSet").onclick = openSettings;
+  $("#setModal").addEventListener("click", e => {
+    if (e.target.dataset.close !== undefined || e.target.id === "setModal") $("#setModal").classList.remove("show");
+    const tb = e.target.closest("#themeSeg [data-theme]");
+    if (tb){ settings.theme = tb.dataset.theme; saveSettings(); openSettings(); }
+    const sw = e.target.closest("#accentRow [data-accent]");
+    if (sw){ settings.accent = sw.dataset.accent; saveSettings(); openSettings(); }
+  });
+  $("#fontRange").oninput = e => { settings.fs = +e.target.value; saveSettings(); };
+  $("#userName").onchange = e => { settings.name = e.target.value.trim(); saveSettings(); };
+  $("#aiUrl").onchange = e => { settings.ai.url = e.target.value.trim(); saveSettings(); };
+  $("#aiModel").onchange = e => { settings.ai.model = e.target.value.trim(); saveSettings(); };
+  $("#aiKey").onchange = e => { settings.ai.key = e.target.value.trim(); saveSettings(); toast("تنظیمات دستیار ذخیره شد 🤖"); };
+  $("#resetAll").onclick = () => {
+    if (confirm("همهٔ پیشرفت، یادداشت‌ها و تنظیمات پاک شود؟")){
+      Object.keys(localStorage).filter(k => k.startsWith("pyAcademy2.")).forEach(k => localStorage.removeItem(k));
+      location.reload();
+    }
+  };
+}
+
+/* ================= Boot ================= */
+function route(){
+  const h = (location.hash || "").replace("#", "");
+  if (h === "progress") showProgress();
+  else if (h && byId(h)) showItem(h);
+  else showHome();
+}
+$("#navHome").onclick = showHome;
+$("#navProg").onclick = showProgress;
+$("#menuBtn").onclick = () => { $("#sidebar").classList.toggle("open"); $("#overlay").classList.toggle("show", $("#sidebar").classList.contains("open")); };
+$("#overlay").onclick = () => { $("#sidebar").classList.remove("open"); $("#overlay").classList.remove("show"); };
+window.addEventListener("online", () => { toast("اینترنت وصل شد — دستیار هوش مصنوعی فعال است 🟢"); });
+window.addEventListener("offline", () => { toast("آفلاین شدید — محتوای درس‌ها همچنان در دسترس است"); });
+wireSettings();
+updateRing();
+renderSidebar();
+route();
+</script>
+</body>
+</html>
