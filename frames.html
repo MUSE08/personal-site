@@ -86,18 +86,19 @@
                 };
                 function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
                 if (!posts.length) { wrap.innerHTML = '<p class="mono" style="color:var(--text-muted)">&gt; هیچ نوشته‌ای ثبت نشده...</p>'; return; }
-                const html = posts.map(p => {
+                const html = posts.map((p, i) => {
                     const hasLink = Boolean(p.link);
                     const href = hasLink ? ` href="${p.link}" target="_blank" rel="noopener"` : '';
                     const linkHtml = hasLink
                         ? `<a${href} class="frame-post__link mono">${dict.read[lang]} ↗</a>`
                         : '';
-                    return `<article class="frame-post">
+                    return `<article class="frame-post" data-post="${i}" tabindex="0">
                         <div class="frame-post__meta mono">
                             <span class="frame-post__date">${p.date || ''}</span>
                         </div>
                         <h3 class="frame-post__title">${tagLabel(p.tag)}</h3>
                         <p class="frame-post__excerpt"></p>
+                        <div class="frame-post__body" hidden></div>
                         ${linkHtml}
                     </article>`;
                 }).join('');
@@ -105,6 +106,16 @@
                 wrap.querySelectorAll('.frame-post').forEach((card, i) => {
                     const p = posts[i];
                     card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
+                    const bodyEl = card.querySelector('.frame-post__body');
+                    if (bodyEl && p.body) {
+                        bodyEl.textContent = p.body;
+                        card.addEventListener('click', function(e) {
+                            if (e.target.closest('a')) return;
+                            const isOpen = !bodyEl.hidden;
+                            bodyEl.hidden = isOpen;
+                            card.classList.toggle('frame-post--open', !isOpen);
+                        });
+                    }
                 });
                 if (count) count.textContent = `~/frames > ${posts.length} ${dict.count[lang]}`;
             }

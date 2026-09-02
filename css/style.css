@@ -406,6 +406,21 @@ body.framed .hero__eight{opacity:.6}
 .frame-post__excerpt{color:var(--text-muted);font-size:.86rem;line-height:1.9;flex:1;margin-bottom:12px}
 .frame-post__link{color:var(--cyan);font-size:.78rem}
 .frame-post__link:hover{text-decoration:underline}
+.frame-post{cursor:pointer}
+.frame-post__body{
+    color:var(--text-muted);
+    font-size:.84rem;
+    line-height:2;
+    background:var(--bg-alt);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:14px;
+    margin-bottom:12px;
+    white-space:pre-wrap;
+    max-height:280px;
+    overflow:auto;
+}
+.frame-post--open{border-color:var(--cyan)}
 
 /* ============ REVEAL ============ */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}

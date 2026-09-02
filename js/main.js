@@ -845,12 +845,13 @@
                 const linkHtml = hasLink
                     ? `<a${href} class="frame-post__link mono">read ↗</a>`
                     : '';
-                return `<article class="frame-post">
+                return `<article class="frame-post" data-post="${i}" tabindex="0">
                     <div class="frame-post__meta mono">
                         <span class="frame-post__date">${p.date || ''}</span>
                     </div>
                     <h3 class="frame-post__title">${tagLabel(p.tag)}</h3>
                     <p class="frame-post__excerpt"></p>
+                    <div class="frame-post__body" hidden></div>
                     ${linkHtml}
                 </article>`;
             }).join('');
@@ -871,6 +872,16 @@
                 const p = i < show.length ? show[i] : null;
                 if (!p) return;
                 card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
+                const bodyEl = card.querySelector('.frame-post__body');
+                if (bodyEl && p.body) {
+                    bodyEl.textContent = p.body;
+                    card.addEventListener('click', function(e) {
+                        if (e.target.closest('a')) return;
+                        const isOpen = !bodyEl.hidden;
+                        bodyEl.hidden = isOpen;
+                        card.classList.toggle('frame-post--open', !isOpen);
+                    });
+                }
             });
         }
 
