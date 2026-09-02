@@ -840,46 +840,30 @@
 
             const byTag = {};
             posts.forEach(p => { const t = p.tag || 'frame'; (byTag[t] = byTag[t] || []).push(p); });
-
             const cats = ['frame', 'page', 'word', 'sound'];
+
             let html = cats.map(tag => {
                 const list = byTag[tag] || [];
                 const count = lang === 'en' ? list.length + ' post(s)' : list.length + ' پست';
-                const items = list.map(p => {
-                    const img = p.image ? `<img class="frame-item__img" src="${p.image}" alt="" loading="lazy">` : '';
-                    const title = p['title_' + lang] || p.title_fa || p.title_en || '';
-                    const body = p.body ? `<div class="frame-item__text">${p.body.replace(/\n/g, '<br>')}</div>` : '';
-                    return `<div class="frame-item">
-                        ${img}
-                        <div class="frame-item__content">
-                            <span class="frame-item__date mono">${p.date || ''}</span>
-                            <h4 class="frame-item__title">${title}</h4>
-                            ${body}
-                        </div>
-                    </div>`;
-                }).join('');
-                return `<article class="frame-post frame-cat" data-tag="${tag}" tabindex="0">
+                const total = list.length;
+                return `<a href="frames.html?tag=${tag}" target="_blank" class="frame-post frame-cat-link" data-tag="${tag}">
                     <div class="frame-post__meta mono">
                         <span class="frame-post__date">${count}</span>
                     </div>
                     <h3 class="frame-post__title">${tagLabel(tag)}</h3>
-                    <p class="frame-post__excerpt">${tagDesc(tag)}</p>
-                    <div class="frame-cat__items" hidden>
-                        ${items || '<p class="mono" style="color:var(--text-muted);padding:8px">&gt; هیچ پستی ثبت نشده...</p>'}
-                    </div>
-                </article>`;
+                    ${total > 0 ? '' : '<p class="frame-post__excerpt" style="color:var(--text-dim)">' + (lang === 'en' ? 'no posts yet' : 'هنوز پستی نیست') + '</p>'}
+                </a>`;
             }).join('');
 
+            html += `<a href="frames.html" target="_blank" class="frame-post frame-post--more">
+                <div class="frame-post__meta mono">
+                    <span class="frame-post__date">--archive</span>
+                </div>
+                <h3 class="frame-post__title">./frames</h3>
+                <p class="frame-post__excerpt">${lang === 'en' ? 'all posts ↗' : 'همهٔ پست‌ها ↗'}</p>
+            </a>`;
+
             wrap.innerHTML = html;
-            wrap.querySelectorAll('.frame-cat').forEach(card => {
-                const items = card.querySelector('.frame-cat__items');
-                card.addEventListener('click', function(e) {
-                    if (e.target.closest('a')) return;
-                    const isOpen = !items.hidden;
-                    items.hidden = isOpen;
-                    card.classList.toggle('frame-post--open', !isOpen);
-                });
-            });
         }
 
         fetch('data/blog.json')
