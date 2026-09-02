@@ -851,7 +851,7 @@
                         <span class="frame-post__date">${count}</span>
                     </div>
                     <h3 class="frame-post__title">${tagLabel(tag)}</h3>
-                    ${total > 0 ? '' : '<p class="frame-post__excerpt" style="color:var(--text-dim)">' + (lang === 'en' ? 'no posts yet' : 'هنوز پستی نیست') + '</p>'}
+                    <p class="frame-post__excerpt">${tagDesc(tag)}</p>
                 </a>`;
             }).join('');
 
