@@ -7,7 +7,10 @@ backend:
   site_domain: ali8muse.dpdns.org
 
 site_url: https://ali8muse.dpdns.org
-logo_url: https://ali8muse.dpdns.org/assets/logo.svg
+logo:
+  src: https://ali8muse.dpdns.org/assets/logo.svg
+  show_in_header: true
+app_title: علی واهب
 
 media_folder: assets/uploads
 public_folder: /assets/uploads
