@@ -406,20 +406,36 @@ body.framed .hero__eight{opacity:.6}
 .frame-post__excerpt{color:var(--text-muted);font-size:.86rem;line-height:1.9;flex:1;margin-bottom:12px}
 .frame-post__link{color:var(--cyan);font-size:.78rem}
 .frame-post__link:hover{text-decoration:underline}
-.frame-post{cursor:pointer}
-.frame-post__body{
-    color:var(--text-muted);
-    font-size:.84rem;
-    line-height:2;
+.frame-cat{cursor:pointer}
+.frame-cat .frame-post__date{font-size:.62rem;color:var(--text-dim)}
+.frame-cat__items{
+    margin-top:14px;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+}
+.frame-item{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    padding:8px;
     background:var(--bg-alt);
     border:1px solid var(--line);
     border-radius:var(--radius-sm);
-    padding:14px;
-    margin-bottom:12px;
-    white-space:pre-wrap;
-    max-height:280px;
-    overflow:auto;
 }
+.frame-item__img{
+    width:100px;
+    height:70px;
+    object-fit:cover;
+    border-radius:6px;
+    flex-shrink:0;
+}
+.frame-item__content{flex:1;min-width:0}
+.frame-item__date{font-size:.62rem;color:var(--text-dim);display:block;margin-bottom:4px}
+.frame-item__title{font-size:.9rem;font-weight:700;margin-bottom:4px;line-height:1.4}
+.frame-item__text{font-size:.8rem;color:var(--text-muted);line-height:1.8}
 .frame-post--open{border-color:var(--cyan)}
 
 /* ============ REVEAL ============ */

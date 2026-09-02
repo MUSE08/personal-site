@@ -53,4 +53,5 @@ collections:
       - { label: خلاصه فارسی, name: excerpt_fa, widget: text }
       - { label: خلاصه انگلیسی, name: excerpt_en, widget: text }
       - { label: لینک (اختیاری), name: link, widget: string, required: false }
+      - { label: عکس (اختیاری), name: image, widget: image, required: false }
       - { label: متن کامل (اختیاری), name: body, widget: markdown, required: false }

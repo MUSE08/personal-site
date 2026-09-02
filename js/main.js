@@ -815,7 +815,6 @@
     (function () {
         const wrap = document.getElementById('blog-frames');
         if (!wrap) return;
-        const MAX = 6;
 
         let posts = [];
 
@@ -826,62 +825,60 @@
         function render() {
             const lang = currentLang();
             const tagMap = {
-                frame: { fa: 'یک نما', en: 'A Shot' },
-                page: { fa: 'یک برگ', en: 'A Page' },
-                word: { fa: 'یک واژه', en: 'A Word' },
-                sound: { fa: 'یک آوا', en: 'A Sound' }
+                frame: { fa: 'یک نما', en: 'A Shot', desc: { fa: 'یک قاب، یک نظر — آخرین فیلم/سریال که تماشا کردم', en: 'A frame, a take — the last film/series I watched' } },
+                page: { fa: 'یک برگ', en: 'A Page', desc: { fa: 'از کتاب‌ها و ایده‌هایی که برگه‌ای از ذهنم را پر کردند', en: 'From books and ideas that filled a page of my mind' } },
+                word: { fa: 'یک واژه', en: 'A Word', desc: { fa: 'شعرها و یادداشت‌هایی که بهانه‌ای شدند برای نوشتن', en: 'Poems and notes that became a reason to write' } },
+                sound: { fa: 'یک آوا', en: 'A Sound', desc: { fa: 'موسیقی یا پادکستی که این روزها درگیرم کرده', en: 'Music or a podcast that\'s been on my mind lately' } }
             };
-            function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
+            function tagLabel(t) { return tagMap[t] ? tagMap[t][lang] : t; }
+            function tagDesc(t) { return tagMap[t] ? (tagMap[t].desc[lang] || tagMap[t].desc.fa || tagMap[t].desc.en) : ''; }
+
             if (!posts.length) {
                 wrap.innerHTML = '<p class="frame-post__empty mono" data-i18n="blog-empty">&gt; هیچ پستی هنوز ثبت نشده...</p>';
                 return;
             }
-            const show = posts.slice(0, MAX);
-            let html = show.map((p, i) => {
-                const title = p['title_' + lang] || p.title_fa || p.title_en || '';
-                const excerpt = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
-                const hasLink = Boolean(p.link);
-                const href = hasLink ? ` href="${p.link}" target="_blank" rel="noopener"` : '';
-                const linkHtml = hasLink
-                    ? `<a${href} class="frame-post__link mono">read ↗</a>`
-                    : '';
-                return `<article class="frame-post" data-post="${i}" tabindex="0">
+
+            const byTag = {};
+            posts.forEach(p => { const t = p.tag || 'frame'; (byTag[t] = byTag[t] || []).push(p); });
+
+            const cats = ['frame', 'page', 'word', 'sound'];
+            let html = cats.map(tag => {
+                const list = byTag[tag] || [];
+                const count = lang === 'en' ? list.length + ' post(s)' : list.length + ' پست';
+                const items = list.map(p => {
+                    const img = p.image ? `<img class="frame-item__img" src="${p.image}" alt="" loading="lazy">` : '';
+                    const title = p['title_' + lang] || p.title_fa || p.title_en || '';
+                    const body = p.body ? `<div class="frame-item__text">${p.body.replace(/\n/g, '<br>')}</div>` : '';
+                    return `<div class="frame-item">
+                        ${img}
+                        <div class="frame-item__content">
+                            <span class="frame-item__date mono">${p.date || ''}</span>
+                            <h4 class="frame-item__title">${title}</h4>
+                            ${body}
+                        </div>
+                    </div>`;
+                }).join('');
+                return `<article class="frame-post frame-cat" data-tag="${tag}" tabindex="0">
                     <div class="frame-post__meta mono">
-                        <span class="frame-post__date">${p.date || ''}</span>
+                        <span class="frame-post__date">${count}</span>
                     </div>
-                    <h3 class="frame-post__title">${tagLabel(p.tag)}</h3>
-                    <p class="frame-post__excerpt"></p>
-                    <div class="frame-post__body" hidden></div>
-                    ${linkHtml}
+                    <h3 class="frame-post__title">${tagLabel(tag)}</h3>
+                    <p class="frame-post__excerpt">${tagDesc(tag)}</p>
+                    <div class="frame-cat__items" hidden>
+                        ${items || '<p class="mono" style="color:var(--text-muted);padding:8px">&gt; هیچ پستی ثبت نشده...</p>'}
+                    </div>
                 </article>`;
             }).join('');
 
-            const more = lang === 'en'
-                ? 'frames — archive ↗'
-                : 'frames — آرشیو ↗';
-            html += `<article class="frame-post frame-post--more">
-                <div class="frame-post__meta mono">
-                    <span class="frame-post__date">--archive</span>
-                </div>
-                <h3 class="frame-post__title">./frames</h3>
-                <p class="frame-post__excerpt"></p>
-                <a href="frames.html" class="frame-post__link mono">${more}</a>
-            </article>`;
             wrap.innerHTML = html;
-            wrap.querySelectorAll('.frame-post').forEach((card, i) => {
-                const p = i < show.length ? show[i] : null;
-                if (!p) return;
-                card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
-                const bodyEl = card.querySelector('.frame-post__body');
-                if (bodyEl && p.body) {
-                    bodyEl.textContent = p.body;
-                    card.addEventListener('click', function(e) {
-                        if (e.target.closest('a')) return;
-                        const isOpen = !bodyEl.hidden;
-                        bodyEl.hidden = isOpen;
-                        card.classList.toggle('frame-post--open', !isOpen);
-                    });
-                }
+            wrap.querySelectorAll('.frame-cat').forEach(card => {
+                const items = card.querySelector('.frame-cat__items');
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('a')) return;
+                    const isOpen = !items.hidden;
+                    items.hidden = isOpen;
+                    card.classList.toggle('frame-post--open', !isOpen);
+                });
             });
         }
 
