@@ -897,8 +897,8 @@
             const cards = projects.map(p => {
                 const title = p['title_' + lang] || p.title_fa || p.title_en || p.name;
                 const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
-                const tags = (p.tags || []).map(t => `<span>${t}</span>`).join('');
-                const links = (p.links || []).map(l => `<a href="${l.url}" class="project__demo">↗ ${l.label}</a>`).join('');
+                const tags = toArr(p.tags).map(t => `<span>${t}</span>`).join('');
+                const links = toArr(p.links).map(l => `<a href="${l.url}" class="project__demo">↗ ${l.label}</a>`).join('');
                 const singleLink = p.link ? `<a href="${p.link}" class="project__demo">↗ دمو</a>` : '';
                 return `<article class="project" data-tilt>
                     <div class="project__top">
@@ -936,6 +936,12 @@
                 card.querySelector('.project__title').textContent = title;
                 card.querySelector('.project__desc').textContent = desc;
             });
+        }
+
+        function toArr(v) {
+            if (Array.isArray(v)) return v;
+            if (typeof v === 'string' && v.trim()) return v.split(',').map(s => s.trim()).filter(Boolean);
+            return [];
         }
 
         fetch('data/projects.json')
