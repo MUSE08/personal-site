@@ -347,7 +347,6 @@
         const ctx = canvas.getContext('2d');
         let W, H, stars8 = [];
         let mx = -999, my = -999;
-        const isReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function resize() {
             const r = canvas.parentElement.getBoundingClientRect();
@@ -359,20 +358,20 @@
         function build() {
             stars8 = [];
             const cx = W / 2, cy = H / 2;
-            // figure-8 curve points (Lemniscate of Bernoulli)
-            const R = W * .36;
-            const N = 90;
+            // lemniscate (∞) path points
+            const R = W * .38;
+            const N = 110;
             for (let i = 0; i < N; i++) {
                 const t = (i / N) * Math.PI * 2;
-                const x = cx + R * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-                const y = cy + R * Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
+                const denom = 1 + Math.sin(t) * Math.sin(t);
+                const bx = cx + R * Math.cos(t) / denom;
+                const by = cy + R * Math.sin(t) * Math.cos(t) / denom;
                 stars8.push({
-                    bx: x, by: y,
-                    x, y,
-                    r: Math.random() * 1.8 + .6,
-                    tw: Math.random() * Math.PI * 2,
-                    sp: Math.random() * .02 + .006,
-                    col: Math.random() > .4 ? '245,166,35' : '34,211,238'
+                    bx, by, x: bx, y: by,
+                    r: Math.random() * 1.5 + .5,
+                    tw: Math.random() * 6.28,
+                    sp: .006 + Math.random() * .01,
+                    col: Math.random() > .5 ? '245,166,35' : '34,211,238'
                 });
             }
         }
@@ -386,37 +385,57 @@
 
         function draw() {
             ctx.clearRect(0, 0, W, H);
-            const REPEL = 40;
+            const REPEL = 46;
+            // draw constellation links first
+            for (let i = 0; i < stars8.length; i++) {
+                const a = stars8[i];
+                for (let j = i + 1; j < stars8.length; j++) {
+                    const b = stars8[j];
+                    const d = Math.hypot(a.x - b.x, a.y - b.y);
+                    const dm = Math.min(
+                        Math.hypot(a.x - mx, a.y - my),
+                        Math.hypot(b.x - mx, b.y - my)
+                    );
+                    if (d < 34) {
+                        const nearBoost = dm < REPEL ? .5 : 0;
+                        ctx.beginPath();
+                        ctx.moveTo(a.x, a.y);
+                        ctx.lineTo(b.x, b.y);
+                        ctx.strokeStyle = `rgba(148,163,184,${(1 - d / 34) * .16 + nearBoost * .25})`;
+                        ctx.lineWidth = nearBoost ? .8 : .4;
+                        ctx.stroke();
+                    }
+                }
+            }
+            // then stars
             stars8.forEach(s => {
-                // interact: repel / glow near mouse
                 const dx = s.x - mx, dy = s.y - my;
                 const dist = Math.hypot(dx, dy);
                 if (dist < REPEL && dist > .01) {
-                    const force = (1 - dist / REPEL) * 1.2;
+                    const force = (1 - dist / REPEL) * 1.3;
                     s.x += (dx / dist) * force;
                     s.y += (dy / dist) * force;
                 } else {
-                    // drift back to base
-                    s.x += (s.bx - s.x) * .06;
-                    s.y += (s.by - s.y) * .06;
+                    s.x += (s.bx - s.x) * .07;
+                    s.y += (s.by - s.y) * .07;
                 }
                 s.tw += s.sp;
-                const twinkle = .35 + (Math.sin(s.tw) + 1) / 2 * .6;
                 const near = dist < REPEL;
-                const rad = near ? s.r * 1.8 : s.r;
+                const alpha = near ? 1 : .35 + (Math.sin(s.tw) + 1) / 2 * .65;
+                const rad = s.r * (near ? 2.3 : 1);
+                // star glow
+                if (near) {
+                    ctx.shadowColor = `rgba(${s.col},1)`;
+                    ctx.shadowBlur = 16;
+                }
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${s.col},${twinkle})`;
+                ctx.fillStyle = `rgba(${s.col},${alpha})`;
                 ctx.fill();
-                // glow halo
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, rad * 4, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${s.col},${near ? .18 : .05})`;
-                ctx.fill();
+                if (near) ctx.shadowBlur = 0;
             });
             requestAnimationFrame(draw);
         }
-
         resize();
         requestAnimationFrame(draw);
         window.addEventListener('resize', resize);
@@ -467,75 +486,102 @@
         requestAnimationFrame(draw);
     })();
 
-    /* ---------- CONTACT 8 (interactive star constellation) ---------- */
+    /* ---------- CONTACT 8 (twin mirrored constellations, fleeing stars) ---------- */
     (function () {
-        const canvas = document.getElementById('contact-eight');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        let W, H, stars = [];
+        const canvases = [document.getElementById('contact-eight'), document.getElementById('contact-eight-r')].filter(Boolean);
+        if (!canvases.length) return;
+        const card = canvases[0].closest('.contact');
         let mx = -999, my = -999;
 
-        function resize() {
-            W = canvas.width = 160;
-            H = canvas.height = 160;
-            build();
-        }
-        function build() {
-            stars = [];
-            const cx = W / 2, cy = H / 2, R = W * .36;
-            const N = 50;
-            for (let i = 0; i < N; i++) {
-                const t = (i / N) * Math.PI * 2;
-                const x = cx + R * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-                const y = cy + R * Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-                stars.push({
-                    bx: x, by: y, x, y,
-                    r: Math.random() * 1.5 + .5,
-                    tw: Math.random() * 6.28,
-                    sp: .01 + Math.random() * .01,
-                    col: Math.random() > .4 ? '245,166,35' : '34,211,238'
-                });
-            }
-        }
-        // interact: listen on the contact card area
-        const card = canvas.closest('.contact');
         card.addEventListener('mousemove', e => {
-            const r = canvas.getBoundingClientRect();
-            mx = e.clientX - r.left;
-            my = e.clientY - r.top;
+            mx = e.clientX;
+            my = e.clientY;
         });
         card.addEventListener('mouseleave', () => { mx = -999; my = -999; });
 
-        function draw() {
-            ctx.clearRect(0, 0, W, H);
-            const REPEL = 34;
-            stars.forEach(s => {
-                const dx = s.x - mx, dy = s.y - my;
-                const dist = Math.hypot(dx, dy);
-                if (dist < REPEL && dist > .01) {
-                    const f = (1 - dist / REPEL) * 1.2;
-                    s.x += (dx / dist) * f;
-                    s.y += (dy / dist) * f;
-                } else {
-                    s.x += (s.bx - s.x) * .06;
-                    s.y += (s.by - s.y) * .06;
+        canvases.forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            let W, H, stars = [];
+
+            function resize() {
+                W = canvas.width = 300;
+                H = canvas.height = 400;
+                build();
+            }
+            function build() {
+                stars = [];
+                const cx = W / 2, cy = H / 2;
+                // vertical lemniscate (∞ rotated 90° = digit 8)
+                const R = H * .4;
+                const N = 140;
+                for (let i = 0; i < N; i++) {
+                    const t = (i / N) * Math.PI * 2;
+                    const denom = 1 + Math.sin(t) * Math.sin(t);
+                    const bx = cx + R * Math.sin(t) * Math.cos(t) / denom * .8;
+                    const by = cy + R * Math.cos(t) / denom;
+                    stars.push({
+                        bx, by, x: bx, y: by,
+                        r: Math.random() * 1.8 + .6,
+                        tw: Math.random() * 6.28,
+                        sp: .006 + Math.random() * .01,
+                        col: Math.random() > .5 ? '245,166,35' : '34,211,238'
+                    });
                 }
-                s.tw += s.sp;
-                const tw = .35 + (Math.sin(s.tw) + 1) / 2 * .6;
-                const rad = dist < REPEL ? s.r * 1.8 : s.r;
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${s.col},${tw})`;
-                ctx.fill();
-                ctx.beginPath();
-                ctx.arc(s.x, s.y, rad * 4, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${s.col},${dist < REPEL ? .16 : .05})`;
-                ctx.fill();
-            });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                const REPEL = 50;
+                const r = canvas.getBoundingClientRect();
+                const lmx = mx - r.left, lmy = my - r.top;
+                // constellation links (thicker)
+                for (let i = 0; i < stars.length; i++) {
+                    const a = stars[i];
+                    for (let j = i + 1; j < stars.length; j++) {
+                        const b = stars[j];
+                        const d = Math.hypot(a.x - b.x, a.y - b.y);
+                        const dm = Math.min(Math.hypot(a.x - lmx, a.y - lmy), Math.hypot(b.x - lmx, b.y - lmy));
+                        if (d < 40) {
+                            const nearBoost = dm < REPEL ? .6 : 0;
+                            ctx.beginPath();
+                            ctx.moveTo(a.x, a.y);
+                            ctx.lineTo(b.x, b.y);
+                            ctx.strokeStyle = `rgba(148,163,184,${(1 - d / 40) * .22 + nearBoost * .3})`;
+                            ctx.lineWidth = nearBoost ? 1.4 : .7;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                stars.forEach(s => {
+                    const dx = s.x - lmx, dy = s.y - lmy;
+                    const dist = Math.hypot(dx, dy);
+                    if (dist < REPEL && dist > .01) {
+                        const f = (1 - dist / REPEL) * 1.4;
+                        s.x += (dx / dist) * f;
+                        s.y += (dy / dist) * f;
+                    } else {
+                        s.x += (s.bx - s.x) * .07;
+                        s.y += (s.by - s.y) * .07;
+                    }
+                    s.tw += s.sp;
+                    const near = dist < REPEL;
+                    const alpha = near ? 1 : .35 + (Math.sin(s.tw) + 1) / 2 * .65;
+                    const rad = s.r * (near ? 2.5 : 1.2);
+                    if (near) {
+                        ctx.shadowColor = `rgba(${s.col},1)`;
+                        ctx.shadowBlur = 20;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(s.x, s.y, rad, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${s.col},${alpha})`;
+                    ctx.fill();
+                    if (near) ctx.shadowBlur = 0;
+                });
+                requestAnimationFrame(draw);
+            }
+            resize();
             requestAnimationFrame(draw);
-        }
-        resize();
-        requestAnimationFrame(draw);
+        });
     })();
 
     /* ---------- NIGHT MODE HINT (recommend dark mode) ---------- */
