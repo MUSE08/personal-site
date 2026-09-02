@@ -1,0 +1,13 @@
+{
+  "name": "PyAcademy",
+  "lang": "html",
+  "title_fa": "آکادمی پایتون — از صفر تا داده",
+  "title_en": "Python Academy — Zero to Data",
+  "desc_fa": "دوره آموزشی گام‌به‌گام پایتون؛ نسخه ۱ از مفاهیم پایه، نسخه ۲ مسیر حرفه‌ای داده و یادگیری ماشین.",
+  "desc_en": "Step-by-step Python course; v1 for basics, v2 for data & ML path.",
+  "tags": ["v1", "v2"],
+  "links": [
+    { "label": "v1", "url": "/academy" },
+    { "label": "v2", "url": "/academy/v2.html" }
+  ]
+}

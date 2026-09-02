@@ -20,58 +20,37 @@ collections:
     label: پروژه‌ها
     label_singular: پروژه
     description: مأموریت‌ها و پروژه‌ها
-    files:
-      - name: project_list
-        label: لیست پروژه‌ها
-        file: data/projects.json
-        fields:
-          - label: پروژه‌ها
-            name: projects
-            widget: list
-            allow_add: true
-            collapsed: false
-            summary: "{{fields.name}} · {{fields.lang}}"
-            fields:
-              - { label: نام پروژه, name: name, widget: string }
-              - { label: زبان/تکنولوژی, name: lang, widget: string }
-              - { label: عنوان فارسی, name: title_fa, widget: string }
-              - { label: عنوان انگلیسی, name: title_en, widget: string }
-              - { label: توضیحات فارسی, name: desc_fa, widget: text }
-              - { label: توضیحات انگلیسی, name: desc_en, widget: text }
-              - { label: تگ‌ها (کاما جدا), name: tags, widget: list, field: { label: تگ, name: tag, widget: string } }
-              - { label: لینک دمو (اختیاری), name: link, widget: string, required: false }
-          - label: پروژه‌ی در انتظار
-            name: placeholder
-            widget: object
-            collapsed: false
-            fields:
-              - { label: نام, name: name, widget: string, default: coming }
-              - { label: زبان, name: lang, widget: string, default: soon }
-              - { label: عنوان فارسی, name: title_fa, widget: string }
-              - { label: عنوان انگلیسی, name: title_en, widget: string }
-              - { label: توضیحات فارسی, name: desc_fa, widget: text }
-              - { label: توضیحات انگلیسی, name: desc_en, widget: text }
+    folder: content/projects
+    format: json
+    create: true
+    identifier_field: name
+    summary: "{{name}} · {{lang}}"
+    fields:
+      - { label: نام پروژه, name: name, widget: string }
+      - { label: زبان/تکنولوژی, name: lang, widget: string }
+      - { label: عنوان فارسی, name: title_fa, widget: string }
+      - { label: عنوان انگلیسی, name: title_en, widget: string }
+      - { label: توضیحات فارسی, name: desc_fa, widget: text }
+      - { label: توضیحات انگلیسی, name: desc_en, widget: text }
+      - { label: تگ‌ها, name: tags, widget: list, field: { label: تگ, name: tag, widget: string } }
+      - { label: لینک دمو (اختیاری), name: link, widget: string, required: false }
+      - { label: لینک‌های بیشتر (اختیاری), name: links, widget: list, required: false, collapsed: true, fields: [{ label: برچسب, name: label, widget: string }, { label: آدرس, name: url, widget: string }] }
 
   - name: blog
     label: بلاگ
     label_singular: پست
     description: قاب‌هایی از فکر، کتاب و فیلم
-    files:
-      - name: blog_posts
-        label: پست‌های بلاگ
-        file: data/blog.json
-        fields:
-          - label: پست‌ها
-            name: posts
-            widget: list
-            allow_add: true
-            collapsed: false
-            summary: "{{fields.tag}} · {{fields.title_fa}}"
-            fields:
-              - { label: تگ, name: tag, widget: select, options: [book, film, thought], default: thought }
-              - { label: تاریخ, name: date, widget: string, default: "۱۴۰۵" }
-              - { label: عنوان فارسی, name: title_fa, widget: string }
-              - { label: عنوان انگلیسی, name: title_en, widget: string }
-              - { label: خلاصه فارسی, name: excerpt_fa, widget: text }
-              - { label: خلاصه انگلیسی, name: excerpt_en, widget: text }
-              - { label: لینک (اختیاری), name: link, widget: string, required: false }
+    folder: content/blog
+    format: json
+    create: true
+    identifier_field: title_en
+    summary: "{{tag}} · {{title_fa}}"
+    fields:
+      - { label: تگ, name: tag, widget: select, options: [book, film, thought], default: thought }
+      - { label: تاریخ, name: date, widget: string, default: "۱۴۰۵" }
+      - { label: عنوان فارسی, name: title_fa, widget: string }
+      - { label: عنوان انگلیسی, name: title_en, widget: string }
+      - { label: خلاصه فارسی, name: excerpt_fa, widget: text }
+      - { label: خلاصه انگلیسی, name: excerpt_en, widget: text }
+      - { label: لینک (اختیاری), name: link, widget: string, required: false }
+      - { label: متن کامل (اختیاری), name: body, widget: markdown, required: false }

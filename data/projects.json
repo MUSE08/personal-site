@@ -5,7 +5,7 @@
       "lang": "c#",
       "title_fa": "LiveGrab — اپلیکیشن دسکتاپ",
       "title_en": "LiveGrab — Desktop Application",
-      "desc_fa": "اپلیکیشن WPF با WebView2، گرفتن m3u8 استریم و پخش روی VLC یا هر پلیر دیگه. طراحی شده با .NET 10 و MVVM Toolkit.",
+      "desc_fa": "اپلیکیشن WPF با WebView2، بلاک تبلیغات و پشتیبانی کامل از RTL. طراحی شده با .NET 10 و MVVM Toolkit.",
       "desc_en": "WPF desktop app with WebView2, ad blocking, full RTL support. Built with .NET 10 and MVVM Toolkit.",
       "tags": [
         "wpf",

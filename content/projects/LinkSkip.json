@@ -1,0 +1,10 @@
+{
+  "name": "LinkSkip",
+  "lang": "js",
+  "title_fa": "LinkSkip — دور زدن لینک‌های تبلیغاتی",
+  "title_en": "LinkSkip — Ad Shortener Bypasser",
+  "desc_fa": "ابزار روی Cloudflare Workers که لینک‌های کوتاه تبلیغاتی را دور می‌زند. با API عمومی و رابط کاربری دوزبانه.",
+  "desc_en": "Cloudflare Worker tool that bypasses ad-shortener links. Public API and bilingual UI.",
+  "tags": ["worker", "api", "cloudflare"],
+  "link": ""
+}

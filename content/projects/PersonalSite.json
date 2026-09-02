@@ -1,0 +1,10 @@
+{
+  "name": "PersonalSite",
+  "lang": "astro",
+  "title_fa": "طراحی سایت شخصی — نمونه دمو",
+  "title_en": "Personal Site Design — Demo",
+  "desc_fa": "یک سایت شخصی ساخته‌شده با Astro — این یک نمونه دمو است که می‌توانید از آن ایده بگیرید.",
+  "desc_en": "A personal site built with Astro — this is a demo sample for inspiration.",
+  "tags": ["live"],
+  "link": "/demo-personal"
+}
