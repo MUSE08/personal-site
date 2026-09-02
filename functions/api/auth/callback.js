@@ -2,15 +2,39 @@ function renderHtml(origin, provider, token, user, error) {
     const payload = { provider, token, user, error };
     const json = JSON.stringify(payload).replace(/</g, '\\u003c');
     const safeOrigin = origin.replace(/[^\w:\/.-]/g, '');
-    return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
+    const adminUrl = safeOrigin + '/admin/';
+    return `<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<title>ورود با موفقیت</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#0a0e17;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.box{background:#111827;border:1px solid #22d3ee;border-radius:12px;padding:32px;max-width:420px;text-align:center}
+.ok{color:#4ade80;font-size:40px}
+p{color:#94a3b8;line-height:1.8}
+a{color:#22d3ee}
+</style></head><body>
+<div class="box">
+<div class="ok">✓</div>
+<h2>ورود موفق بود</h2>
+<p>پنجره رو ببند و به داشبورد برگرد.</p>
+<p id="err" style="display:none;color:#f87171"></p>
+<p>اگه پنجره بسته نشد: <a href="${adminUrl}" onclick="window.opener=null;">بازگشت به داشبورد</a></p>
+</div>
+<script>
 (function () {
     var data = ${json};
-    function closeMe() { try { window.close(); } catch (e) {} }
     if (window.opener) {
-        window.opener.postMessage(data, '${safeOrigin}');
-        closeMe();
+        try {
+            window.opener.postMessage(data, '${safeOrigin}');
+        } catch (e) {
+            try { window.opener.postMessage(data, '*'); } catch (e2) {}
+        }
+        try { window.close(); } catch (e) {}
+    } else if (data.error) {
+        var el = document.getElementById('err');
+        el.style.display = 'block';
+        el.textContent = 'خطا: ' + data.error;
     } else {
-        document.body.textContent = JSON.stringify(data);
+        document.body.innerHTML = document.body.innerHTML;
     }
 }());
 </script></body></html>`;
