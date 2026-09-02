@@ -1,19 +1,13 @@
 function renderHtml(origin, provider, token, user, error) {
-    const payload = {
-        provider,
-        token,
-        user,
-        error
-    };
+    const payload = { provider, token, user, error };
     const json = JSON.stringify(payload).replace(/</g, '\\u003c');
+    const safeOrigin = origin.replace(/[^\w:\/.-]/g, '');
     return `<!DOCTYPE html><html><head><meta charset="utf-8"></head><body><script>
 (function () {
     var data = ${json};
-    function closeMe() {
-        try { window.close(); } catch (e) {}
-    }
+    function closeMe() { try { window.close(); } catch (e) {} }
     if (window.opener) {
-        window.opener.postMessage(data, '${origin.replace(/'/g, "\\'")}');
+        window.opener.postMessage(data, '${safeOrigin}');
         closeMe();
     } else {
         document.body.textContent = JSON.stringify(data);
@@ -23,34 +17,31 @@ function renderHtml(origin, provider, token, user, error) {
 }
 
 export async function onRequestGet(context) {
-    const { request, env } = context;
-    const url = new URL(request.url);
-    const origin = url.origin;
-    const code = url.searchParams.get('code');
-    const state = url.searchParams.get('state');
-    const provider = url.searchParams.get('provider') || 'github';
-    const clientId = env.GITHUB_CLIENT_ID;
-    const clientSecret = env.GITHUB_CLIENT_SECRET;
-
-    const fail = (msg) => new Response(renderHtml(origin, provider, null, null, msg), { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
-
-    if (!clientId || !clientSecret) return fail('OAuth env not configured');
-    if (!code) return fail('Missing authorization code');
-
-    const cookies = request.headers.get('Cookie') || '';
-    const m = cookies.match(/(?:^|;\s*)cms_state=([^;]+)/);
-    if (m && m[1] !== state) return fail('State mismatch');
-
     try {
+        const { request, env } = context;
+        const url = new URL(request.url);
+        const origin = url.origin;
+        const code = url.searchParams.get('code');
+        const state = url.searchParams.get('state');
+        const provider = url.searchParams.get('provider') || 'github';
+        const clientId = env.GITHUB_CLIENT_ID;
+        const clientSecret = env.GITHUB_CLIENT_SECRET;
+
+        const fail = (msg) => new Response(renderHtml(origin, provider, null, null, msg), {
+            headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        });
+
+        if (!clientId || !clientSecret) return fail('OAuth env not configured');
+        if (!code) return fail('Missing authorization code');
+
+        const cookies = request.headers.get('Cookie') || '';
+        const m = cookies.match(/(?:^|;\s*)cms_state=([^;]+)/);
+        if (m && m[1] !== state) return fail('State mismatch');
+
         const tokRes = await fetch('https://github.com/login/oauth/access_token', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            body: JSON.stringify({
-                client_id: clientId,
-                client_secret: clientSecret,
-                code,
-                state
-            })
+            body: JSON.stringify({ client_id: clientId, client_secret: clientSecret, code, state })
         });
         const tokData = await tokRes.json();
         const accessToken = tokData.access_token;
@@ -65,10 +56,13 @@ export async function onRequestGet(context) {
         } catch (e) {}
 
         const html = renderHtml(origin, provider, accessToken, user, null);
-        const res = new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
-        res.headers.append('Set-Cookie', 'cms_state=; Path=/; HttpOnly; Max-Age=0');
-        return res;
+        return new Response(html, {
+            headers: {
+                'Content-Type': 'text/html; charset=utf-8',
+                'Set-Cookie': 'cms_state=; Path=/; HttpOnly; Max-Age=0'
+            }
+        });
     } catch (err) {
-        return fail(String(err));
+        return new Response('Auth callback error: ' + String(err), { status: 500 });
     }
 }
