@@ -46,7 +46,7 @@ collections:
     identifier_field: title_en
     summary: "{{tag}} · {{title_fa}}"
     fields:
-      - { label: تگ, name: tag, widget: select, options: [book, film, thought], default: thought }
+      - { label: تگ, name: tag, widget: select, options: [frame, book, sound], default: frame }
       - { label: تاریخ, name: date, widget: string, default: "۱۴۰۵" }
       - { label: عنوان فارسی, name: title_fa, widget: string }
       - { label: عنوان انگلیسی, name: title_en, widget: string }

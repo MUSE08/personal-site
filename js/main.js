@@ -275,27 +275,9 @@
             'nav-contact':  {fa:'تماس',          en:'Contact'},
             'hero-cta1':    {fa:'مشاهده پروژه‌ها', en:'View Projects'},
             'hero-cta2':    {fa:'تماس',          en:'Contact'},
-            'blog-sub':     {fa:'قاب‌هایی از فکر، کتاب و فیلم', en:'Frames of thought, books & film'},
+            'blog-sub':     {fa:'قاب‌هایی از فکر، کتاب، فیلم و صدا', en:'Frames of thought, books, film & sound'},
             'signal-sub':   {fa:'پیامت مستقیم به ایمیل علی می‌رسد', en:'Your message goes straight to my inbox'},
             'contact-sub':  {fa:'کانال‌های ارتباطی', en:'Communication channels'},
-            'proj-livegrab':{fa:'LiveGrab — اپلیکیشن دسکتاپ', en:'LiveGrab — Desktop Application'},
-            'proj-livegrab-d':{fa:'اپلیکیشن WPF با WebView2، بلاک تبلیغات و پشتیبانی کامل از RTL.', en:'WPF desktop app with WebView2, ad blocking, full RTL support.'},
-            'proj-linkskip':{fa:'LinkSkip — دور زدن لینک‌های تبلیغاتی', en:'LinkSkip — Ad Shortener Bypasser'},
-            'proj-linkskip-d':{fa:'ابزار روی Cloudflare Workers که لینک‌های کوتاه تبلیغاتی را دور می‌زند.', en:'Cloudflare Worker tool that bypasses ad-shortener links with a public API.'},
-            'proj-planify':{fa:'برنامه‌ریز هوشمند هفتگی', en:'Smart Weekly Planner'},
-            'proj-planify-d':{fa:'ابزار برنامه‌ریزی هفتگی و ماهانه با رابط کاربری تمیز و مینیمال.', en:'Weekly & monthly planning tool with a clean, minimal UI.'},
-            'proj-pyacademy':{fa:'آکادمی پایتون — از صفر تا داده', en:'Python Academy — Zero to Data'},
-            'proj-pyacademy-d':{fa:'دوره آموزشی گام‌به‌گام پایتون؛ نسخه ۱ از مفاهیم پایه، نسخه ۲ مسیر حرفه‌ای داده.', en:'Step-by-step Python course; v1 for basics, v2 for data & ML.'},
-            'proj-personal':{fa:'طراحی سایت شخصی — نمونه دمو', en:'Personal Site Design — Demo'},
-            'proj-personal-d':{fa:'یک سایت شخصی ساخته‌شده با Astro — این یک نمونه دمو است.', en:'A personal site built with Astro — this is a demo sample.'},
-            'proj-coming':{fa:'پروژه بعدی...', en:'Next Project...'},
-            'proj-coming-d':{fa:'به زودی اینجا با یک پروژه جدید پر می‌شود.', en:'Coming soon — will be filled with a new project.'},
-            'blog-book':{fa:'آخرین کتابی که خواندم', en:'The Last Book I Read'},
-            'blog-book-e':{fa:'یادداشت کوتاهی درباره کتابی که این روزها در دست دارم...', en:'A short note about the book I\'m currently reading...'},
-            'blog-film':{fa:'قابی از فیلم', en:'A Frame from a Film'},
-            'blog-film-e':{fa:'یک سکانس، یک فکر؛ نگاهی به صحنه‌ای که نتوانستم فراموشش کنم...', en:'A scene, a thought; looking at a shot I couldn\'t forget...'},
-            'blog-thought':{fa:'یه فکر ساده', en:'A Simple Thought'},
-            'blog-thought-e':{fa:'گاه‌وقت یک سؤال ساده، بزرگ‌ترین سفر ذهنی را شروع می‌کند...', en:'Sometimes a simple question starts the greatest mental journey...'},
             'footer-mid':{fa:'35mm · void · mind', en:'35mm · void · mind'},
             'footer-end':{fa:'v8.0', en:'v8.0'},
         };
@@ -843,6 +825,12 @@
 
         function render() {
             const lang = currentLang();
+            const tagMap = {
+                frame: { fa: 'فریم', en: 'Frame' },
+                book: { fa: 'کتاب/ایده', en: 'Book/Idea' },
+                sound: { fa: 'صدا', en: 'Sound' }
+            };
+            function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
             if (!posts.length) {
                 wrap.innerHTML = '<p class="frame-post__empty mono" data-i18n="blog-empty">&gt; هیچ پستی هنوز ثبت نشده...</p>';
                 return;
@@ -858,7 +846,7 @@
                     : '';
                 return `<article class="frame-post">
                     <div class="frame-post__meta mono">
-                        <span class="frame-post__tag">${p.tag || 'thought'}</span>
+                        <span class="frame-post__tag">${tagLabel(p.tag)}</span>
                         <span class="frame-post__date">${p.date || ''}</span>
                     </div>
                     <h3 class="frame-post__title"></h3>

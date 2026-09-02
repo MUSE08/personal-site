@@ -78,6 +78,12 @@
 
             let posts = [];
             function render() {
+                const tagMap = {
+                    frame: { fa: 'فریم', en: 'Frame' },
+                    book: { fa: 'کتاب/ایده', en: 'Book/Idea' },
+                    sound: { fa: 'صدا', en: 'Sound' }
+                };
+                function tagLabel(t) { return (tagMap[t] && tagMap[t][lang]) || t; }
                 if (!posts.length) { wrap.innerHTML = '<p class="mono" style="color:var(--text-muted)">&gt; هیچ نوشته‌ای ثبت نشده...</p>'; return; }
                 const html = posts.map(p => {
                     const hasLink = Boolean(p.link);
@@ -87,7 +93,7 @@
                         : '';
                     return `<article class="frame-post">
                         <div class="frame-post__meta mono">
-                            <span class="frame-post__tag">${p.tag || 'thought'}</span>
+                            <span class="frame-post__tag">${tagLabel(p.tag)}</span>
                             <span class="frame-post__date">${p.date || ''}</span>
                         </div>
                         <h3 class="frame-post__title"></h3>

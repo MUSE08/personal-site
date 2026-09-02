@@ -1,7 +1,7 @@
 {
   "posts": [
     {
-      "tag": "film",
+      "tag": "frame",
       "date": "۱۴۰۵",
       "title_fa": "قابی از فیلم",
       "title_en": "A Frame from a Film",
@@ -11,12 +11,22 @@
       "body": ""
     },
     {
-      "tag": "thought",
+      "tag": "book",
       "date": "۱۴۰۵",
       "title_fa": "یه فکر ساده",
       "title_en": "A Simple Thought",
       "excerpt_fa": "گاه‌وقت یک سؤال ساده، بزرگ‌ترین سفر ذهنی را شروع می‌کند...",
       "excerpt_en": "Sometimes a simple question starts the greatest mental journey...",
+      "link": "",
+      "body": ""
+    },
+    {
+      "tag": "sound",
+      "date": "۱۴۰۵",
+      "title_fa": "صدایی که درگیرم کرد",
+      "title_en": "A Sound That Got Me",
+      "excerpt_fa": "موسیقی یا پادکستی که این روزها درگیرم کرده و بی‌وقفه پخش می‌کنم...",
+      "excerpt_en": "A piece of music or a podcast that has been on repeat lately...",
       "link": "",
       "body": ""
     },
