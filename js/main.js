@@ -837,7 +837,7 @@
                 return;
             }
             const show = posts.slice(0, MAX);
-            let html = show.map(p => {
+            let html = show.map((p, i) => {
                 const title = p['title_' + lang] || p.title_fa || p.title_en || '';
                 const excerpt = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
                 const hasLink = Boolean(p.link);
