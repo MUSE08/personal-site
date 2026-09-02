@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <title>Ali Vaheb | Works — آرشیو پروژه‌ها</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='64' y2='64'%3E%3Cstop offset='0' stop-color='%2322d3ee'/%3E%3Cstop offset='1' stop-color='%23c084fc'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='19' r='12' fill='none' stroke='url(%23g)' stroke-width='6'/%3E%3Ccircle cx='32' cy='45' r='12' fill='none' stroke='url(%23g)' stroke-width='6'/%3E%3Cpath d='M20 32H44' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="header scrolled" id="header">
+        <nav class="nav container">
+            <a href="index.html" class="nav__logo mono">
+                <span class="nav__logo-mark">
+                    <svg viewBox="0 0 64 64" width="26" height="26" fill="none">
+                        <circle cx="32" cy="19" r="12" stroke="#22d3ee" stroke-width="7"/>
+                        <circle cx="32" cy="45" r="12" stroke="#c084fc" stroke-width="7"/>
+                        <path d="M20 32 H44" stroke="#22d3ee" stroke-width="7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span>Ali Vaheb</span>
+            </a>
+            <div class="nav__actions">
+                <button class="lang-toggle mono" id="lang-toggle" aria-label="تغییر زبان">EN</button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="archive">
+        <a href="index.html" class="archive__back mono">← ../</a>
+        <div class="archive__head">
+            <span class="archive__tag mono">[SC.03]</span>
+            <h1 class="archive__title">./<span class="accent">works</span> <span class="accent" style="opacity:.5">— all</span></h1>
+            <p class="archive__sub mono" id="archive-sub">آرشیو همهٔ پروژه‌ها</p>
+        </div>
+        <p class="archive__count mono" id="archive-count"></p>
+        <div class="container">
+            <div class="projects" id="projects-grid"></div>
+        </div>
+    </main>
+
+    <footer class="footer mono">
+        <span>© ۱۴۰۴ علی واهب</span>
+        <span class="footer__mid">35mm · void · mind</span>
+    </footer>
+
+    <script>
+        (function () {
+            const wrap = document.getElementById('projects-grid');
+            const count = document.getElementById('archive-count');
+            const sub = document.getElementById('archive-sub');
+            const btn = document.getElementById('lang-toggle');
+            const root = document.documentElement;
+            let lang = root.getAttribute('lang') === 'en' ? 'en' : 'fa';
+
+            const dict = {
+                'archive-sub': { fa: 'آرشیو همهٔ پروژه‌ها', en: 'Archive of all projects' },
+                count: { fa: 'project(s)', en: 'project(s)' },
+                demo: { fa: 'دمو', en: 'demo' }
+            };
+
+            function applyLang() {
+                root.setAttribute('lang', lang);
+                root.setAttribute('dir', lang === 'fa' ? 'rtl' : 'ltr');
+                btn.textContent = lang === 'fa' ? 'EN' : 'FA';
+                if (sub) sub.textContent = dict['archive-sub'][lang];
+                try { localStorage.setItem('lang', lang); } catch (e) {}
+                render();
+            }
+            btn.addEventListener('click', () => { lang = lang === 'fa' ? 'en' : 'fa'; applyLang(); });
+
+            let projects = [];
+            function toArr(v) {
+                if (Array.isArray(v)) return v;
+                if (typeof v === 'string' && v.trim()) return v.split(',').map(s => s.trim()).filter(Boolean);
+                return [];
+            }
+
+            function render() {
+                if (!projects.length) { wrap.innerHTML = '<p class="mono" style="color:var(--text-muted)">&gt; هیچ پروژه‌ای ثبت نشده...</p>'; return; }
+                const html = projects.map(p => {
+                    const title = p['title_' + lang] || p.title_fa || p.title_en || p.name;
+                    const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
+                    const tags = toArr(p.tags).map(t => `<span>${t}</span>`).join('');
+                    const links = toArr(p.links).map(l => `<a href="${l.url}" class="project__demo">↗ ${l.label}</a>`).join('');
+                    const singleLink = p.link ? `<a href="${p.link}" class="project__demo">↗ ${dict.demo[lang]}</a>` : '';
+                    return `<article class="project" data-tilt>
+                        <div class="project__top">
+                            <span class="project__name mono">${p.name || ''}</span>
+                            <span class="project__lang mono">${p.lang || ''}</span>
+                        </div>
+                        <h3 class="project__title"></h3>
+                        <p class="project__desc"></p>
+                        <div class="project__tags mono">${tags}${singleLink}${links}</div>
+                    </article>`;
+                }).join('');
+                wrap.innerHTML = html;
+                wrap.querySelectorAll('.project').forEach((card, i) => {
+                    const p = projects[i];
+                    card.querySelector('.project__title').textContent = p['title_' + lang] || p.title_fa || p.title_en || '';
+                    card.querySelector('.project__desc').textContent = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
+                });
+                if (count) count.textContent = `~/works > ${projects.length} ${dict.count[lang]}`;
+            }
+
+            const saved = (() => { try { return localStorage.getItem('lang'); } catch (e) { return null; } })();
+            if (saved) lang = saved;
+            applyLang();
+
+            fetch('data/projects.json')
+                .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+                .then(data => { projects = Array.isArray(data.projects) ? data.projects : []; render(); })
+                .catch(() => { wrap.innerHTML = ''; });
+        })();
+    </script>
+</body>
+</html>

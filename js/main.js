@@ -833,6 +833,7 @@
     (function () {
         const wrap = document.getElementById('blog-frames');
         if (!wrap) return;
+        const MAX = 6;
 
         let posts = [];
 
@@ -846,7 +847,8 @@
                 wrap.innerHTML = '<p class="frame-post__empty mono" data-i18n="blog-empty">&gt; هیچ پستی هنوز ثبت نشده...</p>';
                 return;
             }
-            wrap.innerHTML = posts.map(p => {
+            const show = posts.slice(0, MAX);
+            let html = show.map(p => {
                 const title = p['title_' + lang] || p.title_fa || p.title_en || '';
                 const excerpt = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
                 const href = p.link ? ` href="${p.link}" target="_blank" rel="noopener"` : ' href="#"';
@@ -861,8 +863,27 @@
                     <a${href} class="frame-post__link mono">read ${icon}</a>
                 </article>`;
             }).join('');
+
+            if (posts.length > MAX) {
+                const more = lang === 'en'
+                    ? 'frames — archive ↗'
+                    : 'frames — آرشیو ↗';
+                html += `<article class="frame-post frame-post--more">
+                    <div class="frame-post__meta mono">
+                        <span class="frame-post__tag">./frames</span>
+                        <span class="frame-post__date">--archive</span>
+                    </div>
+                    <h3 class="frame-post__title"></h3>
+                    <p class="frame-post__excerpt"></p>
+                    <a href="frames.html" class="frame-post__link mono">${more}</a>
+                </article>`;
+            }
+
+            wrap.innerHTML = html;
+            const allItems = show.length + (posts.length > MAX ? 1 : 0);
             wrap.querySelectorAll('.frame-post').forEach((card, i) => {
-                const p = posts[i];
+                const p = i < show.length ? show[i] : null;
+                if (!p) return;
                 card.querySelector('.frame-post__title').textContent = p['title_' + lang] || p.title_fa || p.title_en || '';
                 card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
             });
@@ -880,6 +901,7 @@
     (function () {
         const wrap = document.getElementById('projects-grid');
         if (!wrap) return;
+        const MAX = 6;
 
         let projects = [];
         let placeholder = null;
@@ -894,7 +916,8 @@
                 wrap.innerHTML = '';
                 return;
             }
-            const cards = projects.map(p => {
+            const show = projects.slice(0, MAX);
+            let cards = show.map(p => {
                 const title = p['title_' + lang] || p.title_fa || p.title_en || p.name;
                 const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
                 const tags = toArr(p.tags).map(t => `<span>${t}</span>`).join('');
@@ -912,11 +935,10 @@
             }).join('');
 
             // placeholder card
-            let phCard = '';
             if (placeholder) {
                 const phTitle = placeholder['title_' + lang] || placeholder.title_fa || placeholder.title_en || '';
                 const phDesc = placeholder['desc_' + lang] || placeholder.desc_fa || placeholder.desc_en || '';
-                phCard = `<article class="project project--placeholder">
+                cards += `<article class="project project--placeholder">
                     <div class="project__top">
                         <span class="project__name mono">${placeholder.name || 'coming'}</span>
                         <span class="project__lang mono">${placeholder.lang || 'soon'}</span>
@@ -927,9 +949,25 @@
                 </article>`;
             }
 
-            wrap.innerHTML = cards + phCard;
+            // more card
+            if (projects.length > MAX) {
+                const more = lang === 'en'
+                    ? 'works — all projects ↗'
+                    : 'works — همهٔ پروژه‌ها ↗';
+                cards += `<article class="project project--more">
+                    <div class="project__top">
+                        <span class="project__name mono">./works</span>
+                        <span class="project__lang mono">--all</span>
+                    </div>
+                    <h3 class="project__title"></h3>
+                    <p class="project__desc"></p>
+                    <div class="project__tags mono"><a href="works.html" class="project__demo">${more}</a></div>
+                </article>`;
+            }
+
+            wrap.innerHTML = cards;
             wrap.querySelectorAll('.project').forEach((card, i) => {
-                const p = i < projects.length ? projects[i] : placeholder;
+                const p = i < show.length ? show[i] : (i === show.length ? placeholder : null);
                 if (!p) return;
                 const title = p['title_' + lang] || p.title_fa || p.title_en || '';
                 const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
