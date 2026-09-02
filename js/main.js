@@ -875,4 +875,78 @@
 
         document.addEventListener('langchange', render);
     })();
+
+    /* ---------- PROJECTS (loaded from data/projects.json) ---------- */
+    (function () {
+        const wrap = document.getElementById('projects-grid');
+        if (!wrap) return;
+
+        let projects = [];
+        let placeholder = null;
+
+        function currentLang() {
+            return document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'fa';
+        }
+
+        function render() {
+            const lang = currentLang();
+            if (!projects.length) {
+                wrap.innerHTML = '';
+                return;
+            }
+            const cards = projects.map(p => {
+                const title = p['title_' + lang] || p.title_fa || p.title_en || p.name;
+                const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
+                const tags = (p.tags || []).map(t => `<span>${t}</span>`).join('');
+                const links = (p.links || []).map(l => `<a href="${l.url}" class="project__demo">↗ ${l.label}</a>`).join('');
+                const singleLink = p.link ? `<a href="${p.link}" class="project__demo">↗ دمو</a>` : '';
+                return `<article class="project" data-tilt>
+                    <div class="project__top">
+                        <span class="project__name mono">${p.name || ''}</span>
+                        <span class="project__lang mono">${p.lang || ''}</span>
+                    </div>
+                    <h3 class="project__title"></h3>
+                    <p class="project__desc"></p>
+                    <div class="project__tags mono">${tags}${singleLink}${links}</div>
+                </article>`;
+            }).join('');
+
+            // placeholder card
+            let phCard = '';
+            if (placeholder) {
+                const phTitle = placeholder['title_' + lang] || placeholder.title_fa || placeholder.title_en || '';
+                const phDesc = placeholder['desc_' + lang] || placeholder.desc_fa || placeholder.desc_en || '';
+                phCard = `<article class="project project--placeholder">
+                    <div class="project__top">
+                        <span class="project__name mono">${placeholder.name || 'coming'}</span>
+                        <span class="project__lang mono">${placeholder.lang || 'soon'}</span>
+                    </div>
+                    <h3 class="project__title"></h3>
+                    <p class="project__desc"></p>
+                    <div class="project__tags mono"><span class="chip--soon">…</span></div>
+                </article>`;
+            }
+
+            wrap.innerHTML = cards + phCard;
+            wrap.querySelectorAll('.project').forEach((card, i) => {
+                const p = i < projects.length ? projects[i] : placeholder;
+                if (!p) return;
+                const title = p['title_' + lang] || p.title_fa || p.title_en || '';
+                const desc = p['desc_' + lang] || p.desc_fa || p.desc_en || '';
+                card.querySelector('.project__title').textContent = title;
+                card.querySelector('.project__desc').textContent = desc;
+            });
+        }
+
+        fetch('data/projects.json')
+            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(data => {
+                projects = Array.isArray(data.projects) ? data.projects : [];
+                placeholder = data.placeholder || null;
+                render();
+            })
+            .catch(() => { wrap.innerHTML = ''; });
+
+        document.addEventListener('langchange', render);
+    })();
 })();

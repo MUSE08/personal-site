@@ -264,67 +264,7 @@
                 <h2 class="section__title">./<span class="accent">works</span></h2>
             </div>
 
-            <div class="projects reveal">
-                <article class="project" data-tilt>
-                    <div class="project__top">
-                        <span class="project__name mono">LiveGrab</span>
-                        <span class="project__lang mono">c#</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-livegrab">LiveGrab — اپلیکیشن دسکتاپ</h3>
-                    <p class="project__desc" data-i18n="proj-livegrab-d">اپلیکیشن WPF با WebView2، بلاک تبلیغات و پشتیبانی کامل از RTL. طراحی شده با .NET 10 و MVVM Toolkit.</p>
-                    <div class="project__tags mono"><span>wpf</span><span>webview2</span><span>net10</span></div>
-                </article>
-
-                <article class="project" data-tilt>
-                    <div class="project__top">
-                        <span class="project__name mono">LinkSkip</span>
-                        <span class="project__lang mono">js</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-linkskip">LinkSkip — دور زدن لینک‌های تبلیغاتی</h3>
-                    <p class="project__desc" data-i18n="proj-linkskip-d">ابزار روی Cloudflare Workers که لینک‌های کوتاه تبلیغاتی را دور می‌زند. با API عمومی و رابط کاربری دوزبانه.</p>
-                    <div class="project__tags mono"><span>worker</span><span>api</span><span>cloudflare</span></div>
-                </article>
-
-                <article class="project" data-tilt>
-                    <div class="project__top">
-                        <span class="project__name mono">Planify</span>
-                        <span class="project__lang mono">html</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-planify">برنامه‌ریز هوشمند هفتگی</h3>
-                    <p class="project__desc" data-i18n="proj-planify-d">ابزار برنامه‌ریزی هفتگی و ماهانه با رابط کاربری تمیز و مینیمال.</p>
-                    <div class="project__tags mono"><span>live</span> <a href="/planner" class="project__demo">↗ دمو</a></div>
-                </article>
-
-                <article class="project" data-tilt>
-                    <div class="project__top">
-                        <span class="project__name mono">PyAcademy</span>
-                        <span class="project__lang mono">html</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-pyacademy">آکادمی پایتون — از صفر تا داده</h3>
-                    <p class="project__desc" data-i18n="proj-pyacademy-d">دوره آموزشی گام‌به‌گام پایتون؛ نسخه ۱ از مفاهیم پایه، نسخه ۲ مسیر حرفه‌ای داده و یادگیری ماشین.</p>
-                    <div class="project__tags mono"><span>v1</span> <a href="/academy" class="project__demo">↗ دمو</a> <span>v2</span> <a href="/academy/v2.html" class="project__demo">↗ دمو</a></div>
-                </article>
-
-                <article class="project" data-tilt>
-                    <div class="project__top">
-                        <span class="project__name mono">PersonalSite</span>
-                        <span class="project__lang mono">astro</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-personal">طراحی سایت شخصی — نمونه دمو</h3>
-                    <p class="project__desc" data-i18n="proj-personal-d">یک سایت شخصی ساخته‌شده با Astro — این یک نمونه دمو است که می‌توانید از آن ایده بگیرید.</p>
-                    <div class="project__tags mono"><span>live</span> <a href="/demo-personal" class="project__demo">↗ دمو</a></div>
-                </article>
-
-                <article class="project project--placeholder">
-                    <div class="project__top">
-                        <span class="project__name mono">coming</span>
-                        <span class="project__lang mono">soon</span>
-                    </div>
-                    <h3 class="project__title" data-i18n="proj-coming">پروژه بعدی...</h3>
-                    <p class="project__desc" data-i18n="proj-coming-d">به زودی اینجا با یک پروژه جدید پر می‌شود.</p>
-                    <div class="project__tags mono"><span class="chip--soon">…</span></div>
-                </article>
-            </div>
+            <div class="projects reveal" id="projects-grid"><!-- projects loaded from data/projects.json --></div>
         </div>
     </section>
 

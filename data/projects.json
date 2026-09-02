@@ -1,0 +1,66 @@
+{
+  "projects": [
+    {
+      "name": "LiveGrab",
+      "lang": "c#",
+      "title_fa": "LiveGrab — اپلیکیشن دسکتاپ",
+      "title_en": "LiveGrab — Desktop Application",
+      "desc_fa": "اپلیکیشن WPF با WebView2، بلاک تبلیغات و پشتیبانی کامل از RTL. طراحی شده با .NET 10 و MVVM Toolkit.",
+      "desc_en": "WPF desktop app with WebView2, ad blocking, full RTL support. Built with .NET 10 and MVVM Toolkit.",
+      "tags": ["wpf", "webview2", "net10"],
+      "link": ""
+    },
+    {
+      "name": "LinkSkip",
+      "lang": "js",
+      "title_fa": "LinkSkip — دور زدن لینک‌های تبلیغاتی",
+      "title_en": "LinkSkip — Ad Shortener Bypasser",
+      "desc_fa": "ابزار روی Cloudflare Workers که لینک‌های کوتاه تبلیغاتی را دور می‌زند. با API عمومی و رابط کاربری دوزبانه.",
+      "desc_en": "Cloudflare Worker tool that bypasses ad-shortener links. Public API and bilingual UI.",
+      "tags": ["worker", "api", "cloudflare"],
+      "link": ""
+    },
+    {
+      "name": "Planify",
+      "lang": "html",
+      "title_fa": "برنامه‌ریز هوشمند هفتگی",
+      "title_en": "Smart Weekly Planner",
+      "desc_fa": "ابزار برنامه‌ریزی هفتگی و ماهانه با رابط کاربری تمیز و مینیمال.",
+      "desc_en": "Weekly & monthly planning tool with a clean, minimal UI.",
+      "tags": ["live"],
+      "link": "/planner"
+    },
+    {
+      "name": "PyAcademy",
+      "lang": "html",
+      "title_fa": "آکادمی پایتون — از صفر تا داده",
+      "title_en": "Python Academy — Zero to Data",
+      "desc_fa": "دوره آموزشی گام‌به‌گام پایتون؛ نسخه ۱ از مفاهیم پایه، نسخه ۲ مسیر حرفه‌ای داده و یادگیری ماشین.",
+      "desc_en": "Step-by-step Python course; v1 for basics, v2 for data & ML path.",
+      "tags": ["v1", "v2"],
+      "links": [
+        { "label": "v1", "url": "/academy" },
+        { "label": "v2", "url": "/academy/v2.html" }
+      ]
+    },
+    {
+      "name": "PersonalSite",
+      "lang": "astro",
+      "title_fa": "طراحی سایت شخصی — نمونه دمو",
+      "title_en": "Personal Site Design — Demo",
+      "desc_fa": "یک سایت شخصی ساخته‌شده با Astro — این یک نمونه دمو است که می‌توانید از آن ایده بگیرید.",
+      "desc_en": "A personal site built with Astro — this is a demo sample for inspiration.",
+      "tags": ["live"],
+      "link": "/demo-personal"
+    }
+  ],
+  "placeholder": {
+    "name": "coming",
+    "lang": "soon",
+    "title_fa": "پروژه بعدی...",
+    "title_en": "Next Project...",
+    "desc_fa": "به زودی اینجا با یک پروژه جدید پر می‌شود.",
+    "desc_en": "Coming soon — will be filled with a new project.",
+    "tags": []
+  }
+}
