@@ -1,0 +1,38 @@
+backend:
+  name: github
+  repo: MUSE08/personal-site
+  branch: main
+  base_url: https://ali8muse.dpdns.org
+  auth_endpoint: /api/auth
+  site_domain: ali8muse.dpdns.org
+
+site_url: https://ali8muse.dpdns.org
+logo_url: https://ali8muse.dpdns.org/assets/letterboxd.png
+
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  - name: blog
+    label: بلاگ
+    label_singular: پست
+    description: قاب‌هایی از فکر، کتاب و فیلم
+    files:
+      - name: blog_posts
+        label: پست‌های بلاگ
+        file: data/blog.json
+        fields:
+          - label: پست‌ها
+            name: posts
+            widget: list
+            allow_add: true
+            collapsed: false
+            summary: "{{fields.tag}} · {{fields.title_fa}}"
+            fields:
+              - { label: تگ, name: tag, widget: select, options: [book, film, thought], default: thought }
+              - { label: تاریخ, name: date, widget: string, default: "۱۴۰۵" }
+              - { label: عنوان فارسی, name: title_fa, widget: string }
+              - { label: عنوان انگلیسی, name: title_en, widget: string }
+              - { label: خلاصه فارسی, name: excerpt_fa, widget: text }
+              - { label: خلاصه انگلیسی, name: excerpt_en, widget: text }
+              - { label: لینک (اختیاری), name: link, widget: string, required: false }

@@ -311,6 +311,7 @@
                 if (dict[key] && dict[key][l]) el.textContent = dict[key][l];
             });
             try { localStorage.setItem('lang', l); } catch(e){}
+            document.dispatchEvent(new CustomEvent('langchange', { detail: l }));
         }
 
         let saved = (() => { try { return localStorage.getItem('lang'); } catch(e){ return null; } })();
@@ -675,6 +676,7 @@
                 if (w) f.style.width = w + '%';
             });
         }
+        window.__revealObserve = io;
     })();
 
     /* ---------- STACK SCRAMBLE (percentages + chips) ---------- */
@@ -825,5 +827,52 @@
             btn.disabled = false;
             btn.textContent = '~/transmit ⇡';
         });
+    })();
+
+    /* ---------- BLOG FRAMES (loaded from data/blog.json) ---------- */
+    (function () {
+        const wrap = document.getElementById('blog-frames');
+        if (!wrap) return;
+
+        let posts = [];
+
+        function currentLang() {
+            return document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'fa';
+        }
+
+        function render() {
+            const lang = currentLang();
+            if (!posts.length) {
+                wrap.innerHTML = '<p class="frame-post__empty mono" data-i18n="blog-empty">&gt; هیچ پستی هنوز ثبت نشده...</p>';
+                return;
+            }
+            wrap.innerHTML = posts.map(p => {
+                const title = p['title_' + lang] || p.title_fa || p.title_en || '';
+                const excerpt = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
+                const href = p.link ? ` href="${p.link}" target="_blank" rel="noopener"` : ' href="#"';
+                const icon = p.link ? '↗' : '→';
+                return `<article class="frame-post">
+                    <div class="frame-post__meta mono">
+                        <span class="frame-post__tag">${p.tag || 'thought'}</span>
+                        <span class="frame-post__date">${p.date || ''}</span>
+                    </div>
+                    <h3 class="frame-post__title"></h3>
+                    <p class="frame-post__excerpt"></p>
+                    <a${href} class="frame-post__link mono">read ${icon}</a>
+                </article>`;
+            }).join('');
+            wrap.querySelectorAll('.frame-post').forEach((card, i) => {
+                const p = posts[i];
+                card.querySelector('.frame-post__title').textContent = p['title_' + lang] || p.title_fa || p.title_en || '';
+                card.querySelector('.frame-post__excerpt').textContent = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
+            });
+        }
+
+        fetch('data/blog.json')
+            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(data => { posts = Array.isArray(data.posts) ? data.posts : []; render(); })
+            .catch(() => { wrap.innerHTML = ''; });
+
+        document.addEventListener('langchange', render);
     })();
 })();

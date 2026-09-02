@@ -1,0 +1,31 @@
+{
+  "posts": [
+    {
+      "tag": "book",
+      "date": "۱۴۰۵",
+      "title_fa": "آخرین کتابی که خواندم",
+      "title_en": "The Last Book I Read",
+      "excerpt_fa": "یادداشت کوتاهی درباره کتابی که این روزها در دست دارم و فکری که با من ماند...",
+      "excerpt_en": "A short note about the book I'm currently reading and the thought that stayed with me...",
+      "link": ""
+    },
+    {
+      "tag": "film",
+      "date": "۱۴۰۵",
+      "title_fa": "قابی از فیلم",
+      "title_en": "A Frame from a Film",
+      "excerpt_fa": "یک سکانس، یک فکر؛ نگاهی به صحنه‌ای که نتوانستم فراموشش کنم...",
+      "excerpt_en": "A scene, a thought; looking at a shot I couldn't forget...",
+      "link": ""
+    },
+    {
+      "tag": "thought",
+      "date": "۱۴۰۵",
+      "title_fa": "یه فکر ساده",
+      "title_en": "A Simple Thought",
+      "excerpt_fa": "گاه‌وقت یک سؤال ساده، بزرگ‌ترین سفر ذهنی را شروع می‌کند...",
+      "excerpt_en": "Sometimes a simple question starts the greatest mental journey...",
+      "link": ""
+    }
+  ]
+}
