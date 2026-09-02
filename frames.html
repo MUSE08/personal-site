@@ -80,8 +80,11 @@
             function render() {
                 if (!posts.length) { wrap.innerHTML = '<p class="mono" style="color:var(--text-muted)">&gt; هیچ نوشته‌ای ثبت نشده...</p>'; return; }
                 const html = posts.map(p => {
-                    const href = p.link ? ` href="${p.link}" target="_blank" rel="noopener"` : ' href="#"';
-                    const icon = p.link ? '↗' : '→';
+                    const hasLink = Boolean(p.link);
+                    const href = hasLink ? ` href="${p.link}" target="_blank" rel="noopener"` : '';
+                    const linkHtml = hasLink
+                        ? `<a${href} class="frame-post__link mono">${dict.read[lang]} ↗</a>`
+                        : '';
                     return `<article class="frame-post">
                         <div class="frame-post__meta mono">
                             <span class="frame-post__tag">${p.tag || 'thought'}</span>
@@ -89,7 +92,7 @@
                         </div>
                         <h3 class="frame-post__title"></h3>
                         <p class="frame-post__excerpt"></p>
-                        <a${href} class="frame-post__link mono">${dict.read[lang]} ${icon}</a>
+                        ${linkHtml}
                     </article>`;
                 }).join('');
                 wrap.innerHTML = html;

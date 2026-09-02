@@ -851,8 +851,11 @@
             let html = show.map(p => {
                 const title = p['title_' + lang] || p.title_fa || p.title_en || '';
                 const excerpt = p['excerpt_' + lang] || p.excerpt_fa || p.excerpt_en || '';
-                const href = p.link ? ` href="${p.link}" target="_blank" rel="noopener"` : ' href="#"';
-                const icon = p.link ? '↗' : '→';
+                const hasLink = Boolean(p.link);
+                const href = hasLink ? ` href="${p.link}" target="_blank" rel="noopener"` : '';
+                const linkHtml = hasLink
+                    ? `<a${href} class="frame-post__link mono">read ↗</a>`
+                    : '';
                 return `<article class="frame-post">
                     <div class="frame-post__meta mono">
                         <span class="frame-post__tag">${p.tag || 'thought'}</span>
@@ -860,25 +863,22 @@
                     </div>
                     <h3 class="frame-post__title"></h3>
                     <p class="frame-post__excerpt"></p>
-                    <a${href} class="frame-post__link mono">read ${icon}</a>
+                    ${linkHtml}
                 </article>`;
             }).join('');
 
-            if (posts.length > MAX) {
-                const more = lang === 'en'
-                    ? 'frames — archive ↗'
-                    : 'frames — آرشیو ↗';
-                html += `<article class="frame-post frame-post--more">
-                    <div class="frame-post__meta mono">
-                        <span class="frame-post__tag">./frames</span>
-                        <span class="frame-post__date">--archive</span>
-                    </div>
-                    <h3 class="frame-post__title"></h3>
-                    <p class="frame-post__excerpt"></p>
-                    <a href="frames.html" class="frame-post__link mono">${more}</a>
-                </article>`;
-            }
-
+            const more = lang === 'en'
+                ? 'frames — archive ↗'
+                : 'frames — آرشیو ↗';
+            html += `<article class="frame-post frame-post--more">
+                <div class="frame-post__meta mono">
+                    <span class="frame-post__tag">./frames</span>
+                    <span class="frame-post__date">--archive</span>
+                </div>
+                <h3 class="frame-post__title"></h3>
+                <p class="frame-post__excerpt"></p>
+                <a href="frames.html" class="frame-post__link mono">${more}</a>
+            </article>`;
             wrap.innerHTML = html;
             const allItems = show.length + (posts.length > MAX ? 1 : 0);
             wrap.querySelectorAll('.frame-post').forEach((card, i) => {
@@ -950,20 +950,18 @@
             }
 
             // more card
-            if (projects.length > MAX) {
-                const more = lang === 'en'
-                    ? 'works — all projects ↗'
-                    : 'works — همهٔ پروژه‌ها ↗';
-                cards += `<article class="project project--more">
-                    <div class="project__top">
-                        <span class="project__name mono">./works</span>
-                        <span class="project__lang mono">--all</span>
-                    </div>
-                    <h3 class="project__title"></h3>
-                    <p class="project__desc"></p>
-                    <div class="project__tags mono"><a href="works.html" class="project__demo">${more}</a></div>
-                </article>`;
-            }
+            const more = lang === 'en'
+                ? 'works — all projects ↗'
+                : 'works — همهٔ پروژه‌ها ↗';
+            cards += `<article class="project project--more">
+                <div class="project__top">
+                    <span class="project__name mono">./works</span>
+                    <span class="project__lang mono">--all</span>
+                </div>
+                <h3 class="project__title"></h3>
+                <p class="project__desc"></p>
+                <div class="project__tags mono"><a href="works.html" class="project__demo">${more}</a></div>
+            </article>`;
 
             wrap.innerHTML = cards;
             wrap.querySelectorAll('.project').forEach((card, i) => {
