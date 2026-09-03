@@ -301,37 +301,6 @@
         btn?.addEventListener('click', () => applyLang(lang === 'fa' ? 'en' : 'fa'));
     })();
 
-    /* ---------- HERO STATUS LINE (rotating, live) ---------- */
-    (function () {
-        const el = document.getElementById('hero-status-text');
-        if (!el) return;
-        const msgs = {
-            fa: [
-                'آنلاین — در حال ساخت ∞',
-                'تماشای: آخرین فیلم',
-                'گوش دادن: یک پادکست',
-                'خواندن: یک برگ',
-                'نوشتن: یک واژه'
-            ],
-            en: [
-                'online — building ∞',
-                'watching: the last film',
-                'listening: a podcast',
-                'reading: a page',
-                'writing: a word'
-            ]
-        };
-        let mi = 0;
-        function tick() {
-            const lang = document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'fa';
-            const list = msgs[lang];
-            el.textContent = list[mi % list.length];
-            mi++;
-            setTimeout(tick, 4000);
-        }
-        tick();
-    })();
-
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
     (function () {
         const el = document.getElementById('hero-title-type');
