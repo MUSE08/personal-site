@@ -273,7 +273,7 @@
             'nav-blog':     {fa:'بلاگ',          en:'Blog'},
             'nav-signal':   {fa:'سیگنال',        en:'Signal'},
             'nav-contact':  {fa:'تماس',          en:'Contact'},
-            'hero-cta1':    {fa:'مشاهده پروژه‌ها', en:'View Projects'},
+            'hero-cta1':    {fa:'پروژه‌ها',          en:'Projects'},
             'hero-cta2':    {fa:'تماس',          en:'Contact'},
             'blog-sub':     {fa:'یک نما، یک برگ، یک واژه، یک آوا', en:'A Shot, a Page, a Word, a Sound'},
             'signal-sub':   {fa:'پیامت مستقیم به ایمیل علی می‌رسد', en:'Your message goes straight to my inbox'},
