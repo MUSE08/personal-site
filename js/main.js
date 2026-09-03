@@ -301,6 +301,33 @@
         btn?.addEventListener('click', () => applyLang(lang === 'fa' ? 'en' : 'fa'));
     })();
 
+    /* ---------- HERO INTERACTIVE COUNTER (∞ + number) ---------- */
+    (function () {
+        const box = document.getElementById('hero-interactive');
+        if (!box) return;
+        const sym = document.getElementById('interactive-sym');
+        const num = document.getElementById('interactive-num');
+
+        // cycle the symbol a couple of ways on hover
+        const syms = ['∞', '8', '∞', '8'];
+        let clicks = 0;
+
+        box.addEventListener('mouseenter', () => {
+            const n = Math.floor(Math.random() * 99) + 1;
+            num.textContent = n;
+            box.classList.add('active');
+            setTimeout(() => box.classList.remove('active'), 400);
+        });
+
+        box.addEventListener('click', () => {
+            clicks++;
+            sym.textContent = syms[clicks % syms.length];
+            num.textContent = clicks * 8;
+            box.classList.add('active');
+            setTimeout(() => box.classList.remove('active'), 400);
+        });
+    })();
+
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
     (function () {
         const el = document.getElementById('hero-title-type');

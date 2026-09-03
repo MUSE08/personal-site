@@ -197,29 +197,42 @@ body.framed .hero__eight{opacity:.6}
 .hero__type-cursor{color:var(--cyan);margin-inline-start:2px;animation:blink .8s infinite}
 
 .hero__cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}
-.hero__socials{display:flex;gap:8px;align-items:center}
-.hero__ticker{
-    display:flex;
+.hero__socials{display:flex;gap:8px;align-items:center;justify-content:center}
+.hero__interactive{
+    display:inline-flex;
     align-items:center;
-    gap:8px;
-    max-width:100%;
-    padding:8px 0;
-    border-top:1px solid var(--line);
-    border-bottom:1px solid var(--line);
-    overflow:hidden;
-    direction:ltr;
+    gap:10px;
+    padding:10px 22px;
+    border:1px solid var(--line);
+    border-radius:99px;
+    background:var(--bg-alt);
+    cursor:pointer;
+    user-select:none;
+    transition:border-color .3s,box-shadow .3s,transform .3s;
+    font-family:var(--mono);
 }
-.hero__ticker-inner{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    white-space:nowrap;
-    animation:marquee 22s linear infinite;
-    will-change:transform;
+.hero__interactive:hover{
+    border-color:var(--cyan);
+    box-shadow:0 0 24px rgba(34,211,238,.25);
+    transform:translateY(-2px);
 }
-.hero__ticker-item{color:var(--text-muted);font-size:.78rem;font-family:var(--mono);letter-spacing:.05em}
-.hero__ticker-delim{color:var(--cyan);opacity:.5;font-size:.7rem}
-@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+.hero__interactive-sym{
+    font-size:1.15rem;
+    color:var(--cyan);
+    font-weight:700;
+    line-height:1;
+}
+.hero__interactive-num{
+    font-size:1.1rem;
+    color:var(--purple);
+    font-weight:700;
+    min-width:18px;
+    text-align:center;
+    display:inline-block;
+    transition:transform .3s;
+}
+.hero__interactive.active .hero__interactive-num{animation:bump .4s ease}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.4)}100%{transform:scale(1)}}
 .social{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;border:1px solid var(--line);color:var(--text-muted);transition:all .3s}
 .social:hover{color:var(--cyan);border-color:var(--cyan);box-shadow:0 0 20px rgba(34,211,238,.15)}
 
