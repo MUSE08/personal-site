@@ -301,69 +301,6 @@
         btn?.addEventListener('click', () => applyLang(lang === 'fa' ? 'en' : 'fa'));
     })();
 
-    /* ---------- HERO TERMINAL (interactive commands) ---------- */
-    (function () {
-        const term = document.getElementById('hero-term');
-        if (!term) return;
-        const body = document.getElementById('term-body');
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'hero__term-input';
-        input.autocomplete = 'off';
-        input.spellcheck = false;
-
-        const line = document.createElement('div');
-        line.className = 'hero__term-in';
-        const prompt = document.createElement('span');
-        prompt.className = 'c-green';
-        prompt.textContent = '~/ali> ';
-        line.appendChild(prompt);
-        line.appendChild(input);
-        body.appendChild(line);
-        body.scrollTop = body.scrollHeight;
-
-        const commands = {
-            help: {
-                fa: 'دستورات: help، works، frames، links، whoami، clear',
-                en: 'commands: help, works, frames, links, whoami, clear'
-            },
-            works: { fa: 'پروژه‌ها → works.html', en: 'projects → works.html' },
-            frames: { fa: 'بلاگ → frames.html', en: 'blog → frames.html' },
-            links: {
-                fa: 'گیت‌هاب · تلگرام · X · Letterboxd → بخش تماس پایین صفحه',
-                en: 'GitHub · Telegram · X · Letterboxd → contact section below'
-            },
-            whoami: { fa: 'علی واهب — توسعه‌دهندهٔ وب و عاشق سینما', en: 'Ali Vaheb — web developer & cinema lover' },
-            clear: { fa: '', en: '' }
-        };
-
-        function out(html) {
-            const d = document.createElement('div');
-            d.className = 'hero__term-output';
-            d.innerHTML = html;
-            body.insertBefore(d, line);
-            body.scrollTop = body.scrollHeight;
-        }
-
-        input.addEventListener('keydown', function (e) {
-            if (e.key !== 'Enter') return;
-            const v = input.value.trim().toLowerCase();
-            out('<span class="c-green">~/ali&gt; </span>' + (v ? v : ' '));
-            const lang = document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'fa';
-            if (v === 'clear') {
-                body.querySelectorAll('.hero__term-output').forEach(el => el.remove());
-            } else {
-                const c = commands[v];
-                out(c ? (c[lang] || c.fa || c.en) : (lang === 'en' ? `unknown command: ${v} — try 'help'` : `دستور ناشناخته: ${v} — try 'help'`));
-            }
-            input.value = '';
-            body.scrollTop = body.scrollHeight;
-        });
-
-        term.addEventListener('click', function () { if (input) input.focus(); });
-        setTimeout(() => input.focus(), 800);
-    })();
-
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
     (function () {
         const el = document.getElementById('hero-title-type');
