@@ -301,31 +301,67 @@
         btn?.addEventListener('click', () => applyLang(lang === 'fa' ? 'en' : 'fa'));
     })();
 
-    /* ---------- HERO INTERACTIVE COUNTER (∞ + number) ---------- */
+    /* ---------- HERO TERMINAL (interactive commands) ---------- */
     (function () {
-        const box = document.getElementById('hero-interactive');
-        if (!box) return;
-        const sym = document.getElementById('interactive-sym');
-        const num = document.getElementById('interactive-num');
+        const term = document.getElementById('hero-term');
+        if (!term) return;
+        const body = document.getElementById('term-body');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'hero__term-input';
+        input.autocomplete = 'off';
+        input.spellcheck = false;
 
-        // cycle the symbol a couple of ways on hover
-        const syms = ['∞', '8', '∞', '8'];
-        let clicks = 0;
+        const line = document.createElement('div');
+        line.className = 'hero__term-in';
+        const prompt = document.createElement('span');
+        prompt.className = 'c-green';
+        prompt.textContent = '~/ali> ';
+        line.appendChild(prompt);
+        line.appendChild(input);
+        body.appendChild(line);
+        body.scrollTop = body.scrollHeight;
 
-        box.addEventListener('mouseenter', () => {
-            const n = Math.floor(Math.random() * 99) + 1;
-            num.textContent = n;
-            box.classList.add('active');
-            setTimeout(() => box.classList.remove('active'), 400);
+        const commands = {
+            help: {
+                fa: 'دستورات: help، works، frames، links، whoami، clear',
+                en: 'commands: help, works, frames, links, whoami, clear'
+            },
+            works: { fa: 'پروژه‌ها → works.html', en: 'projects → works.html' },
+            frames: { fa: 'بلاگ → frames.html', en: 'blog → frames.html' },
+            links: {
+                fa: 'گیت‌هاب · تلگرام · X · Letterboxd → بخش تماس پایین صفحه',
+                en: 'GitHub · Telegram · X · Letterboxd → contact section below'
+            },
+            whoami: { fa: 'علی واهب — توسعه‌دهندهٔ وب و عاشق سینما', en: 'Ali Vaheb — web developer & cinema lover' },
+            clear: { fa: '', en: '' }
+        };
+
+        function out(html) {
+            const d = document.createElement('div');
+            d.className = 'hero__term-output';
+            d.innerHTML = html;
+            body.insertBefore(d, line);
+            body.scrollTop = body.scrollHeight;
+        }
+
+        input.addEventListener('keydown', function (e) {
+            if (e.key !== 'Enter') return;
+            const v = input.value.trim().toLowerCase();
+            out('<span class="c-green">~/ali&gt; </span>' + (v ? v : ' '));
+            const lang = document.documentElement.getAttribute('lang') === 'en' ? 'en' : 'fa';
+            if (v === 'clear') {
+                body.querySelectorAll('.hero__term-output').forEach(el => el.remove());
+            } else {
+                const c = commands[v];
+                out(c ? (c[lang] || c.fa || c.en) : (lang === 'en' ? `unknown command: ${v} — try 'help'` : `دستور ناشناخته: ${v} — try 'help'`));
+            }
+            input.value = '';
+            body.scrollTop = body.scrollHeight;
         });
 
-        box.addEventListener('click', () => {
-            clicks++;
-            sym.textContent = syms[clicks % syms.length];
-            num.textContent = clicks * 8;
-            box.classList.add('active');
-            setTimeout(() => box.classList.remove('active'), 400);
-        });
+        term.addEventListener('click', function () { if (input) input.focus(); });
+        setTimeout(() => input.focus(), 800);
     })();
 
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
