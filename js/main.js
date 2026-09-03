@@ -273,7 +273,7 @@
             'nav-blog':     {fa:'بلاگ',          en:'Blog'},
             'nav-signal':   {fa:'سیگنال',        en:'Signal'},
             'nav-contact':  {fa:'تماس',          en:'Contact'},
-            'hero-cta1':    {fa:'مشاهده پروژه‌ها', en:'View Projects'},
+            'hero-cta1':    {fa:'پروژه‌ها',          en:'Projects'},
             'hero-cta2':    {fa:'تماس',          en:'Contact'},
             'hero-watch':   {fa:'▶ آخرین نما',   en:'▶ last watch'},
             'blog-sub':     {fa:'یک نما، یک برگ، یک واژه، یک آوا', en:'A Shot, a Page, a Word, a Sound'},
@@ -304,21 +304,19 @@
 
     /* ---------- HERO LAST-WATCH (Letterboxd) ---------- */
     (function () {
+        const box = document.getElementById('hero-watch');
         const link = document.getElementById('watch-title');
-        if (!link) return;
-        link.classList.add('--loading');
+        if (!box || !link) return;
         fetch('/api/letterboxd')
             .then(r => r.json())
             .then(data => {
                 if (data.ok && data.title) {
                     link.textContent = data.title;
-                    if (data.url) link.href = data.url;
-                } else {
-                    link.textContent = '—';
+                    link.href = data.url || '#';
+                    box.hidden = false;
                 }
             })
-            .catch(() => { link.textContent = '—'; })
-            .finally(() => link.classList.remove('--loading'));
+            .catch(() => {});
     })();
 
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
