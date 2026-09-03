@@ -275,6 +275,7 @@
             'nav-contact':  {fa:'تماس',          en:'Contact'},
             'hero-cta1':    {fa:'مشاهده پروژه‌ها', en:'View Projects'},
             'hero-cta2':    {fa:'تماس',          en:'Contact'},
+            'hero-watch':   {fa:'▶ آخرین نما',   en:'▶ last watch'},
             'blog-sub':     {fa:'یک نما، یک برگ، یک واژه، یک آوا', en:'A Shot, a Page, a Word, a Sound'},
             'signal-sub':   {fa:'پیامت مستقیم به ایمیل علی می‌رسد', en:'Your message goes straight to my inbox'},
             'contact-sub':  {fa:'کانال‌های ارتباطی', en:'Communication channels'},
@@ -299,6 +300,25 @@
         let saved = (() => { try { return localStorage.getItem('lang'); } catch(e){ return null; } })();
         if (saved) applyLang(saved);
         btn?.addEventListener('click', () => applyLang(lang === 'fa' ? 'en' : 'fa'));
+    })();
+
+    /* ---------- HERO LAST-WATCH (Letterboxd) ---------- */
+    (function () {
+        const link = document.getElementById('watch-title');
+        if (!link) return;
+        link.classList.add('--loading');
+        fetch('/api/letterboxd')
+            .then(r => r.json())
+            .then(data => {
+                if (data.ok && data.title) {
+                    link.textContent = data.title;
+                    if (data.url) link.href = data.url;
+                } else {
+                    link.textContent = '—';
+                }
+            })
+            .catch(() => { link.textContent = '—'; })
+            .finally(() => link.classList.remove('--loading'));
     })();
 
     /* ---------- HERO TITLE TYPING LOOP (علی واهب ↔ Ali Vaheb) ---------- */
