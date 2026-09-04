@@ -480,13 +480,22 @@ a.frame-post{text-decoration:none}
     .projects{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-    .section{padding:50px 0}
+    .section{height:100dvh;padding:50px 0}
     .nav__toggle{display:flex}
-    .nav__menu{position:fixed;top:64px;inset-inline:0;flex-direction:column;align-items:stretch;gap:2px;padding:20px;background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(16px);transform:translateY(-120%);transition:transform .4s;z-index:99}
+    .nav__menu{position:fixed;top:64px;inset-inline:0;flex-direction:column;align-items:stretch;gap:2px;padding:20px;background:rgba(5,8,13,.96);backdrop-filter:blur(20px);transform:translateY(-120%);transition:transform .4s;z-index:99}
     .nav__menu.open{transform:translateY(0)}
     .nav__link{display:block;padding:14px;text-align:center;font-size:1rem}
     .skills__bars{order:1}
     .projects{grid-template-columns:1fr;max-width:340px;margin:0 auto}
+    .about{grid-template-columns:1fr;gap:16px}
+    .hero__grid{text-align:center}
+    .hero__codeblock{display:none}
+    .signal{grid-template-columns:1fr}
+    .contact__links{flex-wrap:wrap;justify-content:center}
+    .hero__eight{opacity:.35;width:160px}
+    /* hide non-essential canvases on mobile for performance */
+    #contact-eight, #contact-eight-r, #footer-eight { display:none }
+    .sec-nav{display:none}
 }
 @media(max-width:480px){
     .hero__scroll{display:none}
